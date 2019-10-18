@@ -1,0 +1,7 @@
+{
+  "usingComponents": {
+    "bidList": "/components/common/bid-list/bid-list",
+    "regionSelect": "/components/common/region-select/region-select"
+  },
+  "navigationBarTitleText": "日历"
+}

@@ -1,0 +1,37 @@
+/* components/common/yjy-time/yjy-time.wxss */
+.line-bar {
+  color: #666;
+  font-size: 28rpx;
+}
+
+.line-bar .li {
+  display: flex;
+  align-items: center;
+  height: 100rpx;
+  text-align: left;
+  padding-left: 30rpx;
+  border-bottom: 1rpx solid #e1e1e1;
+}
+
+.line-bar .cur{
+  color:#1983d1;
+}
+
+.custom text {
+  display: inline-block;
+  border: 1px solid #e1e1e1;
+  width: 200rpx;
+  height: 48rpx;
+  text-align: center;
+  margin: 0 10rpx;
+}
+
+.custom button {
+  background: #5a85ff;
+  color: #fff;
+}
+
+.custom picker {
+  height: 48rpx;
+}
+

@@ -1,0 +1,11 @@
+<!--pages/user/message/message.wxml-->
+<view class="container">
+  <view class="tabs">
+    <view data-id="wd" class="{{status=='wd'?'cur':''}}" bindtap="toggle">未读</view>
+    <view data-id="yd" class="{{status=='yd'?'cur':''}}" bindtap="toggle">已读</view>
+  </view>
+    <view class='container-body'>  
+      <bidList listData="{{bidList}}" type="inform" indexIsUpdate='true'> </bidList>
+    </view>
+</view>
+

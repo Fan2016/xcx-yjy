@@ -1,0 +1,31 @@
+<!--pages/user/index/index.wxml-->
+<view class='container'>
+  <view class='container-body'>
+    <view class="index-user">
+      <view class="icon">
+        <image src='{{userInfo.avatarUrl}}'></image>
+      </view>
+      <text class="userName">{{userInfo.nickName}}</text>
+    </view>
+    <view class="index-pay">
+      <navigator class="index-pay-item" wx:for="{{payMenu}}" wx:key="{{item.ORDER_ID}}" url="../projectSearchList/projectSearchList?type={{item.NAME}}">
+        <view class="index-pay-view">
+          <image src='{{item.IMG}}'></image>
+          <text>{{item.NAME}}</text>
+        </view>
+      </navigator>
+    </view>
+    <view class="index-menu">
+      <navigator class="index-menu-item" wx:for="{{indexMenu}}" wx:key="{{item.ORDER_ID}}" url="../projectSearchList/projectSearchList?type={{item.NAME}}">
+        <view class="menu">
+          <image src='{{item.IMG}}'></image>
+          <text>{{item.NAME}}</text>
+        </view>
+     <view class="redMessage" wx:if="{{item.isNew}}"></view>
+      </navigator>
+    </view>
+    <view>
+      <button class="index-login" open-type="getUserInfo" lang="zh_CN" bindgetuserinfo="onGotUserInfo">用户登录</button>
+    </view>
+  </view>
+</view>

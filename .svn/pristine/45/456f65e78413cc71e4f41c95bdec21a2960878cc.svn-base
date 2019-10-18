@@ -1,0 +1,100 @@
+App({
+  token_type: '',
+  access_token: '',
+  sessionid: '',
+  userInfo: '',
+  userName: '',
+  impower: false,
+  isUum: false,
+  wxCode: '',
+  option: {
+    area: [],
+    trade: [],
+    time: [],
+    state: [],
+    money: [],
+    groupType: []
+  },
+  location: {
+    name: '全国',
+    parent: '全国',
+    code: '',
+    site: [0, 0],    
+  },
+  indexIsUpdate:true,
+  scene:'',
+  /**
+   * 当小程序初始化完成时，会触发 onLaunch（全局只触发一次）
+   */
+  onLaunch: function(options) {
+    wx.hideTabBar({})
+    this.getUpdateManager()
+    var that = this;
+    if (!wx.getStorageSync('collect')) wx.setStorageSync('collect',{});
+    if (!wx.getStorageSync('location')) {
+      wx.setStorageSync('location', {
+        name: '全国',
+        parent: '全国',
+        code: '',
+        site: [0,0]
+      })
+    }
+    if (!wx.getStorageSync('tradeSelect')) {
+      wx.setStorageSync('tradeSelect', {
+        name: '全部',
+        parent: '全部',
+        code: '',
+        site: [0, 0],
+        codeGroup: ['', '']
+      })
+    }
+    wx.getSetting({ //微信授权判断
+      success(res) {
+        var isUserPower = res.authSetting['scope.userInfo']
+        if (isUserPower) {
+          wx.getUserInfo({
+            success: function(res) {
+              that.userInfo = res.userInfo;
+              that.impower = isUserPower
+            }
+          })
+        }
+      }
+    })
+  },
+  getUpdateManager() { //版本跟新 
+    if (wx.canIUse('getUpdateManager')) {
+      const updateManager = wx.getUpdateManager()
+      updateManager.onCheckForUpdate(function(res) {
+        console.log('onCheckForUpdate====', res)
+        // 请求完新版本信息的回调
+        if (res.hasUpdate) {
+          updateManager.onUpdateReady(function() {
+            wx.setStorageSync('isAd',1)         
+          })
+          updateManager.onUpdateFailed(function() {
+          })
+        }
+      })
+    }
+  },
+  /**
+   * 当小程序启动，或从后台进入前台显示，会触发 onShow
+   */
+  onShow: function(options) {
+
+  },
+  /**
+   * 当小程序从前台进入后台，会触发 onHide
+   */
+  onHide: function() {
+
+  },
+
+  /**
+   * 当小程序发生脚本错误，或者 api 调用失败时，会触发 onError 并带上错误信息
+   */
+  onError: function(msg) {
+
+  }
+})

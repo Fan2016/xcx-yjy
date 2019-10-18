@@ -1,0 +1,36 @@
+/* pages/user/suggest/suggest.wxss */
+.container{
+  background: #f1f1f1;
+}
+.suggest-radio {
+  margin-top: 30rpx;
+}
+
+.radio-group label {
+  width: 50%;
+  display: inline-block;
+  vertical-align: middle;
+  margin: 40rpx 0;
+}
+
+.radio-group radio {
+  margin-left: 80rpx;
+}
+
+.suggest-text {
+  padding: 20rpx;
+}
+.suggest-text button{
+  margin-top: 40rpx;
+  background: #42aaec;
+  color: #fff;
+}
+.suggest-text textarea {
+  border: 3rpx solid #cccccc;
+  height: 330rpx;
+  width: 95%;
+  border-radius: 10rpx;
+  background: #fff;
+  padding: 10rpx;
+  margin: 0 auto;
+}

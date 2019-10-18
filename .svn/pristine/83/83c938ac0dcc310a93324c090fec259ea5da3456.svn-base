@@ -1,0 +1,46 @@
+<!--pages/homePage/index/index.wxml-->
+<view class='container'>
+  <search bind:searchEvent="fetchData"></search>
+  <view class='container-body'>
+    <view class="index-menu">
+      <navigator class="index-menu-item" wx:for="{{indexmenu}}" wx:key="{{item.ORDER_ID}}" url="../projectSearchList/projectSearchList?type={{item.NAME}}&code={{item.CODE}}">
+        <image src='{{item.IMG}}'></image>
+        <text>{{item.NAME}}</text>
+      </navigator>
+    </view>
+    <view class='line'></view>
+    <view class='index-deals'>
+      <view class='deals-tit'>交易汇总</view>
+      <block wx:for="{{dealData}}" wx:for-item="item">
+        <view class='item'>
+          <view class='deals-type'>{{item.NAME}}</view>
+          <view class='deals-num'>{{item.VAL}}{{item.UNIT}}</view>
+        </view>
+      </block>
+    </view>
+    <view class='banner'>
+      <swiper indicator-dots="{{indicatorDots}}" autoplay="{{autoplay}}" interval="{{interval}}" duration="{{duration}}" style='height:200rpx;margin:10px;' class="swiper-box">
+        <block wx:for-items="{{banner}}">
+          <swiper-item style="border-radius:5px">
+            <image src="{{item.IMG_URL}}" class="slide-image" style='height:200rpx' />
+          </swiper-item>
+        </block>
+      </swiper>
+    </view>
+    <view class='line'></view>
+    <view class='tab-toggle'>
+      <view class='item {{bidType=="kb"?"cur":""}}' data-type='kb' bindtap='cutBidType'>今日开标</view>
+      <view class='item {{bidType=="sb"?"cur":""}}' data-type='sb' bindtap='cutBidType'>正在报名</view>
+    </view>
+    <view class='bid-list'>
+
+      <bidList listData="{{bidList}}" messageText="{{listMsg}}" isMessage="{{isMessage}}" isLoad="{{isLoad}}"></bidList>
+
+    </view>
+  </view>
+  <view class='floatTool'>
+    <navigator url='../calendar/calendar'>
+      <image src='../../../images/calendar.png'></image>
+    </navigator>
+  </view>
+</view>

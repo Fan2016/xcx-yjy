@@ -1,0 +1,72 @@
+/* components/common/home-slide/home-slide.wxss */
+
+.ad {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  width: 100%;
+  height: 100%;
+  background: #42aaec;
+  z-index: 99999;
+  display: flex;
+}
+
+.close {
+  position: absolute;
+  width: 100rpx;
+  height: 100rpx;
+  line-height: 100rpx;
+  text-align: center;
+  background: blanchedalmond;
+  right: 0;
+  z-index: 999;
+}
+
+swiper {
+  height: 100%;
+  width: 100%;
+  /* background: #fff; */
+}
+.page-section {
+  width: 100%;
+  margin-bottom: 60rpx;
+}
+.page-section-spacing {
+  box-sizing: border-box;
+}
+.homeEnter {
+  width: 200rpx;
+  height: 66rpx;
+  line-height: 66rpx;
+  position: absolute;
+  left: 0;
+  bottom: 80rpx;
+  border-radius: 15rpx;
+  border: 1rpx #fff solid;
+  text-align: center;
+  right: 0;
+  line-height:65rpx;
+  margin: auto;
+}
+
+.homeEnter text {
+  color: #fff;
+  font-size: 30rpx;
+  text-align: center;
+}
+button {
+  margin-bottom: 30rpx;
+}
+
+button:last-child {
+  margin-bottom: 0;
+}
+.swiper-item {
+  display: block;
+  height: 100%;
+}
+
+.swiper-item image {
+  width: 100%;
+  height: 100%;
+}

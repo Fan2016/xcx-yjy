@@ -1,0 +1,6 @@
+/* pages/user/interest/interest.wxss */
+
+
+.bid-list {
+  margin-top: 80rpx;
+}

@@ -1,0 +1,6 @@
+{
+  "usingComponents": {
+    "bidList": "/components/bid-list/bid-list"
+  },
+  "navigationBarTitleText": "日历"
+}

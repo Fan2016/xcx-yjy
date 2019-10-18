@@ -1,0 +1,38 @@
+<view class='container'>
+  <view>
+    <view class='date-show'>
+      <view class='month'>{{month}}月</view>
+      <view class='yy-dd'>
+        <view>{{year}}年</view>
+        {{day}}日</view>
+      <view class='address'>
+        <picker mode="region">
+          <view class="picker">
+            当前选择：福建省
+          </view>
+        </picker>
+      </view>
+    </view>
+  </view>
+  <view class='header'>
+    <view wx:for='{{date}}' class='{{(index == todayIndex) && isTodayWeek ? "weekMark" : ""}}'>{{item}}
+      <view></view>
+    </view>
+  </view>
+  <view class='date-box'>
+    <view wx:for='{{dateArr}}' class='{{isToday == item.isToday ? "nowDay" : ""}}' data-date='{{item.isToday}}' bindtap="showTodayTender">
+      <view class='date-head'>
+        <view>{{item.dateNum}}</view>
+      </view>
+      <view class='tag' wx:if='{{item.count}}'>
+        {{item.count}}
+      </view>
+    </view>
+  </view>
+  <view class='line'></view>
+  <view class='list-head'>——
+    <text>今日开标</text>——</view>
+  <view class='container-body'>
+    <bidList listData="{{bidList}}" messageText="{{listMsg}}" isMessage="{{isLodaing}}" noData="暂无数据"></bidList>
+  </view>
+</view>

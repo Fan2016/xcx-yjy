@@ -1,0 +1,16 @@
+/* components/common/trade-select/trade-select.wxss */
+.picker{
+  background: #fff;
+  color:#999;
+  line-height: 55rpx;
+  height: 55rpx;
+  padding: 5rpx 20rpx;
+  border-radius: 40rpx;
+  font-size: 28rpx;
+}
+.picker image {
+  width: 16rpx;
+  height: 10rpx;
+  vertical-align: middle;
+  margin-left: 10rpx;
+}

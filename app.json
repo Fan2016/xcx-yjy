@@ -1,0 +1,50 @@
+{
+  "pages": [
+    "pages/homePage/index/index",
+    "pages/user/index/index",
+    "pages/subscription/index/index",
+    "pages/ebid/projectDetail/projectDetail",
+    "pages/ebid/video/video",
+    "pages/common/no",
+    "pages/user/message/message",
+    "pages/user/browsing/browsing",
+    "pages/user/interest/interest",
+    "pages/user/tenderProject/tenderProject",
+    "pages/user/bidProject/bidProject",
+    "pages/user/login/login",
+    "pages/homePage/calendar/calendar",
+    "pages/homePage/projectSearchList/projectSearchList",
+    "pages/user/participate/participate",
+    "pages/user/suggest/suggest",
+    "pages/user/setting/setting",
+    "pages/common/outUrl",
+    "pages/common/webUrl",
+    "pages/subscription/index/configPage/configPage"
+  ],
+  "window": {
+    "backgroundTextStyle": "light",
+    "navigationBarBackgroundColor": "#42aaec",
+    "navigationBarTitleText": "随行易中标",
+    "navigationBarTextStyle": "white"
+  },
+  "tabBar": {
+    "list": [
+      {
+        "pagePath": "pages/homePage/index/index",
+        "text": "首页",
+        "pageTum": "navigate"
+      },
+      {
+        "pagePath": "pages/subscription/index/index",
+        "text": "订阅",
+        "pageTum": "navigate"
+      },
+      {
+        "pagePath": "pages/user/index/index",
+        "text": "我的",
+        "pageTum": "navigate"
+      }
+    ]
+  },
+  "sitemapLocation": "sitemap.json"
+}

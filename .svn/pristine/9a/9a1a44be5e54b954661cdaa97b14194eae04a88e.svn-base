@@ -1,0 +1,8 @@
+{
+  "enablePullDownRefresh": true,
+  "usingComponents": {
+    "search": "/components/common/search/search",
+    "sspConfig": "/components/subscription/ssp-conf/ssp-conf",
+    "bidList": "/components/common/bid-list/bid-list"
+  }
+}

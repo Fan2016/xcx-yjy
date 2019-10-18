@@ -1,0 +1,9 @@
+<!--pages/user/participate/participate.wxml-->
+<view class='container'>
+  <view class='container-body'>
+    <filtrate bind:filtrateEvent="fetchfiltrate" isSel='{{isSel}}' ></filtrate>
+    <view class='bid-list'>
+      <bidList listData="{{bidList}}" messageText="{{listMsg}}" isMessage="{{isLodaing}}" noData="暂无关注数据"></bidList>
+    </view>
+  </view>
+</view>

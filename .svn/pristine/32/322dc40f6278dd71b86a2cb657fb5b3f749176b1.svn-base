@@ -1,0 +1,11 @@
+/* pages/demo/demo.wxss */
+page{
+  height: 700px
+}
+image{
+  width: 200rpx;
+  height: 100rpx;
+}
+input{
+  border: 1px solid #ccc;
+}

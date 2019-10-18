@@ -1,0 +1,51 @@
+/* pages/user/participate/participate.wxss */
+
+.bid-list {
+  margin-top: 180rpx;
+}
+
+.line {
+  height: 20rpx;
+  background: #f4f4f4;
+  margin: 0 0 20rpx;
+}
+
+/* 切换栏 */
+
+.tab-menu {
+  position: fixed;
+  z-index: 1;
+  bottom: 0;
+  top: 60rpx;
+  width: 100%;
+  background-color: #fff;
+  height: 120rpx;
+}
+
+.tab-toggle {
+  display: flex;
+}
+
+.tab-toggle .item {
+  flex: 1;
+  text-align: center;
+  position: relative;
+  font-weight: bold;
+  font-size: 30rpx;
+}
+
+.tab-toggle .cur {
+  color: #49a2ff;
+}
+
+.tab-toggle .cur:after {
+  position: absolute;
+  content: "";
+  width: 100rpx;
+  height: 6rpx;
+  box-sizing: border-box;
+  background: #49a2ff;
+  border-radius: 50rpx;
+  bottom: -5rpx;
+  right: 35%;
+}

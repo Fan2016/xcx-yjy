@@ -1,0 +1,25 @@
+<view class='mod'>
+  <view class='bar-mod'>
+    <view class='left-mod'>
+      <view wx:for="{{areaTop}}" wx:for-item='item' wx:key='{{item.ID}}' bindtap='barChange' data-level='1' data-area-item='{{item}}' class='{{item.NAME==areaTopVal?"cur":""}}'>
+        {{item.NAME}}
+      </view>
+    </view>
+    <view class='right-mod'>
+      <checkbox-group bindchange="areaChange">
+        <view wx:for="{{areaSubList}}" wx:for-item='item' wx:key='{{item.ID}}' data-level='2' data-area-item='{{item}}' class='areaSubList'>
+          <text>{{item.NAME}}</text>
+            <checkbox value="{{item.ID}}" checked="{{selectRegionList[areaTopVal][areaSub[areaTopVal][0].ID]?'true':selectRegionList[areaTopVal][item.ID]}}" />{{selectRegionList.length}}
+        </view>
+      </checkbox-group>
+    </view>
+  </view>
+  <view class='button-mod'>
+    <button type="default" bindtap="reset" size="mini" style="color:#9b9b9b">
+      重置
+    </button>
+    <button bindtap="regionConfirm" size="mini" style="background-color:#43a8ee;color:#fff">
+      确定
+    </button>
+  </view>
+</view>

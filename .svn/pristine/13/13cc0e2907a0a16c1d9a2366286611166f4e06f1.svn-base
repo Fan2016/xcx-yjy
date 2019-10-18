@@ -1,0 +1,13 @@
+<!--pages/subscription/index/index.wxml-->
+<view class='container'>
+  <search bind:searchEvent="fetchSearch"  searchVal='{{param.NAME}}'></search>
+  <view class='container-body'>
+    <view class='bid-list'>
+      <bidList listData="{{bidList}}" messageText="{{listMsg}}" isMessage="{{isMessage}}" isLoad="{{isLoad}}"></bidList>
+    </view>
+  </view>
+  <view class='floatTool' wx:if="{{isLogin}}" bindtap='setConfig'>
+      <image src='../../../images/dingYueSetting.png'></image>
+  </view>
+</view>
+<footerBar pageUrl='{{pageUrl}}'></footerBar>

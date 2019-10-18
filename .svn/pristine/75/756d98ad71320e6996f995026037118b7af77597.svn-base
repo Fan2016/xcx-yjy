@@ -1,0 +1,129 @@
+/* pages/user/index/index.wxss */
+
+.container-body{
+  background-color:#f5f5f5;
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 100rpx;
+}
+.index-menu {
+  width: 100%;
+  background-color:#fff;
+  display: -webkit-flex;
+  display: -webkit-box;
+  display: flex;
+  flex:4;
+  -webkit-flex-wrap: wrap;
+  flex-wrap: wrap;
+  margin-bottom: 20rpx;
+  align-content: flex-start
+}
+.menu
+{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.index-menu-item {
+  position:relative;
+  display: flex;
+  justify-content: center;
+  align-content: centter;
+  align-items: center;
+  width: 50%;
+  height:200rpx;
+  border-bottom: 5rpx solid #f5f5f5;
+  border-right: 5rpx solid #f5f5f5;
+  /* padding: 10rpx 10rpx 0; */
+  box-sizing: border-box;
+  /* margin-bottom: -1rpx; */
+}
+
+.index-menu-item image {
+  width: 50rpx;
+  height: 50rpx;
+}
+
+.index-menu-item text {
+  display: block;
+  font-size: 30rpx;
+  font-weight: bold;
+  margin-top:10rpx;
+  white-space: nowrap;
+}
+.index-user{
+  padding-top:20rpx;
+  padding-bottom:20rpx;
+  border-top: 1rpx solid #64b8f1;
+  background-color:#43a8ee;
+  color:#fff;
+  font-size: 40rpx;
+  display: flex;
+  flex:2;
+  flex-direction: column;
+  align-content: center;
+  align-items: center;
+  justify-content: center;
+}
+.index-pay{
+  background-color:#fff;  
+  height:100rpx;
+  min-height: 100rpx;
+  width:100%;
+  display: flex;
+  margin-bottom: 20rpx;
+}
+.index-pay-item {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 50%;
+  box-sizing: border-box;
+  border-right: 5rpx solid #f5f5f5;
+}
+
+.index-pay-item image {
+  vertical-align:middle;
+  width: 50rpx;
+  height: 50rpx;
+}
+.index-pay-item text {
+  margin-left:20rpx;
+  color:#2e96e7;
+  font-size: 30rpx;
+  font-weight: bold;
+}
+.index-login{
+  background-color:#449bf3;
+  color:#fff;
+  margin:0rpx 20rpx 0rpx 20rpx;
+}
+button[class="icon"]{
+  border: 0;
+} 
+.index-logOut{
+  background-color:#ff2122;
+  color:#fff;
+  margin:0rpx 20rpx 0rpx 20rpx;
+}
+.icon image{
+  border-radius: 50%;
+  border: 1px solid #eee;
+  overflow: hidden;
+  width: 150rpx;
+  height: 150rpx;
+}
+.redMessage{
+  display: flex;
+  border-radius:50%;
+  background-color:#ff2122;
+  color:#fff;
+  width:0.4rem;
+  height:0.4rem;
+  position:absolute;
+  top:10px;
+  right:25%;
+}
+.login{
+  margin-bottom: 20rpx;
+}

@@ -1,0 +1,117 @@
+// components/common/yjy-area/yjy-area.js
+let app = getApp()
+let commonJs = require('../../../utils/common')
+
+Component({
+  /**
+   * 组件的属性列表
+   */
+  properties: {
+    regionObj: {
+      type: Object,
+      value: {
+        name: '',
+        value: ''
+      }
+    },
+  },
+
+  /**
+   * 组件的初始数据
+   */
+  data: {
+    areaTop: [],
+    areaSub: {},
+    areaSubList: [],
+    areaTopVal: '',
+    areaSubVal: ''
+  },
+
+  lifetimes: {
+    attached() {
+      let option = app.option,
+        area = new commonJs.treeUtil([...option.area], 'ID', 'PID'),
+        areaTree = area.toTree()
+      let areaTop = [{
+          NAME: '全国',
+          ID: ''
+        }],
+        areaSub = {
+          '全国': []
+        }
+      areaTree.forEach(item => {
+        areaTop.push({
+          NAME: item.NAME,
+          ID: item.ID
+        })
+        areaSub[item.NAME] = [{
+          NAME: '全省',
+          PARENTNAME: item.NAME,
+          ID: item.ID.substring(0, 2) //只传前两位
+        }].concat(item.children)
+      });
+      this.setData({
+        areaTop: areaTop,
+        areaSub: areaSub
+      })
+      this.handleData()
+    }
+  },
+  /**
+   * 组件的方法列表
+   */
+  methods: {
+    handleData() {
+      let { areaTop, areaSub, regionObj } = this.data
+      let areaTopVal, areaSubVal = regionObj.name
+      if (regionObj.value) {
+        areaTop.forEach((item) => {
+          if (regionObj.value.indexOf(item.ID.substring(0,2)) >= 0) {
+            areaTopVal = item.NAME
+          }
+          if (regionObj.value.length == 2){
+            areaSubVal = '全省'
+          }
+        })
+      }else {
+        areaTopVal = '全国'
+      }
+      this.setData({
+        areaTopVal: areaTopVal,
+        areaSubVal: areaSubVal,
+        areaSubList: areaSub[areaTopVal]
+      })
+    },
+    barChange({
+      target
+    }) {
+      let {
+        dataset
+      } = target
+      let {
+        level,
+        areaItem
+      } = dataset
+      if(level == '1'){
+        this.setData({
+          areaTopVal: areaItem.NAME,
+          areaSubList: this.data.areaSub[areaItem.NAME]
+        })
+        if (areaItem.NAME === '全国'){
+          this.triggerEvent('yjy-area',{
+            name: areaItem.NAME,
+            value: areaItem.ID
+          })
+        }
+      } else if(level == '2'){
+        this.setData({
+          areaSubVal: areaItem.NAME
+        })
+        this.triggerEvent('yjy-area', {
+          name: areaItem.PARENTNAME || areaItem.NAME,
+          value: areaItem.ID
+        })
+      }
+    }
+  }
+})

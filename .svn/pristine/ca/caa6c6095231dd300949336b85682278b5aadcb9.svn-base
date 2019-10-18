@@ -1,0 +1,6 @@
+/* pages/user/participate/participate.wxss */
+
+
+.bid-list {
+  margin-top: 80rpx;
+}

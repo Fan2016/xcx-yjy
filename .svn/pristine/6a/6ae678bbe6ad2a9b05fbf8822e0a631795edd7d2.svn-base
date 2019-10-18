@@ -1,0 +1,9 @@
+<block class="address">
+  <picker mode="multiSelector" bindchange="bindRegionChange" bindcolumnchange="bindRegionColumnChange" value="{{regionValue}}" range="{{regionArray}}" range-key="NAME">
+    <view class="picker">
+      <view>{{proObject.NAME}}{{cityObject.ID!='1111'?cityObject.NAME:""}}
+        <image src="../../../images/triangle.png"></image>
+      </view>
+    </view>
+  </picker>
+</block>

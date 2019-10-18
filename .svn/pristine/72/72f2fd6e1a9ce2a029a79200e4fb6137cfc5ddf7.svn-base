@@ -1,0 +1,170 @@
+/* pages/index/index.wxss */
+
+.demo {
+  border-radius: 10px;
+  display: inline-block;
+}
+
+.index-menu {
+  width: 100%;
+  display: -webkit-flex;
+  display: -webkit-box;
+  display: flex;
+  -webkit-flex-wrap: wrap;
+  flex-wrap: wrap;
+  padding-bottom: 20rpx;
+}
+
+.index-menu-item {
+  -webkit-flex: 0 0 25%;
+  -webkit-box-flex: 0;
+  flex: 0 0 25%;
+  max-width: 25%;
+  text-align: center;
+  margin-top: 10rpx;
+  padding: 10rpx 10rpx 0;
+  box-sizing: border-box;
+  margin-bottom: -1rpx;
+}
+
+.index-menu-item image {
+  width: 110rpx;
+  height: 110rpx;
+}
+
+.index-menu-item text {
+  display: block;
+  font-size: 26rpx;
+  line-height: 1.4;
+  white-space: nowrap;
+}
+
+.index-deals {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-top: 1px solid #e5e5e5;
+  padding-top: 20rpx;
+}
+
+.index-deals .item {
+  flex: 1;
+  padding: 0 15rpx;
+}
+
+.index-deals .deals-tit {
+  color: #000;
+  font-weight: bold;
+  font-size: 36rpx;
+  width: 200rpx;
+  text-align: center;
+}
+
+.deals-type {
+  color: #666;
+  font-size: 28rpx;
+}
+
+.deals-num {
+  color: #d4620f;
+  font-size: 36rpx;
+}
+
+.slide-image {
+  display: block;
+  height: 150px;
+  width: 100%;
+}
+
+.line {
+  height: 20rpx;
+  background: #f4f4f4;
+  margin: 20rpx 0;
+}
+
+.index-tab {
+  display: flex;
+}
+
+.index-tab .item {
+  flex: 1;
+  text-align: center;
+  position: relative;
+  font-weight: bold;
+  font-size: 36rpx;
+}
+
+.index-tab .cur {
+  color: #49a2ff;
+}
+
+.index-tab .cur:after {
+  position: absolute;
+  content: "";
+  width: 100rpx;
+  height: 6rpx;
+  box-sizing: border-box;
+  background: #49a2ff;
+  border-radius: 50rpx;
+  bottom: -5rpx;
+  right: 140rpx;
+}
+.bid-list{
+  margin-top: 20rpx;
+}
+.bid-box{
+  padding: 20rpx;
+  border-bottom: 1px solid #f4f4f4;
+}
+.bid-tit{
+  display: flex;
+}
+.bid-tit .state{
+  display: inline-block;
+  margin-right:20rpx;
+}
+.bid-tit .state text{
+  text-align: center;
+  display: inline-block;
+  width: 100%;
+}
+.bid-tit .state{width:16px; height:43rpx;background:#fd6767; position:relative;color:#fff;
+font-size: 12px;
+}
+.bid-tit .state:before{content:"";width:16px; height:0px; position:absolute; box-sizing:border-box;bottom:0px; background:#fd6767;
+border-left: 8px solid transparent;
+border-bottom: 5px solid #fff;
+border-right: 8px solid transparent;}
+.bid-tit .title{
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  flex: 1;
+  line-height: 40rpx;
+  font-size: 30rpx
+}
+.bid-tag{
+  margin: 10rpx 0;
+}
+.bid-tag text{
+  display: inline-block;
+  border: 1px solid #f5793d;
+  padding: 0 20rpx;
+  margin-right: 20rpx;
+  border-radius: 36rpx;
+  color: #f5793d;
+  font-size: 24rpx;
+  background: #fff3ec;
+}
+.bid-info{
+  font-size: 26rpx;
+  color:#959595;
+}
+.bid-info text{
+  margin-right: 40rpx;
+}
+.bid-info image{
+  float: right;
+  width: 35rpx;
+  height: 35rpx;
+}

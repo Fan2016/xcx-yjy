@@ -1,0 +1,173 @@
+// pages/projectDetail/projectDetail.js
+var TIMERID,k=0 
+Page({
+
+  /**
+   * 页面的初始数据
+   */
+  data: {
+    viewType:'flow',
+    unfold:'1',
+    flowList: [{ type: '招标公告', id: '1' }, { type: '答疑', id: '2' }, { type: '补充通知', id: '3' }, { type: '中标公示', id: '4' },],
+    dayTen: "0",
+    day: "0",
+    hourTen: "0",
+    hour: "0",
+    minuteTen: "0",
+    minute: "0",
+    secondTen: "0",
+    second: "0",
+    OpeningTime:"2018-11-30 09:33:55",
+    ServerTime:"2018-11-30 09:33:44",
+    state:"待开标"
+  },
+  cutViewType(e) {
+    var val = e.target.dataset.type
+    this.setData({
+      viewType: val
+    })
+  },
+  pointTo(e){
+    this.setData({
+      viewType: 'info',
+      unfold: e.target.dataset.unfold
+    })
+  },
+  infoShow(e){
+    this.setData({
+      unfold: e.target.dataset.unfold
+    })
+  },
+  showTime(OpeningTime, ServerTime){
+    k++
+    var _STime = new Date(ServerTime.substr(0, 10) + "T" + ServerTime.substr(11, 8)).getTime();
+    var _OTime = new Date(OpeningTime.substr(0, 10) + "T" + OpeningTime.substr(11, 8)).getTime();
+    var time_distance = _OTime - _STime - k * 1000, time_left;
+    var int_day, int_hour, int_minute, int_second;
+
+    if (time_distance > 0) {
+      int_day = Math.floor(time_distance / 86400000);
+      time_distance -= int_day * 86400000;
+      int_hour = Math.floor(time_distance / 3600000);
+      time_distance -= int_hour * 3600000;
+      int_minute = Math.floor(time_distance / 60000);
+      time_distance -= int_minute * 60000;
+      int_second = Math.floor(time_distance / 1000);
+
+      this.setData({
+        dayTen:parseInt(int_day / 10),
+        day:parseInt(int_day % 10),
+        hourTen:parseInt(int_hour / 10),
+        hour:parseInt(int_hour % 10),
+        secondTen:parseInt(int_second / 10),
+        second:parseInt(int_second % 10),
+        minuteTen:parseInt(int_minute / 10),
+        minute:parseInt(int_minute % 10)
+      })
+      var that = this;
+      TIMERID = setTimeout(function () {
+        that.showTime(that.data.OpeningTime, that.data.ServerTime)
+      }, 1000);
+    } else {
+      this.setData({
+        dayTen: 0,
+        day: 0,
+        hourTen: 0,
+        hour: 0,
+        secondTen:0,
+        second: 0,
+        minuteTen: 0,
+        minute: 0
+      })
+      clearTimeout(TIMERID);
+      this.setData({
+        state:'已开标'
+      })
+      // if (this.PrimaryStatus == '待开标') {
+      //   this.progress();
+      // }
+    }
+  },
+  //格式化日期为字符串
+  DateFormat(format, date) {
+    if (!date) {
+      date = new Date();
+    }
+    var o = {
+      "y+": date.getYear(), //year
+      "M+": date.getMonth() + 1, //month
+      "d+": date.getDate(), //day
+      "h+": date.getHours(), //hour
+      "H+": date.getHours(), //hour
+      "m+": date.getMinutes(), //minute
+      "s+": date.getSeconds(), //second
+      "q+": Math.floor((date.getMonth() + 3) / 3), //quarter
+      "S": date.getMilliseconds() //millisecond
+    }
+    if (/(y+)/.test(format))
+      format = format.replace(RegExp.$1,
+        (date.getFullYear() + "").substr(4 - RegExp.$1.length));
+    for (var k in o)
+      if (new RegExp("(" + k + ")").test(format))
+        format = format.replace(RegExp.$1,
+          RegExp.$1.length == 1 ? o[k] :
+            ("00" + o[k]).substr(("" + o[k]).length));
+    return format;
+
+  },
+  /**
+   * 生命周期函数--监听页面加载
+   */
+  onLoad: function (options) {
+    this.showTime(this.data.OpeningTime, this.data.ServerTime)
+  },
+
+  /**
+   * 生命周期函数--监听页面初次渲染完成
+   */
+  onReady: function () {
+
+  },
+
+  /**
+   * 生命周期函数--监听页面显示
+   */
+  onShow: function () {
+
+  },
+
+  /**
+   * 生命周期函数--监听页面隐藏
+   */
+  onHide: function () {
+
+  },
+
+  /**
+   * 生命周期函数--监听页面卸载
+   */
+  onUnload: function () {
+
+  },
+
+  /**
+   * 页面相关事件处理函数--监听用户下拉动作
+   */
+  onPullDownRefresh: function () {
+
+  },
+
+  /**
+   * 页面上拉触底事件的处理函数
+   */
+  onReachBottom: function () {
+
+  },
+
+  /**
+   * 用户点击右上角分享
+   */
+  onShareAppMessage: function () {
+
+  }
+})

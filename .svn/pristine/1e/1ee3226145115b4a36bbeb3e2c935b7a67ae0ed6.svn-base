@@ -1,0 +1,208 @@
+// components/subscription/ssp-conf/ssp-conf.js
+let {
+  ajax
+} = require('../../../utils/common')
+import watch from '../../../utils/watch'
+Component({
+  /**
+   * 组件的属性列表
+   */
+  properties: {
+
+  },
+
+  /**
+   * 组件的初始数据
+   */
+  data: {
+    confTypes: [{
+        name: '行业选择',
+        nameCode: 'category'
+      },
+      {
+        name: '地区选择',
+        nameCode: 'region'
+      },
+      {
+        name: '预算金额',
+        nameCode: 'price'
+      },
+      {
+        name: '时间范围',
+        nameCode: 'time'
+      }
+    ],
+    sspConf:{
+      category: {
+        name: '',
+        value: ''
+      },
+      region: {
+        name: '',
+        value: ''
+      },
+      price: {
+        name: '',
+        value: ''
+      },
+      time: {
+        name: '',
+        value: ''
+      },
+    },
+    sspConfView: '',
+    btnDisabled: false,
+    btnLoading: false,
+    isSel:false,
+    sspConfTypesView:{
+      category: false,
+      region: false,
+      price: false,
+      time: false
+    }
+  },
+  lifetimes:{
+    created(){
+      //watch.setWatcher(this)
+    },
+    attached(){
+      let sspConf = wx.getStorageSync('sspConf')
+      if (!sspConf) {
+        ajax({
+          url: '/Search/GetData?method=Vip.XCX_GetDinYue'
+        }).then(({ data }) => {
+          let { status, msg } = data
+          if (status === '200'){
+            if (data && data.data && data.data.data && data.data.data[0]){
+              let config = JSON.parse(data.data.data[0].CONFIG)
+              this.setData({
+                'sspConf': config
+              })
+              this.setSspConfView(config)
+            }
+          }
+        })
+      } else {
+        this.setData({
+          'sspConf': sspConf
+        })
+        this.setSspConfView(sspConf)
+      }
+    }
+  },
+  /**
+   * 组件的方法列表
+   */
+  methods: {
+    chooseItem({
+      target
+    }) {
+      let { nameCode } = target.dataset
+      if (nameCode){
+        let sspConfTypesView = this.data.sspConfTypesView
+        sspConfTypesView[nameCode] = true
+        this.setData({
+          isSel: true,
+          sspConfTypesView: sspConfTypesView
+        })
+      }
+      //console.log(sspConfTypesView)
+    },
+    //共有配置调整
+    commonChangeSspConf(field, detail){
+      let sspConf = this.data.sspConf
+      sspConf[field] = {
+        name: detail.name,
+        value: detail.value
+      }
+      let sspConfTypesView = this.data.sspConfTypesView
+      sspConfTypesView[field] = false
+      this.setData({
+        isSel: false,
+        sspConf: sspConf,
+        sspConfTypesView: sspConfTypesView
+      })
+      this.setSspConfView(sspConf)
+    },
+    //行业配置
+    changeSspConfCategory({ detail }) {
+      this.commonChangeSspConf('category', detail)
+    },
+    //地区配置
+    changeSspConfRegion({detail}){
+      this.commonChangeSspConf('region', detail)
+    },
+    //金额配置
+    changeSspConfPrice({ detail }) {
+      this.commonChangeSspConf('price', detail)
+    },
+    //时间配置
+    changeSspConfTime({ detail }) {
+      this.commonChangeSspConf('time', detail)
+    },
+    //订阅配置确定
+    confConfirm() {
+      this.setData({
+        btnDisabled: true
+      })
+      this.setData({
+        btnLoading: true
+      })
+      ajax({
+        url: '/User/UpdateSubscribe',
+        data: {
+          config: JSON.stringify(this.data.sspConf)
+        },
+        type: 'POST'
+      }).then(({data}) => {
+        let {status, msg} = data
+        if (status === '200') {
+          msg = msg || '订阅设置成功'
+          wx.setStorageSync('sspConf', this.data.sspConf)
+        }
+        wx.showToast({
+          title: msg,
+          duration: 1500,
+          mask: true
+        })
+        this.setData({
+          btnDisabled: false
+        })
+        this.setData({
+          btnLoading: false
+        })
+        this.triggerEvent('ssp-conf', this.data.sspConf)
+      }).catch((err) =>{
+        this.setData({
+          btnDisabled: false
+        })
+        this.setData({
+          btnLoading: false
+        })
+      })
+    },
+    //展示订阅配置内容
+    setSspConfView(sspConf){
+      if (!sspConf) return 
+      let confTypes = this.data.confTypes
+      let result = []
+      confTypes.forEach((item) => {
+        if (sspConf[item.nameCode].value || sspConf[item.nameCode].value == '0'){
+          result.push(item.name + '：' + sspConf[item.nameCode].name)
+        }
+      })
+      this.setData({
+        sspConfView: result.join('\r')
+      })
+      console.log(sspConf)
+    },
+    //监听函数
+    watch(){
+      return {
+        sspConf(newVal, oldVal) {
+          this.setSspConfView(newVal)
+        }
+      }
+    }
+  }
+})

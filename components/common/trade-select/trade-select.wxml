@@ -1,0 +1,9 @@
+<!--components/common/trade-select/trade-select.wxml-->
+<block class="address">
+  <picker mode="multiSelector" bindchange="bindTradeChange" bindcolumnchange="bindTradeColumnChange" value="{{tradeValue}}" range="{{tradeArray}}" range-key="NAME">
+    <view class="picker">
+    <image src='../../../images/select.png'></image>
+     <text wx-if='{{!isAlone}}'>{{proObject.NAME}}{{cityObject.CODE!='1111'?"-"+cityObject.NAME:""}}</text><text wx:else>{{aimArea=='全部'?'行业':aimArea}}</text>
+    </view> 
+  </picker>
+</block>

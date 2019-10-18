@@ -1,0 +1,266 @@
+// components/subscription/ssp-conf/ssp-conf.js
+let {
+  ajax,
+  showToast,
+  unLoginToast
+} = require('../../../utils/common')
+var app = getApp()
+import watch from '../../../utils/watch'
+Component({
+  /**
+   * 组件的属性列表
+   */
+  /**
+   * 组件的初始数据
+   */
+  data: {
+    isLogin: false,
+    confTypes: [{
+        name: '地区选择',
+        nameCode: 'region'
+      },
+      {
+        name: '行业选择',
+        nameCode: 'category'
+      },
+      {
+        name: '预算金额',
+        nameCode: 'price'
+      }
+      // {
+      //   name: '时间范围',
+      //   nameCode: 'time'
+      // }
+    ],
+    sspConf: {
+      category: {
+        name: '',
+        value: []
+      },
+      region: {
+        name: '',
+        value: []
+      },
+      price: {
+        name: '',
+        value: ''
+      },
+      time: {
+        name: '',
+        value: ''
+      },
+    },
+    btnDisabled: false,
+    btnLoading: false,
+    editText:'订阅'
+  },
+  lifetimes: {
+    created() {
+      //watch.setWatcher(this)
+    },
+    attached() {
+      let sspConf = this.data.sspConf,isEdit=false;
+      this.data.isLogin=app.userName ? true : false
+      if (this.data.isLogin) {
+        ajax({
+          url: '/Search/GetData?method=Vip.XCX_GetDinYue'
+        }).then(({
+          data
+        }) => {
+          let {
+            status,
+            msg
+          } = data
+          if (status === '200') {
+            if (data && data.data && data.data.data && data.data.data[0]) {
+              let config = JSON.parse(data.data.data[0].CONFIG)
+              this.setData({
+                'sspConf': config
+              })
+              Object.keys(config).forEach(item=>{
+                if (config[item].value.length){
+                  isEdit=true
+                }
+              })
+              this.setData({ editText:isEdit?'修改': '订阅'})
+              this.setSspConfView(config)
+            }
+          }
+        })
+      }
+    }
+  },
+  /**
+   * 组件的方法列表
+   */
+  methods: {
+    loginState(val){
+      this.data.isLogin = val
+    },
+    chooseItem(event) {
+      let nameCode = event.currentTarget.dataset.namecode
+      let isLogin = this.data.isLogin;
+      if (!isLogin)
+      {
+        unLoginToast();
+      }
+      else
+      {
+        if (nameCode) {
+          wx.navigateTo({
+            url: '/pages/subscription/index/configComponentList/configComponentList?nameCode=' + nameCode + '&sspConf=' + JSON.stringify(this.data.sspConf)
+          })
+        }
+      }
+    },
+    //重置
+    reset() {
+      var that = this;
+      let sspConf = {
+        category: {
+          name: '',
+          value: []
+        },
+        region: {
+          name: '',
+          value: []
+        },
+        price: {
+          name: '',
+          value: ''
+        },
+        time: {
+          name: '',
+          value: ''
+        },
+      };
+      let isLogin = this.data.isLogin;
+      if (!isLogin) {
+        unLoginToast();
+      }
+      else
+      {
+      wx.showModal({
+        title: '提示',
+        content: '确定重置订阅设置内容？',
+        success(res) {
+          if (res.confirm) {
+            wx.login({ //确定重置
+              success(res) {
+                that.setSspConfView(sspConf)
+                that.confConfirm('重置',false)
+                          
+                // showToast({
+                //   title: "重置成功"
+                // })
+              }
+            })
+          } else if (res.cancel) {
+
+          }
+        }
+      })
+      }
+    },
+    //订阅配置确定
+    confConfirm(param,skip=true) {
+      let type = typeof param == "object" ? param.currentTarget.dataset.type : param;
+      let isLogin= this.data.isLogin;
+      if (isLogin) {
+        ajax({
+          url: '/User/UpdateSubscribe',
+          type: "POST",
+          data: {
+            config: JSON.stringify(this.data.sspConf)
+          }
+        }).then(({
+          data
+        }) => {
+          let {
+            status,
+            msg
+          } = data
+          if (status === '200') {
+            msg = msg || type+'成功'
+            wx.setStorageSync('sspConf', this.data.sspConf)
+            if (type=='重置'){
+              this.setData({editText:'订阅'})
+            }
+          }
+          wx.showToast({
+            title: msg || type+"失败",
+            duration: 1500,
+            mask: true
+          })
+          this.setData({
+            btnDisabled: false
+          })
+          this.setData({
+            btnLoading: false
+          })
+          setTimeout(() => {
+            this.triggerEvent('ssp-conf', Object.assign({skip}, this.data.sspConf))
+          }, 2000)           
+        }).catch((err) => {
+          this.setData({
+            btnDisabled: false
+          })
+          this.setData({
+            btnLoading: false
+          })
+        })
+      }
+      else
+      {
+        unLoginToast();
+      }
+    },
+    //展示订阅配置内容
+    setSspConfView(sspConf) {
+      if (!sspConf) {
+        return
+      }
+      let confTypes = this.data.confTypes
+      let result = [], categoryVal = '', categoryObj={};
+      if (sspConf.category.detail){//行业数据父集整合
+        sspConf.category.detail.forEach(item => {
+          if (!categoryObj.hasOwnProperty(item.PARENTNAME)) {
+            categoryObj[item.PARENTNAME] = [item.NAME]
+          } else {
+            categoryObj[item.PARENTNAME].push(item.NAME)
+          }
+        })
+        Object.keys(categoryObj).forEach(item=>{
+          let ary = categoryObj[item];
+          if (ary.length == 1 && ary[0] == item){
+            categoryVal += item+','
+          }
+          else{
+            categoryVal+= item + '(' + ary.join(",")+'),'
+          }
+        })
+      }
+      categoryVal = categoryVal.substr(0, categoryVal.length-1)
+      categoryVal = categoryVal.length > 13 ? categoryVal.substr(0, 13) + "···" : categoryVal
+      confTypes.forEach((item) => {
+        if (item['name'] =='行业选择'){
+          item["value"] = categoryVal
+        }else{
+          item["value"] = sspConf[item.nameCode].name.length > 13 ? sspConf[item.nameCode].name.substr(0, 13) + "···" : sspConf[item.nameCode].name
+        }      
+      })
+      this.setData({
+        confTypes: confTypes,
+        sspConf: Object.assign(this.data.sspConf, sspConf)
+      })
+    },
+    //监听函数
+    watch() {
+      return {
+        sspConf(newVal, oldVal) {
+          this.setSspConfView(newVal)
+        }
+      }
+    }
+  }
+})

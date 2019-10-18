@@ -1,0 +1,31 @@
+<!--pages/subscription/index/index.wxml-->
+<view class='container'>
+  <!-- <search bind:searchEvent="fetchSearch"  searchVal='{{param.NAME}}'></search> -->
+  <view class='conditionBtn' wx:if="{{isLogin}}">
+  <button  bindtap='conditionEvent'><text class='l {{isCondition?"lClose":"lOpen"}}'></text>查看已订阅条件({{total}})<text class='r {{isCondition?"rClose":"rOpen"}}'></text></button>
+  <!-- <view class='total'>共{{total}}条项目信息</view> -->
+  </view>
+  <view class='conditionView' wx:if="{{isCondition}}">
+    <view class='tit'>地区选择</view>
+    <view class='option'> 
+      <text wx:for="{{sspConf.region}}">{{item}}</text>
+    </view>
+    <view class='tit'>行业选择</view>
+    <view class='option'>
+      <text wx:for="{{sspConf.category}}">{{item}}</text>
+    </view>
+    <view class='tit'>预算金额</view>
+    <view class='option'>
+    <text>{{sspConf.price}}</text>
+    </view>
+  </view>
+  <view class='container-body'>
+    <view class='bid-list'>
+      <bidList listData="{{bidList}}" messageText="{{listMsg}}" isMessage="{{isMessage}}" isLoad="{{isLoad}}" isCollect="{{false}}" isRecordSubView="{{true}}" bind:clickEvent="cancelView"></bidList>
+    </view>
+  </view>
+  <view class='floatTool' wx:if="{{isLogin}}" bindtap='setConfig'>
+      <image src='../../../images/dingYueSetting.png'></image>
+  </view>
+</view>
+<footerBar pageUrl='{{pageUrl}}'></footerBar>

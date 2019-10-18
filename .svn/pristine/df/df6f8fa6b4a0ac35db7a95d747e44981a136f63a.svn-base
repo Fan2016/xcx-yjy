@@ -1,0 +1,113 @@
+/* pages/login/login.wxss */
+.container{
+  padding-bottom: 100rpx;
+}
+.logo{
+  text-align: center;
+  color:#000;
+  font-size: 40rpx;
+  margin: 20rpx 0 40rpx;
+}
+.logo image.imgSize{
+    width: 180rpx;
+    height: 180rpx;
+    display: block;
+    margin: 40rpx auto 0;
+}
+.form,.info{
+  width: 600rpx;
+  margin: 0 auto;
+}
+.form>view{
+  margin-bottom: 40rpx
+}
+.form input{
+  border: 1px solid #c7c7c7;
+  border-radius: 40rpx;
+  padding: 10rpx 25rpx;
+  height: 40rpx;
+}
+.form .hint{
+  font-size: 28rpx;
+  color: #333;
+  padding:20rpx 0 0 20rpx;
+  display: block
+}
+
+.image-code input{
+float: left;
+  width: 250rpx;
+}
+.image-code image{
+   
+}
+.image-code image.code{
+width:200rpx;
+   height: 70rpx;
+  margin-left: 20rpx;
+}
+.image-code image.refresh{
+  width: 70rpx;
+  height: 70rpx;
+}
+
+.note-code{
+  border: 1px solid #c7c7c7;
+  border-radius: 40rpx;
+  padding: 10rpx 25rpx;
+  height: 54rpx;
+}
+.note-code input{
+  border: none;
+  border-radius: 0;
+  width: 300rpx;
+  height: 30rpx;
+  padding: 0;
+  display: inline-block;
+}
+.note-code text,.note-code .shade{
+  height: 56rpx;
+  line-height: 56rpx;
+  float: right;
+}
+.agreement{
+  text-align: center;
+  font-size: 28rpx;
+  margin-bottom: 40rpx;
+  }
+.agreement text{
+  color: #7498f1;
+}
+.pickNote{
+  display: block;
+  height:56rpx;
+}
+.enter{
+  width: 600rpx;
+  border-radius: 50rpx;
+  border: 1px solid #7498f1;
+  background: #074bd6;
+  color: #fff;
+  margin-bottom: 60rpx;
+  height:100rpx;
+  line-height:100rpx;
+}
+.login-bottom{
+  position: fixed;
+  bottom:0;
+  width: 100%;
+  height: 100rpx;
+}
+.info{
+  color:#666666;
+  font-size: 28rpx; 
+  padding: 20rpx;
+  background: #f5f5f5;
+  border-radius:10rpx;
+}
+.info>view{
+  margin-bottom: 20rpx;
+}
+.info .mark{
+  color:#2a77e4;
+}

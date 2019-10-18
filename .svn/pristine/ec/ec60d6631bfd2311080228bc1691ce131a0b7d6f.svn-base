@@ -1,0 +1,36 @@
+<!--pages/user/index/index.wxml-->
+<view class='container'>
+  <view class='container-body'>
+    <view class="index-user">
+      <button wx:if="{{!impower}}" class="icon" hover-class="none" open-type="getUserInfo" lang="zh_CN" bindgetuserinfo="onGotUserInfo" plain="true">
+        <image src='{{userInfo.avatarUrl}}'></image>
+      </button>
+      <view class="icon" wx:if="{{impower}}">
+        <image src='{{userInfo.avatarUrl}}'></image>
+      </view>
+      <text class="userName">{{userName}}</text>
+    </view>
+    <!-- <view class="index-pay">
+      <navigator class="index-pay-item" wx:for="{{payMenu}}" wx:key="{{item.ORDER_ID}}" url="../projectSearchList/projectSearchList?type={{item.NAME}}">
+        <view class="index-pay-view">
+          <image src='{{item.IMG}}'></image>
+          <text>{{item.NAME}}</text>
+        </view>
+      </navigator>
+    </view> -->
+    <view class="index-menu">
+      <navigator class="index-menu-item" wx:for="{{indexMenu}}" wx:key="index" url="{{isLogin?item.loginUrl:item.url}}">
+        <view class="menu">
+          <image src='{{item.IMG}}'></image>
+          <text>{{item.NAME}}</text>
+        </view>
+        <view class="redMessage" wx:if="{{item.isNew}}"></view>
+      </navigator>
+    </view>
+    <view class="login">
+      <button class="index-login"  wx:if="{{!isLogin}}" bindtap='userBundle'>用户登录</button>
+      <button class="index-logOut" wx:if="{{isLogin}}" bindtap='unbundle'>退出</button>
+    </view>
+  </view>
+</view>
+<footerBar pageUrl='{{pageUrl}}'></footerBar>

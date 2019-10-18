@@ -1,0 +1,23 @@
+<!--components/subscription/ssp-conf-detail/ssp-conf-detail.wxml-->
+<view class='ssp-conf-container'>
+  <view class='ssp-conf-detail' >
+    <view wx:for='{{confTypes}}'  wx:for-item='item' wx:key='{{item.nameCode}}'>
+      <view class='ssp-conf-detail-select'   bindtap='chooseItem' data-nameCode='{{item.nameCode}}'>
+        <text class='ssp-conf-detail-select-item'>{{item.name}}</text>
+        <view class='ssp-conf-detail-select-item-value' >
+          <text class='ssp-conf-detail-select-item-value_text '>{{item.value?item.value:"不限"}}</text>
+          <image class='ssp-conf-detail-select-icon ' src='../../../images/arrow.png '></image>
+        </view>
+      </view>
+      <view class='line '></view>
+    </view>
+    <view  class='button-mod'>
+      <button  bindtap="reset" class="reset" >重 置</button>
+      <button class='ssp-conf-detail-cofirm'   disabled='{{btnDisabled}}' loading='{{btnLoading}}' bindtap='confConfirm'>订 阅</button>
+    </view>
+    <view  class='tip-mod'>
+      <view>—— 订阅须知 ——</view>
+      <view>订阅栏目每日08:00及16:00更新项目信息</view>
+    </view>
+  </view>
+</view>

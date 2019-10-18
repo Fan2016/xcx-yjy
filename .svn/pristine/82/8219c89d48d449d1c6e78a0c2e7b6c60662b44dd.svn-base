@@ -1,0 +1,13 @@
+<view class='shadeBox' wx:if='{{isShade}}'> 
+</view>
+<view class="container">
+  <search bind:searchEvent="fetchSearch" searchVal='{{selParam.NAME}}'></search>
+  <view class='search-shade' wx:if='{{isSel}}' bindtap='colse'></view>
+  <filtrate bind:filtrateEvent="fetchfiltrate" isSel='{{isSel}}' top='80rpx' pick='{{pick}}'></filtrate>
+  <view class='line'>
+     <view></view>
+  </view>
+  <view class='container-body'>  
+      <bidList listData="{{bidList}}" messageText="{{listMsg}}" isMessage="{{isMessage}}" tradeCountList="{{tradeCountList}}" isLoad="{{isLoad}}" collect="{{collect}}" bind:tradeSearchEvent="tradeSearch"> </bidList>
+  </view>
+</view>

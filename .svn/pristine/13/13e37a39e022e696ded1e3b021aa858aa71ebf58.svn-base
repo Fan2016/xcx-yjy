@@ -1,0 +1,61 @@
+<view class='container'>
+  <view class='container-body'>
+  <scroll-view scroll-y="true" scroll-top="{{top}}" style="height:100%;" scroll-with-animation='{{true}}' >
+    <view class='article-head'>
+      <view class='ah-tt'>
+        <text class='tag'>招标</text>
+        <text class='title'>{{bidName}}</text>
+      </view>
+      <view class='ah-up'>
+        <view class='url fr'></view>
+        <view class='publishTime'>
+          <text>发布时间 ：</text>{{bidPublishTime}}</view>
+      </view>
+    </view>
+    <view class='article-remind'>
+      <view class='state'>标的状态 ：
+        <text>{{bidState}}</text>
+      </view>
+      <view class='time'>距离开标时间 ：
+        <text>{{dayTen}}{{day}}天{{hourTen}}{{hour}}小时{{minuteTen}}{{minute}}分{{secondTen}}{{second}}秒</text>
+      </view>
+    </view>
+    <view class='article-main'>
+      <view class='tab-toggle'>
+        <view class='item {{viewType=="flow"?"cur":""}}' data-type='flow' bindtap='cutViewType'>项目流程</view>
+        <view class='item {{viewType=="info"?"cur":""}}' data-type='info' bindtap='cutViewType'>项目信息</view>
+      </view>
+      <view class='flow' wx:if='{{viewType=="flow"}}'>
+        <block wx:for="{{flowList}}" wx:for-item="item" wx:key='index' wx:for-index="index">
+          <view class='flow-space'>
+            <view class='time'>
+              <image src='../../../images/{{index==0?"step_cur.jpg":"step.jpg"}}'></image>
+              <text>{{item.timeA}}</text>
+              <view>{{item.timeB}}</view>
+            </view>
+            <view class='matter'>
+              <view class='tit'>{{item.TEXT}}</view>
+              <view class='intro'>{{item.TITLE}}</view>
+              <view class='skip' data-unfold='{{index}}' bindtap='pointTo'>项目详情 ></view>
+            </view>
+          </view>
+        </block>
+      </view>
+      <view class='info' wx:if='{{viewType=="info"}}'>
+        <block>
+          <view class='info-space' wx:for='{{flowList}}' wx:for-item='item' wx:key='id' wx:for-index="index">
+            <view class='mold' bindtap='infoShow' data-unfold='{{index}}'>{{item.TEXT}}</view>
+            <view class='content' wx-if="{{index==unfold&&curToggle}}">
+            <!-- <rich-text nodes="{{item.HTML}}"></rich-text> -->
+            {{item.CONTENT}}
+            </view>
+          </view>
+        </block>
+      </view>
+    </view>
+    </scroll-view>
+  </view>
+  <view class='container-footer'>
+    <button bindtap='collect' class='collect'>{{isCollect?'已关注':'关注'}}</button>
+  </view>
+</view>

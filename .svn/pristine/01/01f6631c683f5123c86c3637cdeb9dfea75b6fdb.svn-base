@@ -1,0 +1,34 @@
+<block wx:for="{{listData}}" wx:for-item="item" wx:key='*this' wx:if="{{listData.length!=0}}">
+  <navigator url="../../ebid/projectDetail/projectDetail?id={{item.SOURCE_ID}}">
+    <view class='bid-list-box'>
+      <view class='bid-tit'>
+        <view class='state' style='background:{{item.COLOR}}'>
+          <text>{{item.SHORT_NAME}}</text>
+          <text class='ico' style='background:{{item.COLOR}}'></text>
+        </view>
+        <view class='title'>
+          <text>{{item.NAME}}</text>
+        </view>
+      </view>
+      <view class='bid-tag'>
+        <text>{{item.PLATFORM_CODE_TEXT}}</text>
+        <text>{{item.TYPE_TEXT}}</text>
+      </view>
+      <view class='bid-info'>
+        <view>
+          <text>预算 ：{{item.CONTROL_PRICE}}元</text>
+        </view>
+        <view class='right'>
+          <image src='../../../images/{{item.isCollect?"collectOk":"collect"}}.png'></image>
+          <icon type="waiting" size="9" color='#999' />
+          <text>开标 ：{{item.OPEN_TIME}}</text>
+        </view>
+      </view>
+    </view>
+  </navigator>
+</block>
+<view class='message' wx:if="{{listData.length==0}}">
+  <view>{{noData}}</view>
+</view>
+<view class='message' wx:if='{{isMessage}}'>
+  <image wx:if='{{messageText=="数据加载中..."}}' src='../../../images/loading.gif'></image>{{messageText}}</view>

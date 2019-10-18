@@ -1,0 +1,23 @@
+<view class='search-input'>
+  <regionSelect wx-if='{{isRegion}}' isAlone='true' bind:regionSelectEvent="fetchRegion" site='{{site}}' storageSite='{{storageSite}}'></regionSelect>
+  <view class='search-input-bar'>
+  <image src='../../../images/search.png' class='icon'></image>
+  <input value="{{searchVal}}" confirm-type="search" type='text' bindfocus='searchFocus' bindconfirm='search' placeholder='输入要查询的招投标信息'></input>
+  </view>
+
+  <text wx:if="{{isSearch}}" bindtap='searchCancel' class='cancel'>取消</text>
+</view>
+<view class='search-more' wx:if="{{isSearch}}">
+  <!-- <view class='tit'>热门搜索：</view> -->
+  <!-- <view class='search-hot'>
+    <view wx:for="{{hotWord}}" wx:for-item="item" wx:key="*this" class='item' bindtap='searchKey' data-key="{{item}}">{{item}}</view>
+  </view> -->
+  <!-- <view class='line'></view> -->
+  <view class='tit'>历史搜索：
+    <image src='../../../images/cancel.png' class='fr' bindtap='historyDel'></image>
+  </view>
+  <scroll-view class='search-history' scroll-y="true">
+    <view class='no' wx:if="{{!searchHistory.length}}">暂无历史搜索记录</view>
+    <view wx:for="{{searchHistory}}" wx:for-item="item" wx:key="*this" class='item' bindtap='searchKey' data-key="{{item}}">{{item}}</view>
+  </scroll-view>
+</view>

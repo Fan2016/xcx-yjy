@@ -1,0 +1,8 @@
+{
+  "usingComponents": {
+    "yjy-trade": "/components/common/yjy-trade/yjy-trade",
+    "yjy-area": "/components/common/yjy-area/yjy-area",
+    "yjy-money": "/components/common/yjy-money/yjy-money",
+    "yjy-time": "/components/common/yjy-time/yjy-time"
+  }
+}

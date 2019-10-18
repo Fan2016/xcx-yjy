@@ -1,0 +1,159 @@
+// components/commonbid-list/bid-list.js
+Component({
+  /**
+   * 组件的属性列表
+   */
+  properties: {
+    listData:{
+      type: Array,
+      value:[]
+    },
+    type: {
+      type: String,
+      value: 'default'
+    },
+    noData:{
+      type:String,
+      value:"暂无数据",
+    },
+    messageText: {
+      type: String,
+      value:'加载...'
+    },
+    isMessage:{
+      type: Boolean,
+      value:false
+    },
+    isLoad: {
+      type: Boolean,
+      value: false
+    },
+    isRecordSubView: {//是否记录订阅查看数据
+      type: Boolean,
+      value: false
+    }, tradeCountList: {
+      type: Array,
+      value: []
+    }, collect: {
+      type: Object,
+      value: {}
+    }, cancel: {
+      type: Boolean,
+      value: false
+    }, 
+    indexIsUpdate:{
+      type: Boolean,
+      value: false
+    }
+  },
+
+  /**
+   * 组件的初始数据
+   */
+  data: {
+    cur:0,
+    curToggle:true
+  },
+  /**
+   * 组件的方法列表
+   */
+  methods: {
+    click(e){
+      let data = e.currentTarget.dataset.param;
+      let browseRecord=wx.getStorageSync('browseRecord');
+      if (!browseRecord){
+        wx.setStorageSync('browseRecord', [data])
+      }
+      else{
+        let isRecordExist=false
+        browseRecord.forEach(item=>{
+          if (item.ID==data.ID){
+            isRecordExist=true
+          }
+        })
+        if(!isRecordExist){
+          browseRecord.unshift(data)
+          wx.setStorageSync('browseRecord', browseRecord.splice(0, 30))//取前30条记录
+        }
+      }
+      if (data.componentName)//是关注或者参与的列表以及有new的标志，点击后new去掉&& data.isView
+      {
+        let str = 'listData[' + e.currentTarget.dataset.index +']';
+        this.setData({
+          [str]: Object.assign(data, { isView:false}),
+        })
+        this.triggerEvent('ClickBySID', e.currentTarget.dataset.param.SOURCE_ID)
+      }
+      else if (this.data.isRecordSubView){
+        this.triggerEvent('clickEvent', { site:e.currentTarget.dataset.site,index:e.currentTarget.dataset.index})
+        var id = e.currentTarget.id,viewPush = wx.getStorageSync('viewPush')||{};
+        viewPush[id]=true;
+        wx.setStorageSync('viewPush',viewPush)
+      }
+    },
+    infoShow(e) {
+      var site = e.currentTarget.dataset.site, curToggle
+      if (this.data.cur == site) {
+        curToggle = !this.data.curToggle
+      } else {
+        curToggle = true
+      }
+      this.setData({
+        curToggle: curToggle,
+        cur: site
+      })
+    },
+    tradeClick(e){
+      let index = e.currentTarget.dataset.index, 
+        item = e.currentTarget.dataset.item,
+        str = 'tradeCountList[' + index + '].isCur',
+        flag = !this.data.tradeCountList[index].isCur; 
+      this.setData({
+        [str]: flag
+      })      
+      if (this.data.tradeCountList.length < 2) return
+      this.triggerEvent('tradeSearchEvent', { val: item.VALUE,flag:flag})
+    },
+    subscriptionTradeClick(e){
+      let { index, site, param } = e.currentTarget.dataset;
+      let strTraceCount = 'bidList[' + site + '].traceCount[' + index + '].isCur',
+        strData = 'bidList[' + site + '].data',
+        flag = !this.data.listData[site].traceCount[index].isCur,
+        traceCount = this.data.listData[site].traceCount,
+        listData = this.data.listData[site].data, 
+        listDataInit = this.data.listData[site].dataInit,
+        filtTradeType = {}, filtListData=[],i=0;
+      let viewPush = wx.getStorageSync('viewPush')
+      traceCount.forEach(item => {
+        if (item.VALUE == param.VALUE) {
+          if (!item.isCur) {
+            filtTradeType[item.VALUE] = true;
+            i++
+          }
+        }
+        else if (item.isCur) {
+          i++
+          filtTradeType[item.VALUE] = true
+        }
+      })
+      if(i>0){
+        listDataInit.forEach(item=>{
+          if (filtTradeType[item.BIG_TYPE]){
+            filtListData.push(item)
+          }
+        })
+      }
+      else{
+        filtListData = listDataInit
+      }
+      filtListData.forEach(item=>{
+        item.isView = viewPush[item.ID] ? false : true
+      })
+      // this.setData({
+      //   [strTraceCount]: flag,
+      //   [strData]: filtListData
+      // })
+      this.triggerEvent('clickTradeClick', { strTraceCount, flag, strData, filtListData})
+    }
+  },
+})

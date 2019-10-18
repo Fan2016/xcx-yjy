@@ -1,0 +1,28 @@
+/* pages/demo/demo.wxss */
+page{
+  /* height: 700px; */
+  /* background: yellowgreen; */
+}
+.font{
+  font-family: '微软雅黑';
+  font-weight: bold;
+}
+image{
+  width: 200rpx;
+  height: 100rpx;
+}
+input{
+  border: 1px solid #ccc;
+}
+.box{
+ 	box-sizing: border-box;
+  position: fixed;
+  z-index: 1;
+  top: 160rpx;
+  bottom: 0;
+  background: yellowgreen;
+}
+.box-sub{
+  position: relative;
+  top:50rpx
+}

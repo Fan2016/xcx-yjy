@@ -1,0 +1,56 @@
+开发中... 
+<!-- <view class='container'>
+  <view class='container-body'>
+    <view class='article-head'>
+      <view class='ah-tt'>
+        <text class='tag'>招标</text>
+        <text class='title'>霞浦县盐田畲族乡姚澳村海岸环境整治项目(姚澳村排洪沟整治工程)(施工)</text>
+      </view>
+      <view class='ah-up'>
+        <view class='url fr'></view>
+        <view class='publishTime'>
+          <text>发布时间 ：</text>2018年11月16日 09:00:00</view>
+      </view>
+    </view>
+    <view class='article-remind'>
+      <view class='state'>标的状态 ：
+        <text>{{state}}</text>
+      </view>
+      <view class='time'>距离开标时间 ：
+        <text>{{dayTen}}{{day}}天{{hourTen}}{{hour}}小时{{minuteTen}}{{minute}}分{{secondTen}}{{second}}秒</text>
+      </view>
+    </view>
+    <view class='article-main'>
+      <view class='tab-toggle'>
+        <view class='item {{viewType=="flow"?"cur":""}}' data-type='flow' bindtap='cutViewType'>项目流程</view>
+        <view class='item {{viewType=="info"?"cur":""}}' data-type='info' bindtap='cutViewType'>项目信息</view>
+      </view>
+      <view class='flow' wx:if='{{viewType=="flow"}}'>
+        <block wx:for="{{flowList}}" wx:for-item="item" wx:key='id'>
+          <view class='flow-space'>
+            <view class='time'>
+              <image src='../../images/{{item.id==unfold?"step_cur.jpg":"step.jpg"}}'></image>
+              <text>09:00</text>
+              <view>2018.10.11</view>
+            </view>
+            <view class='matter'>
+              <view class='tit'>{{item.type}}</view>
+              <view class='intro'>“辽中区农村人居环境整治PPP项目（一期）”已具备实施条件，沈阳市辽中区人民政府同意本项目采用PPP模式(政府与社会资本合作模式）</view>
+              <view class='skip' data-unfold='{{item.id}}' bindtap='pointTo'>项目详情 ></view>
+            </view>
+          </view>
+        </block>
+      </view>
+      <view class='info' wx:if='{{viewType=="info"}}'>
+        <block>
+          <view class='info-space' wx:for='{{flowList}}' wx:for-item='item' wx:key='id'>
+            <view class='mold' bindtap='infoShow' data-unfold='{{item.id}}'>{{item.type}}</view>
+            <view class='content' wx-if="{{item.id==unfold}}">“辽中区农村人居环境整治PPP项目（一期）”已具备实施条件，沈阳市辽中区人民政府同意本项目采用PPP模式(政府与社会资本合作模式）“辽中区农村人居环境整治PPP项目（一期）”已具备实施条件，沈阳市辽中区人民政府同意本项目采用PPP模式(政府与社会资本合作模式）</view>
+          </view>
+        </block>
+      </view>
+    </view>
+  </view>
+  <view class='container-footer'>
+  </view>
+</view> -->

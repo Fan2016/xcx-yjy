@@ -1,0 +1,11 @@
+<!--pages/demo/demo.wxml-->
+<!-- <search bind:searchEvent="abc"></search> -->
+<button bindtap='note'>短信获取</button><button bindtap='login'>登录</button>
+<!-- <view style='height:700px;background:yellow'></view> -->
+
+<image src='{{url}}' bindtap='imgsrc'>获取验证码</image>
+<input type='text' bindblur='getCode' data-type='imgCode'></input>
+手机号
+<input type='number' bindblur='getCode' data-type='phone' ></input>
+短信
+<input type='number' bindblur='getCode' data-type='noteCode' ></input>

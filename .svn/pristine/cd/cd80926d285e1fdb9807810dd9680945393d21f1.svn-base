@@ -1,0 +1,30 @@
+<view class='bar-mod'>
+  <view class='left-mod'>
+    <view 
+      wx:for="{{areaTop}}"  
+      wx:for-item='item' 
+      wx:key='{{item.ID}}' 
+      bindtap='barChange' 
+      data-level='1' 
+      data-area-item='{{item}}' 
+      class='{{item.NAME==areaTopVal?"cur":""}}'
+    >
+      {{item.NAME}}
+    </view>
+
+  </view>
+  <view class='right-mod'>
+    <view 
+      wx:for="{{areaSubList}}"  
+      wx:for-item='item' 
+      wx:key='{{item.ID}}' 
+      bindtap='barChange' 
+      data-level='2' 
+      data-area-item='{{item}}' 
+      class='{{item.NAME==areaSubVal?"cur":""}}'
+    >
+      {{item.NAME}}
+    </view>
+  </view>
+  
+</view>

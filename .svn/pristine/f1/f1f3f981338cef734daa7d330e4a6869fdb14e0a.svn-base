@@ -1,0 +1,121 @@
+/* pages/subscription/index/index.wxss */
+.container-body{
+  margin:80rpx 0;
+
+}
+.conditionBtn{
+  position: fixed;
+  top:0;
+  width: 100%;
+  z-index: 2;
+  background: #fff;
+}
+.conditionBtn .total{
+height:30rpx;
+font-size:26rpx;
+margin-bottom:20rpx;
+text-align:center;
+color:#333;
+
+}
+.conditionBtn button{
+  margin:20rpx auto;
+  height: 60rpx;
+  line-height:60rpx;
+  width: 350rpx;
+  padding: 0 30rpx;
+  background: #43a3f0 ;
+  color: #fff;
+  font-size: 28rpx;
+}
+button text.l{
+display:inline-block;
+border-top:2px solid;
+border-right:2px solid;
+width:8px;
+height:8px;
+border-color:#fff;
+position:absolute;
+}
+button text.r{
+display:inline-block;
+border-top:2px solid;
+border-right:2px solid;
+width:8px;
+height:8px;
+border-color:#fff;
+position:absolute;
+}
+button text.lOpen{
+transform:rotate(135deg);
+left:20rpx;
+top:16rpx;
+}
+button text.rOpen{
+transform:rotate(135deg);
+right:20rpx;
+top:16rpx;
+}
+button text.lClose{
+transform:rotate(315deg);
+left:20rpx;
+top:28rpx;
+}
+button text.rClose{
+transform:rotate(315deg);
+right:20rpx;
+top:28rpx;
+}
+.conditionView{
+  position: fixed;
+  top:100rpx;
+  bottom:0;
+  z-index: 2;
+  background: #fff;
+  width:100%;
+  padding: 20rpx;
+  overflow-y: scroll;
+}
+.conditionView .tit{
+  color:#999;
+  margin-bottom: 20rpx;
+}
+.conditionView .option{
+  margin-bottom: 30rpx;
+}
+.conditionView .option text{
+color:#37a7d8;
+border:1rpx solid #aedbef;
+border-radius:10rpx;
+margin-right:20rpx;
+margin-bottom:20rpx;
+display:inline-block;
+width:220rpx;
+text-align:center;
+font-size:28rpx;
+padding: 10rpx 0;
+background: #ebf9ff;
+overflow:hidden;
+text-overflow:ellipsis;
+white-space:nowrap;
+}
+.bid-list {
+  /* margin-top: 20rpx; */
+}
+
+.line {
+  height: 20rpx;
+  background: #f4f4f4;
+  margin: 0 0 20rpx;
+}
+
+.floatTool {
+  position: fixed;
+  bottom:90rpx;
+right:10rpx;
+}
+
+.floatTool image {
+  width: 150rpx;
+  height: 150rpx;
+}

@@ -1,0 +1,89 @@
+/* components/subscription/ssp-conf-detail/ssp-conf-detail.wxss */
+
+.ssp-conf-container{
+  display: flex;
+  position: fixed;
+  z-index: 11;
+  top: 0;
+  bottom: 0;
+  width: 100%;
+  flex-direction: column;
+  color: #7b7b7b;
+}
+
+.ssp-conf-detail {
+  background: #f4f4f4;
+  height: 100%;
+  padding-top: 30rpx;
+  font-size: 33rpx;
+}
+
+.ssp-conf-detail_text, .ssp-conf-detail-select {
+  background: white;
+  width: 90%;
+  margin: 0 auto;
+ padding:25rpx 20rpx;
+}
+
+.ssp-conf-detail_text{
+  height: 250rpx;
+}
+
+.ssp-conf-detail-select {
+  display: flex;
+  justify-content: space-between;
+}
+.ssp-conf-detail-select-item{
+  width:115px;
+}
+.ssp-conf-detail-select-item-value{
+  display: flex;
+}
+.ssp-conf-detail-select-item-value_text{
+  margin-right: 20rpx;
+  color: #48A8F8;
+}
+
+.ssp-conf-detail-select-icon {
+  width: 22rpx;
+  height: 28rpx;
+  margin: 10rpx 0;
+}
+.reset{
+  background: #fff;
+  color:#9b9b9b;
+  width:30%;
+}
+.ssp-conf-detail-cofirm{
+  background: #2399FA;
+  color:white;
+  width:30%;
+}
+.line {
+  height: 20rpx;
+  background: #f4f4f4;
+  margin: 10rpx 0 0;
+}
+
+.ssp-conf-types-container {
+  background: #fff;
+  flex: 1;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+.ssp-conf-types-item {
+  display: flex;
+  height: 100%;
+  color: #666;
+}
+
+
+.ssp-conf-types-item-comp{
+  width: 100%;
+}
+.button-mod{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}

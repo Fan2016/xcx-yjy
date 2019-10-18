@@ -1,0 +1,35 @@
+/* pages/user/setting/setting.wxss */
+.container{
+    padding:20rpx;
+}
+.banner{
+  width: 100%;
+  height: 180rpx;
+}
+.action .item{
+   line-height:100rpx;
+   border-bottom: 2rpx solid #CECECE;
+   font-size: 30rpx;
+   
+}
+.user-info{
+  display: flex;
+  color:#5A5A5A;
+}
+.user-info view{
+  flex: 1;
+}
+.user-name{
+  text-align: right;
+  color:#000000;  
+}
+.user-toggle{
+  color:#0088E1;
+     text-align: center;
+     font-weight: bold;
+}
+.user-out{
+  color:#FF3000;
+     text-align: center;
+     font-weight: bold;
+}

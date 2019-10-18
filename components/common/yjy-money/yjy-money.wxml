@@ -1,0 +1,34 @@
+<!--components/common/yjy-money/yjy-money.wxml-->
+<view class='line-bar'>
+  <view 
+    class='li {{item.name==money?"cur":""}}' 
+    wx:for='{{moneyList}}' 
+    wx:for-item='item'
+    wx:key='{{item.name}}'
+    bindtap='lineChange' 
+    data-m-start='{{item.mStart}}' 
+    data-m-end='{{item.mEnd}}' 
+    data-name='{{item.name}}' 
+  >
+  {{item.name}}
+  </view>
+  <view class='li custom'>
+    自定义
+    <input 
+      type='number' 
+      bindinput='bindMoney' 
+      data-site='0'
+      value='{{customStartMoney}}'
+    >
+    </input>
+    至
+    <input 
+      type='number' 
+      bindinput='bindMoney' 
+      data-site='1'
+      value='{{customEndMoney}}'
+    >
+    </input>万
+    <button size='mini' bindtap='customtBtn'>确定</button>
+  </view>
+</view>

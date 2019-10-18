@@ -1,0 +1,42 @@
+<view class='shadeBox' wx:if='{{isShade}}'>
+</view>
+<view class='container'>
+  <view>
+    <view class='date-address'>
+      <picker mode="date" value="{{selectDate}}" start="2016-08-01" bindchange="bindDateChange" fields='month'>
+        <view class='date-show'>
+          {{year}}年{{month}}月
+          <!-- <view class='month'>{{month}}月</view>
+          <view class='yy-dd'>
+            <view>{{year}}年</view>
+            </view> -->
+          <image src='../../../images/triangle.png'></image>
+        </view>
+      </picker>
+      <view class='address'>
+        <regionSelect id="test" bind:regionSelectEvent="regionSelectEvent"></regionSelect>
+      </view>
+    </view>
+  </view>
+  <view class='header'>
+    <view wx:for='{{date}}' class='{{(index == todayIndex) && isTodayWeek ? "weekMark" : ""}}' wx:key="{{index}}">{{item}}
+      <view></view>
+    </view>
+  </view>
+  <view class='date-box'>
+    <view wx:for='{{dateArr}}' class='{{isToday == item.isToday ? "nowDay" : ""}}' data-date='{{item.isToday}}' bindtap="{{item.tag?'':'showTodayTender'}}" wx:key="{{index}}">
+      <view class='date-head' style="border-right: 1px solid #E0E0E0;border-bottom: 1px solid #E0E0E0;">
+        <view class="{{item.tag?'nextMonth':''}}">{{item.dateNum}}</view>
+      </view>
+      <view class='tag' wx:if='{{item.count}}'>
+        {{item.count}}
+      </view>
+    </view>
+  </view>
+  <view class='list-head'>
+    ——
+    <text>{{isToday}} 开标项目</text>——</view>
+  <view class='container-body'>
+    <bidList listData="{{bidList}}" messageText="{{listMsg}}" isMessage="{{isMessage}}" isLoad="{{isLoad}}" tradeCountList="{{tradeCountList}}" collect="{{collect}}" bind:tradeSearchEvent="tradeSearch"></bidList>
+  </view>
+</view>

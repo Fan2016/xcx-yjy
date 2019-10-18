@@ -1,0 +1,357 @@
+// components/common/filtrate/filtrate.js
+var app = getApp(), commonJs = require('../../../utils/common'), treeUtil = commonJs.treeUtil,
+DateFormat = commonJs.DateFormat
+Component({
+  /**
+   * 组件的属性列表
+   */
+  properties: {
+    top: {
+      type: String,
+      value: '0'
+    },
+    isSel: {
+      type: Boolean,
+      value: false
+    },
+    pick: {
+      type: Array,
+      value: []
+    }
+  },
+
+  /**
+   * 组件的初始数据
+   */
+  data: {
+    selShow: '',
+    time: '时间',
+    state: '状态',
+    money: '金额',
+    tradeVal: '',
+    stateVal: '',
+    startMoney: '',
+    endMoney: '',
+    customStartMoney: '',
+    customEndMoney: '',
+    startDate: '',
+    endDate: '',
+    customStartDate: '',
+    customEndDate: '',
+    area: '地区',
+    areaVal: '',
+    areaTopVal: '',
+    areaSubList: [],
+    trade: '行业',
+    tradeTopVal: '',
+    tradeSubList: [],
+    areaTop: [],
+    areaSub: {
+    },
+    tradeTop: [],
+    tradeSub: {
+      全部: []
+    },
+    timeList: [],
+    stateList: [],
+    moneyList: []
+  },
+
+  /**
+   * 组件的方法列表
+   */
+  ready(){
+    var option = app.option, area = new treeUtil([...option.area], 'ID', 'PID'), areaTop = [{ NAME: '全国', ID: '' }], areaSub = { '全国': [] }, trade = new treeUtil([...option.trade], 'ID', 'PID'), tradeTop = [{ NAME: '全部', CODE: '' }], tradeSub = { };
+    area.toTree().forEach(item=>{
+      areaTop.push({ NAME: item.NAME, ID: item.ID.substr(0,2)})//省级取两位
+      areaSub[item.NAME] = [{ NAME: '全部', ID: item.ID.substr(0, 2)}].concat(item.children)
+    });
+      trade.toTree().forEach(item => {
+        tradeTop.push({ NAME: item.NAME, CODE: item.CODE })
+        tradeSub[item.NAME] = [{ NAME: '全部', CODE: item.CODE }].concat(item.children)
+      })
+      tradeSub['全部']=[]
+      this.setData({
+        timeList: option.time,
+        stateList: option.state,
+        moneyList: option.money,
+        areaTop: areaTop,
+        areaSub: areaSub,
+        tradeTop: tradeTop,
+        tradeSub: tradeSub
+      })
+    var pick = this.data.pick, that = this;
+    wx.nextTick(()=>{
+      if (pick.length) {
+        pick.forEach(item => {
+          if (item.type =='trade'){
+            that.setData({
+              [item.type +'TopVal']: item.val,
+              [item.type + 'SubList']: that.data[item.type + 'Sub'][item.val],
+              [item.type]: item.val
+            })
+          } else if (item.type =='area'){
+            that.setData({
+              [item.type + 'TopVal']: item.parent,
+              [item.type + 'SubList']: that.data[item.type + 'Sub'][item.parent],
+              [item.type]: item.val
+            })
+          }     
+        })
+      }
+    }) 
+  },
+  methods: {
+    selType(e) {
+      var val = e.target.dataset.type,
+        isSel = true;
+      if (this.data.selShow == val) isSel = !this.data.isSel;
+      this.setData({
+        selShow: val,
+        isSel: isSel
+      })
+      this.triggerEvent('filtrateEvent', {
+        type: 'toggle',
+        isSel: isSel
+      })
+    },
+    barChange(e) {
+      var level = e.target.dataset.level,
+        param = e.target.dataset.param,
+        moldName = this.data.selShow,
+        key = {
+          topVal: moldName + "TopVal",
+          subList: moldName + "SubList",
+          sub: moldName + 'Sub',
+          type: moldName
+        },
+        isSel = true;
+      if (level == '1') {
+        let showType = ''
+        if (param.NAME == "全国" || param.NAME == "全部") {
+          isSel = false
+          this.setData({
+            [key.type]: param.NAME,
+          })
+          this.triggerEvent('filtrateEvent', {
+            type: 'search',
+            isSel: false,
+            selType: moldName,
+            selVal: moldName == 'area' ? param.ID : param.CODE
+          })
+        } else {
+          showType = param.NAME
+
+        };
+        this.setData({
+          [key.topVal]: param.NAME,
+          [key.subList]: this.data[key.sub][param.NAME],
+          isSel: isSel
+        })
+  
+      } else if (level == '2') {
+        let showType = ''
+        if (param.NAME == "全部") {
+          showType = this.data[key.topVal]
+        } else {
+          showType = param.NAME
+        }
+        this.setData({
+          [key.type]: showType,
+          isSel: false
+        })
+        this.triggerEvent('filtrateEvent', {
+          type: 'search',
+          isSel: false,
+          selType: moldName,
+          selVal: moldName == 'area' ? param.ID : param.CODE
+        })
+      }    
+    },
+    lineChange(e) {
+      var moldName = this.data.selShow,
+        val = e.target.dataset.val,
+        name = e.target.dataset.name,
+        startDate = '',
+        endDate = '',
+        mStart = '',
+        mEnd='';
+      if (moldName == 'time') {     
+        var curDate = new Date(),
+          endDate = '',
+          num;
+        if (val === '') {
+          startDate = ''
+          endDate = ''
+        } else if (val == 0) {
+          endDate = startDate = DateFormat("yyyy-MM-dd");
+        } else {
+          startDate = DateFormat("yyyy-MM-dd");
+             endDate = DateFormat("yyyy-MM-dd", new Date(curDate.setDate(curDate.getDate() + Number(val)))) ;
+        }
+        this.setData({
+          time: name,
+          startDate: startDate,
+          endDate: endDate,
+          isSel: false
+        })
+      } else if (moldName == 'state') {
+        this.setData({
+          state: name,
+          stateVal: val,
+          isSel: false
+        })
+      } else if (moldName == 'money') {
+        mStart = e.target.dataset.mStart, mEnd = e.target.dataset.mEnd;
+        this.setData({
+          money: name,
+          startMoney: mStart,
+          endMoney: mEnd,
+          isSel: false
+        })
+      }
+      var selVal=''
+      switch (moldName){
+        case 'time':
+          selVal = {
+            startDate: startDate,
+            endDate: endDate}
+        break
+        case 'state':
+          selVal = val
+          break
+        case 'money':
+          selVal = {
+            startMoney: mStart,
+            endMoney: mEnd,
+          }
+          break
+      }
+      this.triggerEvent('filtrateEvent', {
+        type: 'search',
+        isSel: false,
+        selType: moldName,
+        selVal: selVal
+      })
+    },
+    bindStartDate(e) {
+      this.setData({
+        customStartDate: e.detail.value
+      })
+    },
+    bindEndDate(e) {
+      this.setData({
+        customEndDate: e.detail.value
+      })
+    },
+    customtBtn() {
+      var moldName = this.data.selShow, startDate, endDate, startMoney, endMoney;
+      if (moldName == 'time') {
+          startDate = this.data.customStartDate,
+          endDate = this.data.customEndDate
+        if (!startDate || !endDate) {
+          wx.showToast({
+            title: '请完整填写自定义',
+            icon: 'success',
+            duration: 1500,
+            mask: true
+          })
+          return
+        }
+        this.setData({
+          time: '自定义',
+          startDate: startDate,
+          endDate: endDate,
+          isSel: false
+        })
+      } else if (moldName == 'money') {
+          startMoney = this.data.customStartMoney,
+          endMoney = this.data.customEndMoney;
+          let falg=false,msg='';
+        if (!startMoney || !endMoney) {
+          msg = '请完整填写自定义';
+          falg=true;
+        }
+        if (Number(startMoney) > Number(endMoney)) {
+          msg = '小值大于最大值';
+          falg = true;
+        }
+        if(falg){
+          wx.showToast({
+            title: msg,
+            image: '../../../images/warn.png',
+            duration: 1500,
+            mask: true
+          })
+          return
+        }
+        this.setData({
+          money: '自定义',
+          startMoney: startMoney,
+          endMoney: endMoney,
+          isSel: false
+        })
+      }
+      var selVal = ''
+      switch (moldName) {
+        case 'time':
+          selVal = {
+            startDate: startDate,
+            endDate: endDate
+          }
+          break
+        case 'money':
+          selVal = {
+            startMoney: startMoney*10000,
+            endMoney: endMoney * 10000,
+          }
+          break
+      }
+      this.triggerEvent('filtrateEvent', {
+        type: 'search',
+        isSel: false,
+        selType: moldName,
+        selVal: selVal
+      })
+    },
+    bindMoney(e) {
+      var val = e.detail.value || '',
+        site = e.target.dataset.site;
+      if (site == 0) {
+        this.setData({
+          customStartMoney: val
+        })
+      } else if (site == 1) {
+        this.setData({
+          customEndMoney: val
+        })
+      }
+    },
+    reset() {
+      this.setData({
+        isSel: false,
+        selShow: '',
+        time: '时间',
+        state: '状态',
+        money: '金额',
+        tradeVal: '',
+        stateVal: '',
+        startMoney: '',
+        endMoney: '',
+        customStartMoney: '',
+        customEndMoney: '',
+        startDate: '',
+        endDate: '',
+        customStartDate: '',
+        customEndDate: '',
+        area: '地区',
+        areaVal: '',
+        areaTopVal: '',
+        areaSubList: [],
+        trade: '行业',
+        tradeTopVal: '',
+        tradeSubList: [],
+      })
+    }
+  }
+})

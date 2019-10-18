@@ -1,0 +1,19 @@
+<!--pages/subscription/index/configComponentList/configComponentList.wxml-->
+<view class='ssp-conf-types-container'>
+  <view class='ssp-conf-types-item' wx:if='{{nameCode=="category"}}'>
+    <yjy-trade class='ssp-conf-types-item-comp' bind:yjy-trade='changeSspConfCategory' tradeObj='{{sspConf.category}}'>
+    </yjy-trade>
+  </view>
+  <view class='ssp-conf-types-item' wx:if='{{nameCode=="region"}}'>
+    <yjy-area class='ssp-conf-types-item-comp' bind:yjy-area='changeSspConfRegion' regionObj='{{sspConf.region}}'>
+    </yjy-area>
+  </view>
+  <view class='ssp-conf-types-item' wx:if='{{nameCode==="price"}}'>
+    <yjy-money class='ssp-conf-types-item-comp' bind:yjy-money='changeSspConfPrice' priceObj='{{sspConf.price}}'>
+    </yjy-money>
+  </view>
+  <view class='ssp-conf-types-item' wx:if='{{nameCode==="time"}}'>
+    <yjy-time class='ssp-conf-types-item-comp' bind:yjy-time='changeSspConfTime' timeObj='{{sspConf.time}}'>
+    </yjy-time>
+  </view>
+</view>

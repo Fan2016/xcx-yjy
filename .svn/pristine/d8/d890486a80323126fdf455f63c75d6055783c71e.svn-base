@@ -1,0 +1,7 @@
+<block class="address">
+  <picker mode="multiSelector" bindchange="bindRegionChange" bindcolumnchange="bindRegionColumnChange" value="{{regionValue}}" range="{{regionArray}}" range-key="NAME">
+    <view class="picker">
+     <text wx-if='{{!isAlone}}'>{{proObject.NAME}}{{cityObject.ID!='1111'?"-"+cityObject.NAME:""}}</text><text wx:else>{{aimArea}}</text><image src="../../../images/triangle.png"></image>
+    </view>
+  </picker>
+</block>

@@ -1,0 +1,8 @@
+{
+    "usingComponents": {
+      "search": "/components/common/search/search",
+      "bidList": "/components/common/bid-list/bid-list",
+      "filtrate": "/components/common/filtrate/filtrate"
+    },
+    "navigationBarTitleText": "项目列表"
+}

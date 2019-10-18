@@ -1,0 +1,8 @@
+{
+  "navigationBarTitleText": "订阅",
+  "usingComponents": {
+    "search": "/components/common/search/search",
+    "bidList": "/components/common/bid-list/bid-list",
+    "footerBar": "/components/common/footer-bar/footer-bar"
+  }
+}

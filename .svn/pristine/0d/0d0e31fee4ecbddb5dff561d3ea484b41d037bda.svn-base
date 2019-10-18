@@ -1,0 +1,14 @@
+<!--pages/subscription/index/index.wxml-->
+<view class='container'>
+  <search bind:searchEvent="fetchSearch"></search>
+  <view class='container-body'>
+    <view class='bid-list'>
+      <bidList listData="{{bidList}}" messageText="{{listMsg}}" isMessage="{{isMessage}}" isLoad="{{isLoad}}"></bidList>
+    </view>
+  </view>
+  <view class='floatTool'>
+    <navigator url='../../../pages/homePage/calendar/calendar'>
+      <image src='../../../images/dingYueSetting.png'></image>
+    </navigator>
+  </view>
+</view>

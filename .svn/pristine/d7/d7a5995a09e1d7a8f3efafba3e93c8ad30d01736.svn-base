@@ -1,0 +1,69 @@
+// components/commonbid-list/bid-list.js
+Component({
+  /**
+   * 组件的属性列表
+   */
+  properties: {
+    listData:{
+      type: Array,
+      value:[]
+    },
+    type: {
+      type: String,
+      value: 'default'
+    },
+    noData:{
+      type:String,
+      value:"暂无数据",
+    },
+    messageText: {
+      type: String,
+      value:'加载...'
+    },
+    isMessage:{
+      type: Boolean,
+      value:false
+    },
+    isLoad: {
+      type: Boolean,
+      value: false
+    },
+    isCollect: {
+      type: Boolean,
+      value: true
+    },
+    isRecordSubView: {//是否记录订阅查看数据
+      type: Boolean,
+      value: false
+    },
+  },
+
+  /**
+   * 组件的初始数据
+   */
+  data: {
+
+  },
+  /**
+   * 组件的方法列表
+   */
+  methods: {
+    click(e){
+      let data = e.currentTarget.dataset.param;
+      if (data.componentName)//是关注或者参与的列表以及有new的标志，点击后new去掉&& data.isView
+      {
+        let str = 'listData[' + e.currentTarget.dataset.index +']';
+        this.setData({
+          [str]: Object.assign(data, { isView:false}),
+        })
+        this.triggerEvent('ClickBySID', e.currentTarget.dataset.param.SOURCE_ID)
+      }
+      else if (this.data.isRecordSubView){
+        this.triggerEvent('clickEvent', {val: e.currentTarget.dataset.index})
+        var id = e.currentTarget.id,viewPush = wx.getStorageSync('viewPush')||{};
+        viewPush[id]=true;
+        wx.setStorageSync('viewPush',viewPush)
+      }
+    }
+  }
+})

@@ -1,0 +1,94 @@
+// components/common/region-select/region-select.js
+var app = getApp(), commonJs = require('../../../utils/common'), treeUtil = commonJs.treeUtil,
+  ajax = commonJs.ajax
+Component({
+  /**
+   * 组件的属性列表
+   */
+  properties: {
+  },
+
+  /**
+   * 组件的初始数据
+   */
+  data: {
+    regionArray: [], //地区数组
+    regionValue: [], //当前选中的地区
+    proObject: {
+      NAME: "全国",
+      ID: "0000",
+    }, //最终的省的对象
+    cityObject: {
+      NAME: "全部",
+      ID: "1111"
+    }, //最终市的对象
+  },
+
+  /**
+   * 组件的方法列表
+   */
+    attached() {
+      this.getRegion();
+    },
+  methods: {
+    getRegion() {
+      var opiton = {},
+        area = [];
+      setTimeout(() => {
+        opiton = app.option;
+        area = (new treeUtil([...app.option.area], 'ID', 'PID')).toTree();
+        var allPro = [{
+          NAME: "全国",
+          ID: "0000",
+          children: [{
+            NAME: "全部",
+            ID: "1111"
+          }]
+        }];
+        var pro = [...allPro, ...area];
+        var city = [...pro[0].children];
+        this.setData({
+          regionArray: [pro, city],
+          regionValue: [0, 0],
+          proObject: pro[0], //默认第一个省份
+          cityObject: city[0], //默认第一个省份的第一个市
+        })
+      }, 500)
+    },
+    bindRegionChange: function (e) {
+      console.log('地区选择改变，携带值为', e.detail.value)
+      this.setData({
+        proObject: this.data.regionArray[0][e.detail.value[0]],
+        cityObject: this.data.regionArray[1][e.detail.value[1]],
+      })
+      var AREA_CODE = this.data.cityObject.ID === "1111" ? this.data.proObject.ID == "0000" ? "" : this.data.proObject.ID.substring(0, 2) : this.data.cityObject.ID;
+      this.triggerEvent('regionSelectEvent', {
+        AREA_CODE: AREA_CODE,
+        proObject: this.data.proObject,
+        cityObject: this.data.cityObject,
+      })
+    },
+    bindRegionColumnChange: function (e) {
+      var allCity = [{
+        NAME: "全部",
+        ID: "1111"
+      }];
+      var data = {
+        regionArray: this.data.regionArray,
+        regionValue: this.data.regionValue
+      };
+      switch (e.detail.column) {
+        case 0:
+
+          data.regionArray[1] = [...allCity, ...data.regionArray[e.detail.column][e.detail.value].children]; //当选择省份发生改变，市的数据也要改变
+          data.regionValue[0] = e.detail.value; //选中的省份
+          data.regionValue[1] = 0; //当选择省份发生改变，市的数据也要改变并且默认第一个
+          break;
+        case 1:
+          data.regionValue[1] = e.detail.value; //当选择市区发生改变
+          break;
+      }
+      this.setData(data)
+    },
+  }
+})

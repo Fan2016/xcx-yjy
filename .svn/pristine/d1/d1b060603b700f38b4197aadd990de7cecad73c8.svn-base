@@ -1,0 +1,421 @@
+// pages/homePage/projectSearchList/projectSearchList.js
+Page({
+
+  /**
+   * 页面的初始数据
+   */
+  data: {
+    bidList: [{
+      isCollect: false
+    }, {
+      isCollect: true
+    }, {
+      isCollect: true
+    }, {
+      isCollect: true
+    }, {
+      isCollect: true
+    }, {
+      isCollect: true
+    }, {
+      isCollect: true
+    }, ],
+    isSel: false,
+    selShow: '',
+    time: '时间',
+    state: '状态',
+    money: '金额',
+    tradeVal: '',
+    stateVal: '',
+    startMoney: '',
+    endMoney: '',
+    customStartMoney: '',
+    customEndMoney: '',
+    startDate: '',
+    endDate: '',
+    customStartDate: '',
+    customEndDate: '',
+    area: '地区',
+    areaVal: '',
+    areaTopVal: '',
+    areaSubList: [],
+    trade: '行业',
+    tradeTopVal: '',
+    tradeSubList: [],
+    areaTop: ['全国', '福建', '湖南省'],
+    areaSub: {
+      全国: [],
+      福建: ['全省', '三明市', '福州市'],
+      湖南省: ['全省', '邵阳市', '张家界市', '湘西土家族苗族自治州']
+    },
+    tradeTop: ['全部', '工程建设', '政府采购'],
+    tradeSub: {
+      全部: [],
+      工程建设: ['全部', '房屋建设', '市政', '水利'],
+      政府采购: ['全部', '邮电通信', '能源', '市政']
+    },
+    timeList: [{
+      name: '全部',
+      val: ''
+    }, {
+      name: '今天',
+      val: 0
+    }, {
+      name: '近三天',
+      val: 3
+    }, {
+      name: '近十天',
+      val: 10
+    }, {
+      name: '近一月',
+      val: 30
+    }, {
+      name: '近三月',
+      val: 90
+    }],
+    stateList: [{
+      name: '全部',
+      val: ''
+    }, {
+      name: '待开标',
+      val: 1
+    }, {
+      name: '已开标',
+      val: 2
+    }, {
+      name: '其他',
+      val: 3
+    }],
+    moneyList: [{
+      name: '全部',
+      val: 'a'
+    }, {
+      name: '400万以下',
+      val: 'b'
+    }, {
+      name: '400万 ~ 1000万',
+      val: 'c'
+    }, {
+      name: '1000万 ~ 3000万',
+      val: 'd'
+    }, {
+      name: '3000万 ~ 5000万',
+      val: 'e'
+    }, {
+      name: '5000万以上',
+      val: 'f'
+    }]
+
+  },
+  colse() {
+    this.setData({
+      isSel: false
+    })
+  },
+  fetchSearch() {
+
+  },
+  fetchfiltrate(val) {
+    var param = val.detail,
+      handleType = param.type,
+      isSel = param.isSel;
+    if (handleType == 'toggle') {
+      this.setData({
+        isSel: isSel
+      })
+    } else if (handleType == 'search') {
+      this.setData({
+        isSel: isSel
+      })
+    }
+  },
+  selType(e) {
+    var val = e.target.dataset.type,
+      isSel = true;
+    if (this.data.selShow == val) isSel = !this.data.isSel;
+    this.setData({
+      selShow: val,
+      isSel: isSel
+    })
+  },
+  barChange(e) {
+    var level = e.target.dataset.level,
+      param = e.target.dataset.param,
+      moldName = this.data.selShow,
+      key = {
+        topVal: moldName + "TopVal",
+        subList: moldName + "SubList",
+        sub: moldName + 'Sub',
+        type: moldName
+      },
+      isSel = true;
+    if (level == '1') {
+      let showType = ''
+      if (param == "全国" || param == "全部") {
+        isSel = false
+        this.setData({
+          [key.type]: param,
+        })
+      } else {
+        showType = param
+
+      };
+      this.setData({
+        [key.topVal]: param,
+        [key.subList]: this.data[key.sub][param],
+        isSel: isSel
+      })
+    } else if (level == '2') {
+      let showType = ''
+      if (param == "全省" || param == "全部") {
+        showType = this.data[key.topVal]
+      } else {
+        showType = param
+      }
+      this.setData({
+        [key.type]: showType,
+        isSel: false
+      })
+    }
+  },
+  lineChange(e) {
+    var moldName = this.data.selShow,
+      val = e.target.dataset.val,
+      name = e.target.dataset.name,
+      startDate = '',
+      endDate = '';
+    console.log(val)
+    if (moldName == 'time') {
+      var curDate = new Date(),
+        endDate = '',
+        num;
+      if (val == '全部') {
+        startDate = ''
+        endDate = ''
+      } else if (val == 0) {
+        endDate = startDate = this.DateFormat("yyyy-MM-dd");
+      } else {
+        endDate = this.DateFormat("yyyy-MM-dd", new Date(curDate.setDate(curDate.getDate() + Number(val))))
+        startDate = this.DateFormat("yyyy-MM-dd");
+      }
+      this.setData({
+        time: name,
+        startDate: startDate,
+        endDate: endDate,
+        isSel: false
+      })
+    } else if (moldName == 'state') {
+      this.setData({
+        state: name,
+        stateVal: val,
+        isSel: false
+      })
+    } else if (moldName == 'money') {
+      let mStart, mEnd;
+      switch (val) {
+        case 'a':
+          mStart = '';
+          mEnd = ''
+          break;
+        case 'b':
+          mStart = 0;
+          mEnd = 400
+          break;
+        case 'c':
+          mStart = 400;
+          mEnd = 1000
+          break;
+        case 'd':
+          mStart = 1000;
+          mEnd = 3000
+          break;
+        case 'e':
+          mStart = 3000;
+          mEnd = 5000
+          break;
+        case 'f':
+          mStart = 5000;
+          mEnd = ''
+          break;
+      }
+      this.setData({
+        money: name,
+        startMoney: mStart,
+        endMoney: mEnd,
+        isSel: false
+      })
+    }
+
+  },
+  bindStartDate(e) {
+    this.setData({
+      customStartDate: e.detail.value
+    })
+  },
+  bindEndDate(e) {
+    this.setData({
+      customEndDate: e.detail.value
+    })
+  },
+  customtBtn() {
+    var moldName = this.data.selShow;
+    if (moldName == 'time') {
+      let startDate = this.data.customStartDate,
+        endDate = this.data.customEndDate
+      if (!startDate || !endDate) {
+        wx.showToast({
+          title: '请完整填写自定义',
+          icon: 'success',
+          duration: 1500,
+          mask: true
+        })
+        return
+      }
+      this.setData({
+        time: '自定义',
+        startDate: startDate,
+        endDate: endDate,
+        isSel: false
+      })
+    } else if (moldName == 'money') {
+      let startMoney = this.data.customStartMoney,
+        endMoney = this.data.customEndMoney
+      if (!startMoney || !endMoney) {
+        wx.showToast({
+          title: '请完整填写自定义',
+          icon: 'success',
+          duration: 1500,
+          mask: true
+        })
+        return
+      }
+      this.setData({
+        money: '自定义',
+        startMoney: startMoney,
+        endMoney: endMoney,
+        isSel: false
+      })
+    }
+
+  },
+  bindMoney(e) {
+    var val = e.detail.value || '',
+      site = e.target.dataset.site;
+    if (site == 0) {
+      this.setData({
+        customStartMoney: val
+      })
+    } else if (site == 1) {
+      this.setData({
+        customEndMoney: val
+      })
+    }
+  },
+  reset() {
+    this.setData({
+      isSel: false,
+      selShow: '',
+      time: '时间',
+      state: '状态',
+      money: '金额',
+      tradeVal: '',
+      stateVal: '',
+      startMoney: '',
+      endMoney: '',
+      customStartMoney: '',
+      customEndMoney: '',
+      startDate: '',
+      endDate: '',
+      customStartDate: '',
+      customEndDate: '',
+      area: '地区',
+      areaVal: '',
+      areaTopVal: '',
+      areaSubList: [],
+      trade: '行业',
+      tradeTopVal: '',
+      tradeSubList: [],
+    })
+  },
+  DateFormat(format, date) {
+    if (!date) {
+      date = new Date();
+    }
+    var o = {
+      "y+": date.getYear(), //year
+      "M+": date.getMonth() + 1, //month
+      "d+": date.getDate(), //day
+      "h+": date.getHours(), //hour
+      "H+": date.getHours(), //hour
+      "m+": date.getMinutes(), //minute
+      "s+": date.getSeconds(), //second
+      "q+": Math.floor((date.getMonth() + 3) / 3), //quarter
+      "S": date.getMilliseconds() //millisecond
+    }
+    if (/(y+)/.test(format))
+      format = format.replace(RegExp.$1,
+        (date.getFullYear() + "").substr(4 - RegExp.$1.length));
+    for (var k in o)
+      if (new RegExp("(" + k + ")").test(format))
+        format = format.replace(RegExp.$1,
+          RegExp.$1.length == 1 ? o[k] :
+          ("00" + o[k]).substr(("" + o[k]).length));
+    return format;
+
+  },
+  /**
+   * 生命周期函数--监听页面加载
+   */
+  onLoad: function(options) {
+
+  },
+
+  /**
+   * 生命周期函数--监听页面初次渲染完成
+   */
+  onReady: function() {
+
+  },
+
+  /**
+   * 生命周期函数--监听页面显示
+   */
+  onShow: function() {
+
+  },
+
+  /**
+   * 生命周期函数--监听页面隐藏
+   */
+  onHide: function() {
+
+  },
+
+  /**
+   * 生命周期函数--监听页面卸载
+   */
+  onUnload: function() {
+
+  },
+
+  /**
+   * 页面相关事件处理函数--监听用户下拉动作
+   */
+  onPullDownRefresh: function() {
+
+  },
+
+  /**
+   * 页面上拉触底事件的处理函数
+   */
+  onReachBottom: function() {
+
+  },
+
+  /**
+   * 用户点击右上角分享
+   */
+  onShareAppMessage: function() {
+
+  }
+})

@@ -1,0 +1,115 @@
+/* pages/projectDetail/projectDetail.wxss */ 
+page{
+  background: #f5f5f5;
+}
+.container-body{
+  padding: 20rpx 20rpx 0;
+}
+.article-head,.article-remind,.article-main{
+  background:#fff;
+  padding: 20rpx;
+  margin-bottom: 20rpx;
+  border-radius: 8rpx;
+  box-shadow: 1px 1px 2px #e5e5e5;
+}
+.article-head .tag{
+  color: #fff;
+  background: #1c87d8;
+  border-radius: 5rpx;
+  padding: 1rpx 5rpx;
+  margin: 0 20rpx;
+}
+.ah-up{
+  margin-top:10rpx;
+  font-size: 24rpx;
+}
+.ah-up text{
+  color:#959595; 
+}
+.article-remind{
+  display: flex;
+   font-size: 24rpx;
+   color:#959595; 
+}
+.article-remind .state{
+  padding-right: 30rpx;
+  
+}
+.article-remind .time{
+   flex: 1
+}
+.article-remind  text{
+  color:#2388d3;
+  font-weight: bold;
+  font-size: 26rpx
+}
+
+.tab-toggle{
+  margin-bottom: 40rpx;
+}
+.flow-space{
+  display: flex;
+}
+.flow-space .time{
+  padding-right:40rpx;
+  border-right:1px solid #ffded4;
+  position: relative;
+  font-size: 26rpx;
+  color: #666666;
+  text-align: right;
+}
+.flow-space .time text{
+  font-size: 30rpx;
+  color:#333333;
+  font-weight: bold;
+}
+.flow-space .time image{
+  position: absolute;
+  right: -15rpx;
+  top:0rpx;
+  width: 30rpx;
+  height: 30rpx;
+}
+.flow-space .time image.step{
+  width: 30rpx;
+  height: 30rpx;
+  right: -15rpx;
+}
+.flow-space .matter{
+  flex: 1;
+  padding-left: 40rpx;
+  text-align: left;
+}
+.flow-space .matter .tit{
+  font-size: 30rpx;
+  color:#333333;
+  font-weight: bold;
+}
+.flow-space .matter .intro{
+  font-size: 26rpx;
+  color:#333333;
+  margin-top:20rpx;
+}
+.flow-space .matter .skip{
+  font-size: 26rpx;
+  color:#1983d1;
+  text-align: right
+}
+.info-space .mold{
+  font-size: 30rpx;
+  font-weight: bold;
+}
+.info-space .mold:before{
+	content: '';
+	display: inline-block;
+	vertical-align: -8rpx;
+	width: 6rpx;
+	height: 40rpx;
+	background: #1983d1;
+	margin-right: 8rpx;
+}
+.info-space .content{
+  padding: 20rpx 0 20rpx 20rpx;
+  color: #333333;
+  font-size: 26rpx;
+}

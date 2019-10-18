@@ -1,0 +1,40 @@
+{
+  "pages": [
+    "pages/user/user",
+    "pages/homePage/calendar/calendar",
+    "pages/homePage/index/index",
+    "pages/homePage/projectSearchList/projectSearchList",
+    "pages/subscription/index/index",
+    "pages/user/index/index",
+    "pages/user/login/login",
+    "pages/ebid/projectDetail/projectDetail",
+    "pages/projectSearchList/projectSearchList",
+    "pages/login/login",
+    "pages/projectDetail/projectDetail"
+  ],
+  "window": {
+    "backgroundTextStyle": "light",
+    "navigationBarBackgroundColor": "#42aaec",
+    "navigationBarTitleText": "随行易交易",
+    "navigationBarTextStyle": "#fff"
+  },
+  "tabBar": {
+    "borderStyle": "white",
+    "selectedColor": "#000000",
+    "color": "#000000",
+    "list": [
+      {
+        "pagePath": "pages/homePage/index/index",
+        "iconPath": "images/home.png",
+        "selectedIconPath": "images/home-active.png",
+        "text": "首页"
+      },
+      {
+        "pagePath": "pages/user/user",
+        "iconPath": "images/user.png",
+        "selectedIconPath": "images/user-active.png",
+        "text": "我的"
+      }
+    ]
+  }
+}

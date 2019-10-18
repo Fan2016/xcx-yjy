@@ -1,0 +1,16 @@
+<!--components/common/footer-bar/footer-bar.wxml-->
+<view class='footer-bar'>
+  <view bindtap='redirection' id='{{indexUrl}}'>
+  <image src='{{indexUrl==pageUrl?"../../../images/home-active.png":"../../../images/home.png"}}'></image>
+  首页
+  </view>
+  <view bindtap='redirection' id='{{subscriptionUrl}}'>
+  <view class='tag' wx-if='{{subNum}}'>{{subNum>'99'?'...':subNum}}</view>
+  <image src='{{subscriptionUrl==pageUrl?"../../../images/dingyue-active.png":"../../../images/dingyue.png"}}'></image>
+  订阅
+  </view>
+  <view bindtap='redirection' id='{{userUrl}}'>
+  <image src='{{userUrl==pageUrl?"../../../images/user-active.png":"../../../images/user.png"}}'></image>
+  我的
+  </view>
+</view>

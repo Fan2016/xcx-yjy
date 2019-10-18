@@ -1,0 +1,183 @@
+var commonJs = require('../../../utils/common'),
+  ajax = commonJs.ajax
+Page({
+  /**
+   * 页面的初始数据
+   */
+  data: {
+    pageindexTotal: 3,
+    isMessage:true,//要不要提示
+    isLoad: false,//加载转圈圈要不要
+    listMsg: '',
+    bidList: [], 
+    isSel: false,
+    selParam: {
+      or: "OPEN_TIME",
+      pageindex: 1,
+      pagesize: 10,
+      NAME: '',
+      TYPE_ALL: '',
+      AREA_CODE: '',
+      OPEN_TIME_START: '',
+      OPEN_TIME_END: '',
+      CONTROL_PRICE_START: '',
+      CONTROL_PRICE_END: '',
+      in_status: '',
+      PUBLISHED_TIME_START: '',
+      PUBLISHED_TIME_END: '',
+      // method: 'Web.XCX_GetJiaoYiList',
+      method: 'Vip.XCX_GetJiaoYiList'
+    },
+  },
+  /**
+   * 生命周期函数--监听页面加载
+   */
+  //获取关注列表
+  getBidList(flag = false) {
+    var selParam = this.data.selParam
+    ajax({
+      url: '/Search/GetData',
+      data: selParam
+    }).then((res) => {
+      var res=commonJs.getDefalutResponse(res.data);
+      if (res.result) {
+        var total = Math.ceil(res.data.total / selParam.pagesize);
+        var bidList = [], listMsg = "", isLoad=false;
+        if (flag) {
+          bidList = [...res.data.data]
+        } else {
+          bidList = [...this.data.bidList, ...res.data.data];
+        }
+        if (bidList.length==0)
+        {
+          listMsg = '暂无数据';
+          isLoad = false;//加载转圈圈要不要
+        }
+        else if (this.data.selParam.pageindex>=total)
+        {
+          listMsg='已获取全部数据';
+            isLoad=false;//加载转圈圈要不要
+        }
+        else
+        {
+          isLoad = true;//加载转圈圈要不要
+          listMsg ='数据加载中...';
+        }
+        this.setData({
+          bidList: bidList,
+          listMsg: listMsg,
+          isLoad: isLoad,
+          pageindexTotal: total
+        })
+      }
+    })
+  },
+  fetchfiltrate(val) {
+    var param = val.detail,
+      handleType = param.type,
+      isSel = param.isSel,
+      selType = param.selType,
+      selVal = param.selVal;
+    if (handleType == 'toggle') {
+      this.setData({
+        isSel: isSel
+      })
+    } else if (handleType == 'search') {
+      let selParam = this.data.selParam, newSelParam = {};
+      selParam.pageindex = 1;
+      switch (selType) {
+        case 'area':
+          newSelParam = { AREA_CODE: selVal }
+          break;
+        case 'trade':
+          newSelParam = { TYPE_ALL: selVal }
+          break
+        case 'time':
+              newSelParam = { OPEN_TIME_START: selVal.startDate, OPEN_TIME_END: selVal.endDate }
+          break
+        case 'state':
+          newSelParam = { in_status: selVal }
+          break
+        case 'money':
+          newSelParam = { CONTROL_PRICE_START: selVal.startMoney, CONTROL_PRICE_END: selVal.endMoney }
+          break
+      }
+      this.setData({
+        isSel: isSel, 
+        bidList: [],
+        listMsg: '数据加载中...',
+        isLoad: true,//加载转圈圈要不要
+        selParam: Object.assign(selParam, newSelParam)
+      })
+      this.getBidList(true)
+    }
+  },
+  onLoad: function(options) {
+    wx.setNavigationBarTitle({
+      title: '我的关注',
+      success: function (res) {
+        // success
+      }
+    })
+    this.getBidList(true);
+  },
+
+  /**
+   * 生命周期函数--监听页面初次渲染完成
+   */
+  onReady: function() {
+
+  },
+
+  /**
+   * 生命周期函数--监听页面显示
+   */
+  onShow: function() {
+
+  },
+
+  /**
+   * 生命周期函数--监听页面隐藏
+   */
+  onHide: function() {
+
+  },
+
+  /**
+   * 生命周期函数--监听页面卸载
+   */
+  onUnload: function() {
+
+  },
+
+  /**
+   * 页面相关事件处理函数--监听用户下拉动作
+   */
+  onPullDownRefresh: function() {
+    console.log('Down')
+  },
+
+  /**
+   * 页面上拉触底事件的处理函数
+   */
+  onReachBottom: function () {
+    var pageindex = this.data.selParam.pageindex, 
+      pageindexTotal = this.data.pageindexTotal;
+
+    if ((pageindex < pageindexTotal)) {
+      this.data.selParam.pageindex = ++pageindex
+    } else if (pageindex >= pageindexTotal) {
+      console.log(pageindex)
+      return
+    } 
+    setTimeout(() => {
+      this.getBidList(false)
+    }, 1500)
+  },
+  /**
+   * 用户点击右上角分享
+   */
+  onShareAppMessage: function() {
+
+  }
+})

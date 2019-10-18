@@ -1,0 +1,60 @@
+<!--pages/index/index.wxml-->
+<view class='container'>
+  <search bind:searchEvent="fetchData"></search>
+  <view class="index-menu">
+    <navigator class="index-menu-item" wx:for="{{indexmenu}}" wx:key="{{item.url}}">
+      <image src="{{item.icon}}"></image>
+      <text>{{item.text}}</text>
+    </navigator>
+  </view>
+  <view class='index-deals'>
+    <view class='deals-tit'>交易汇总</view>
+    <view class='item'>
+      <view class='deals-type'>交易汇总</view>
+      <view class='deals-num'>456.25</view>
+    </view>
+    <view class='item'>
+      <view class='deals-type'>交易汇总</view>
+      <view class='deals-num'>446.25</view>
+    </view>
+    <view class='item'>
+      <view class='deals-type'>交易汇总总</view>
+      <view class='deals-num'>46.25</view>
+    </view>
+  </view>
+  <view class='banner'>
+    <swiper indicator-dots="{{indicatorDots}}" autoplay="{{autoplay}}" interval="{{interval}}" duration="{{duration}}" style='height:200rpx;margin:10px;' class="swiper-box">
+      <block wx:for-items="{{banner}}">
+        <swiper-item style="border-radius:5px">
+          <image src="{{item.pic_url}}" class="slide-image" style='height:200rpx' />
+        </swiper-item>
+      </block>
+    </swiper>
+  </view>
+  <view class='line'></view>
+  <view class='index-tab'>
+    <view class='item {{bidType=="kb"?"cur":""}}' data-type='kb' bindtap='cutBidType'>今日开标</view>
+    <view class='item {{bidType=="sb"?"cur":""}}' data-type='sb' bindtap='cutBidType'>今日上标</view>
+  </view>
+  <view class='bid-list'>
+    <view class='bid-box'>
+      <view class='bid-tit'>
+        <view class='state'>
+        <text>开</text>
+      </view>
+      <view class='title'>
+        <text>LZ(Z)2018-165-沈阳骐业粮食储备有限公司2018年围墙建设工程项目</text>
+      </view>
+      </view>
+      <view class='bid-tag'>
+        <text>福州市公共资源交易中心</text>
+        <text>施工</text>
+      </view>
+      <view class='bid-info'>
+      <image src='../../images/collect.png'></image>
+        <text>预算 ：985.77万元</text>
+        <text>开标 ：2018-10-11 09:00:00</text>
+      </view>
+    </view>
+  </view>
+</view>

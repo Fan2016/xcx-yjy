@@ -1,0 +1,168 @@
+var commonJs = require('../../../utils/common'),
+  ajax = commonJs.ajax
+Page({
+  /**
+   * 页面的初始数据
+   */
+  data: {
+    indexMenu: [{
+        IMG: '../../../images/info.png',
+        NAME: '信息完善',
+        isNew: false,
+      },
+      {
+        IMG: '../../../images/myCollect.png',
+        NAME: '我的关注',
+        isNew: true,
+      },
+      {
+        IMG: '../../../images/account.png',
+        NAME: '账号管理',
+        isNew: false,
+      },
+      {
+        IMG: '../../../images/join.png',
+        NAME: '我的参与',
+        isNew: true,
+      },
+      {
+        IMG: '../../../images/help.png',
+        NAME: '帮助中心',
+        isNew: false,
+      },
+      {
+        IMG: '../../../images/advice.png',
+        NAME: '意见反馈',
+        isNew: false,
+      }
+    ],
+    payMenu: [{
+        IMG: '../../../images/pay.png',
+        NAME: '账户充值'
+      },
+      {
+        IMG: '../../../images/jifen.png',
+        NAME: '积分使用'
+      }
+    ],
+    userInfo: {
+      nickName: "游客",
+      avatarUrl: "../../../images/userIcon.png",
+    }
+  },
+  onGotUserInfo: function(e) {
+    this.setData({
+      userInfo: e.detail.userInfo
+    })
+    wx.login({
+      success(res) {
+        if (res.code) {
+          console.log('登录成功！' + res.code)
+          //发起网络请求
+          wx.request({
+            url: 'http://192.168.118.154:6006/Login/IsLogin',
+            data: {
+              code: res.code
+            },
+            success(res) {
+              res = commonJs.getDefalutResponse(res)
+              if (res.result) {
+                wx.switchTab({
+                  url: '../../homePage/index/index'
+                })
+              } else {
+                wx.navigateTo({
+                  url: '../login/login'
+                })
+              }
+            }
+          })
+        } else {
+          console.log('登录失败！' + res.errMsg)
+        }
+      }
+    })
+  },
+  getIndexData() {
+    let that = this
+    ajax({ //获取行业类型
+      url: 'http://192.168.118.154:9001/api/GetDataHandler.ashx',
+      data: {
+        method: 'Web.XCX_GetGroupByType'
+      }
+    }).then((res) => {
+      var data = res.data.data
+      that.setData({
+        indexmenu: data
+      })
+    })
+  },
+  /**
+   * 生命周期函数--监听页面加载
+   */
+  onLoad: function(options) {
+    wx.setNavigationBarTitle({
+      title: '我的',
+      success: function(res) {
+        // success
+      }
+    })
+
+    // this.getIndexData()
+  },
+
+  /**
+   * 生命周期函数--监听页面初次渲染完成
+   */
+  onReady: function() {
+
+  },
+
+  /**
+   * 生命周期函数--监听页面显示
+   */
+  onShow: function() {
+
+  },
+
+  /**
+   * 生命周期函数--监听页面隐藏
+   */
+  onHide: function() {
+
+  },
+
+  /**
+   * 生命周期函数--监听页面卸载
+   */
+  onUnload: function() {
+
+  },
+
+  /**
+   * 页面相关事件处理函数--监听用户下拉动作
+   */
+  onPullDownRefresh: function() {
+    console.log('Down')
+  },
+
+  /**
+   * 页面上拉触底事件的处理函数
+   */
+  onReachBottom: function() {
+
+  },
+  /**
+   * 用户点击右上角分享
+   */
+  onShareAppMessage: function() {
+
+  }
+})
+// ajax({
+//   url: '',
+//   data: {
+//     method: ''
+//   }
+// }).then((res) => {
+// })

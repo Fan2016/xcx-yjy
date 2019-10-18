@@ -1,0 +1,33 @@
+<!--components/common/yjy-time/yjy-time.wxml-->
+<view class='line-bar'>
+  <view 
+    class='li {{item.name==time?"cur":""}}' 
+    wx:for='{{timeList}}' 
+    wx:for-item='item'
+    wx:key='{{item.name}}'
+    bindtap='lineChange'
+    data-val='{{item.val}}' 
+    data-name='{{item.name}}' 
+  >
+  {{item.name}}
+  </view>
+  <view class='li custom'>
+    自定义
+    <picker 
+      mode="date" 
+      bindchange="bindStartDate" 
+      end='{{customEndDate}}'
+    >
+      <text>{{customStartDate}}</text>
+    </picker>
+    至
+    <picker 
+      mode="date" 
+      bindchange="bindEndDate" 
+      start='{{customStartDate}}'
+    >
+      <text>{{customEndDate}}</text>
+    </picker>
+    <button size='mini' bindtap='customtBtn'>确定</button>
+  </view>
+</view>

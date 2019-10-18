@@ -1,0 +1,61 @@
+<view class='filtrate-box' style='top:{{top}};bottom:{{isSel?0:"auto"}}'>
+  <view class='select-bar'>
+    <view class='item {{selShow=="area"?"on":"off"}}' data-type='area' bindtap='selType'>{{area}}</view>
+    <view class='item {{selShow=="trade"?"on":"off"}}' data-type='trade' bindtap='selType'>{{trade}}</view>
+    <view class='item {{selShow=="time"?"on":"off"}}' data-type='time' bindtap='selType'>{{time=='全部'?'时间':time}}</view>
+    <view class='item {{selShow=="state"?"on":"off"}}' data-type='state' bindtap='selType'>{{state=='全部'?'状态':state}}</view>
+    <view class='item {{selShow=="money"?"on":"off"}}' data-type='money' bindtap='selType'>{{money=='全部'?'金额':money}}</view>
+  </view>
+  <view class='select-mod' wx:if='{{isSel}}' >
+    <view class='bar-mod' wx:if='{{selShow=="area"}}'>
+      <view class='left-mod'>
+        <view wx:for="{{areaTop}}" wx:for-item='item' bindtap='barChange' data-level='1' data-param='{{item}}' class='{{item.NAME==areaTopVal?"cur":""}}'>
+          {{item.NAME}}
+        </view>
+
+      </view>
+      <view class='right-mod'>
+        <view wx:for="{{areaSubList}}" wx:for-item='item' bindtap='barChange' data-level='2' data-param='{{item}}' class='{{item.NAME==area?"cur":""}} {{(area==areaTopVal&&item.NAME=="全部")?"cur":""}}'>
+          {{item.NAME}}</view>
+      </view>
+    </view>
+    <view class='bar-mod' wx:if='{{selShow=="trade"}}'>
+      <view class='left-mod'>
+        <view wx:for="{{tradeTop}}" wx:for-item='item' bindtap='barChange' data-level='1' data-param='{{item}}' class='{{item.NAME==tradeTopVal?"cur":""}} '>
+          {{item.NAME}}
+        </view>
+
+      </view>
+      <view class='right-mod'>
+        <view wx:for="{{tradeSubList}}" wx:for-item='item' bindtap='barChange' data-level='2' data-param='{{item}}' class='{{item.NAME==trade?"cur":""}} {{(trade==tradeTopVal&&item.NAME=="全部")?"cur":""}}'>
+          {{item.NAME}}</view>
+      </view>
+    </view>
+    <view wx:if='{{selShow=="time"}}' class='line-bar'>
+      <view class='li {{item.name==time?"cur":""}}' data-val='{{item.val}}' data-name='{{item.name}}' bindtap='lineChange' wx:for='{{timeList}}' wx:for-item='item'>{{item.name}}</view>
+      <view class='li custom'>
+        自定义
+        <picker mode="date" bindchange="bindStartDate" end='{{customEndDate}}'>
+          <text>{{customStartDate}}</text>
+        </picker>
+        至
+        <picker mode="date" bindchange="bindEndDate" start='{{customStartDate}}'>
+          <text>{{customEndDate}}</text>
+        </picker>
+        <button size='mini' bindtap='customtBtn'>确定</button>
+      </view>
+    </view>
+    <view wx:if='{{selShow=="state"}}' class='line-bar'>
+      <view class='li {{item.name==state?"cur":""}}' data-val='{{item.val}}' data-name='{{item.name}}' bindtap='lineChange' wx:for='{{stateList}}' wx:for-item='item'>{{item.name}}</view>
+    </view>
+    <view wx:if='{{selShow=="money"}}' class='line-bar'>
+      <view class='li {{item.name==money?"cur":""}}' data-m-start='{{item.mStart}}' data-m-end='{{item.mEnd}}' data-name='{{item.name}}' bindtap='lineChange' wx:for='{{moneyList}}' wx:for-item='item'>{{item.name}}</view>
+      <view class='li custom'>自定义
+        <input type='number' confirm-type='done' bindinput='bindMoney' value='{{customStartMoney}}' data-site='0'></input>至
+        <input type='number' confirm-type='done' bindinput='bindMoney' value='{{customEndMoney}}' data-site='1'></input>万
+        <button size='mini' bindtap='customtBtn'>确定</button>
+      </view>
+
+    </view>
+  </view>
+</view>

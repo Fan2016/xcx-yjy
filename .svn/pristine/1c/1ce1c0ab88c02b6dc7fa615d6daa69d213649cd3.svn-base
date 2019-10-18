@@ -1,0 +1,30 @@
+<view class='bar-mod'>
+  <view class='left-mod'>
+    <view 
+      wx:for="{{tradeTop}}"  
+      wx:for-item='item' 
+      wx:key='{{item.ID}}' 
+      bindtap='barChange' 
+      data-level='1' 
+      data-trade-item='{{item}}' 
+      class='{{item.NAME==tradeTopVal?"cur":""}}'
+    >
+      {{item.NAME}}
+    </view>
+
+  </view>
+  <view class='right-mod'>
+    <view 
+      wx:for="{{tradeSubList}}"  
+      wx:for-item='item' 
+      wx:key='{{item.ID}}' 
+      bindtap='barChange' 
+      data-level='2' 
+      data-trade-item='{{item}}' 
+      class='{{item.NAME==tradeSubVal?"cur":""}}'
+    >
+      {{item.NAME}}
+    </view>
+  </view>
+  
+</view>

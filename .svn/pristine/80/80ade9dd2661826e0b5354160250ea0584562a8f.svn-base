@@ -1,0 +1,32 @@
+{
+  "pages": [
+    "pages/index/index",
+    "pages/demo/demo"
+   
+  ],
+  "window": {
+    "backgroundTextStyle": "light",
+    "navigationBarBackgroundColor": "#42aaec",
+    "navigationBarTitleText": "随行易交易",
+    "navigationBarTextStyle": "#fff"
+  },
+  "tabBar": {
+    "borderStyle": "white",
+    "selectedColor": "#000000",
+    "color": "#000000",
+    "list": [
+      {
+        "pagePath": "pages/index/index",
+        "iconPath": "images/home.png",
+        "selectedIconPath": "images/home-active.png",
+        "text": "首页"
+      },
+          {
+            "pagePath": "pages/index/index",
+            "iconPath": "images/home.png",
+            "selectedIconPath": "images/home-active.png",
+            "text": "首页"
+          }
+    ]
+  }
+}

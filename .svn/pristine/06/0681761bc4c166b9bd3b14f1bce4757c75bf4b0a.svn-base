@@ -1,0 +1,16 @@
+<!--pages/user/participate/participate.wxml-->
+<view class='container'>
+  <view class='container-body'>
+    <filtrate bind:filtrateEvent="fetchfiltrate" isSel='{{isSel}}'></filtrate>
+    <view class="tab-menu">
+      <view class='line'></view>
+      <view class='tab-toggle'>
+        <view class='item {{bidType=="tb"?"cur":""}}' data-type='tb' bindtap='cutBidType'>投标项目</view>
+        <view class='item {{bidType=="zb"?"cur":""}}' data-type='zb' bindtap='cutBidType'>招标项目</view>
+      </view>
+    </view>
+    <view class='bid-list'>
+      <bidList listData="{{bidList}}" messageText="{{listMsg}}" isMessage="{{isMessage}}" isLoad="{{isLoad}}"></bidList>
+    </view>
+  </view>
+</view>

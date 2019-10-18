@@ -1,0 +1,281 @@
+var commonJs = require('../../../utils/common'),
+  ajax = commonJs.ajax
+Page({
+  /**
+   * 页面的初始数据
+   */
+  data: {
+    indexmenu: [
+      // {
+      //   IMG: '../../../images/gcjs.png',
+      //   NAME: '工程建设'
+      // },
+      // {
+      //   IMG: '../../../images/zfcg.png',
+      //   NAME: '政府采购'
+      // },
+      // {
+      //   IMG: '../../../images/qycg.png',
+      //   NAME: '企业采购'
+      // },
+      // {
+      //   IMG: '../../../images/cqjy.png',
+      //   NAME: '产权交易'
+      // },
+      // {
+      //   IMG: '../../../images/tdky.png',
+      //   NAME: '土地矿业'
+      // },
+      // {
+      //   IMG: '../../../images/qt.png',
+      //   NAME: '其他项目'
+      // }
+    ],
+    dealData: [
+      // {
+      //   "NAME": "交易总额",
+      //   "VAL": "5104296.86",
+      //   "UNIT": "万"
+      // },
+      // {
+      //   "NAME": "交易项目",
+      //   "VAL": "15345",
+      //   "UNIT": "个"
+      // },
+      // {
+      //   "NAME": "待开标数",
+      //   "VAL": "470",
+      //   "UNIT": "个"
+      // }
+    ],
+    indicatorDots: true,
+    autoplay: true,
+    interval: 3000,
+    duration: 100,
+    kbList: [],
+    kbPage: 1,
+    kbTotalPage: 3,
+    sbList: [],
+    sbPage: 1,
+    sbTotalPage: 0,
+    isLodaing: false,
+    listMsg: '',
+    bidList: [], // [{ isCollect: false }, { isCollect: true }, { isCollect: true }, { isCollect: true }, { isCollect: true },],
+    banner: [{
+        "IMG_URL": "http://www.4008705191.cn/static/img/banner3.png",
+      },
+      {
+        "IMG_URL": "http://www.4008705191.cn/static/img/banner1.png"
+      },
+      {
+        "IMG_URL": "http://www.4008705191.cn/static/img/banner.png"
+      },
+      {
+        "IMG_URL": "http://www.4008705191.cn/static/img/banner2.png"
+      },
+    ],
+    bidType: 'kb',
+  },
+  fetchData(param) {
+
+  },
+  fetchBidList(flag = false) {
+    var that = this,
+      type = that.data.bidType,
+      initData = [],
+      bidType = {
+        kb: 'kbList',
+        kbTotal: 'kbTotalPage',
+        sb: 'sbList',
+        sbTotal: 'sbTotalPage'
+      },
+      param, todayTime = commonJs.DateFormat('yyyy-MM-dd');
+    if (type == 'kb') {
+      param = {
+        method: 'Web.XCX_GetJiaoYiList',
+        pageindex: that.data.kbPage,
+        pagesize: 10,
+        or: 'PUBLISHED_TIME',
+        // PUBLISHED_TIME_START: '2018-11-27',
+        // PUBLISHED_TIME_END: '2018-11-27'
+        PUBLISHED_TIME_START: todayTime,
+        PUBLISHED_TIME_END: todayTime
+      }
+      initData = that.data.kbList;
+    } else {
+      param = {
+        method: 'Web.XCX_GetJiaoYiList',
+        pageindex: that.data.sbPage,
+        pagesize: 10,
+        or: 'OPEN_TIME',
+        // PUBLISHED_TIME_START: '2018-11-27',
+        // PUBLISHED_TIME_END: '2018-11-27'
+        OPEN_TIME_START: todayTime,
+        OPEN_TIME_END: todayTime
+      }
+      initData = that.data.sbList;
+    }
+    ajax({
+      url: 'http://192.168.118.154:9001/api/GetDataHandler.ashx',
+      data: param
+    }).then((res) => {
+      var data = [...initData, ...res.data.data],
+        total = Math.ceil(res.data.total / 10)
+      that.setData({
+        [bidType[type]]: data,
+        bidList: [...data],
+        [bidType[type + 'Total']]: total,
+        isLodaing: false
+      })
+    })
+  },
+  cutBidType(e) {
+    var val = e.target.dataset.type,
+      bidType = {
+        kb: 'kbList',
+        sb: 'sbList'
+      }
+    this.setData({
+      bidType: val,
+      isLoding: false
+    })
+    if (!this.data[bidType[val]].length) {
+      this.fetchBidList()
+    }else{
+      this.setData({
+        bidList: [...this.data[bidType[val]]]
+      })
+    };
+  },
+  getIndexData() {
+    let that = this
+    ajax({ //获取行业类型
+      url: 'http://192.168.118.154:9001/api/GetDataHandler.ashx',
+      data: {
+        method: 'Web.XCX_GetGroupByType'
+      }
+    }).then((res) => {
+      var data = res.data.data
+      that.setData({
+        indexmenu: data
+      })
+    })
+    ajax({ //获取交易汇总
+      url: 'http://192.168.118.154:9001/api/GetDataHandler.ashx',
+      data: {
+        method: 'Web.XCX_GetCountAmount'
+      }
+    }).then((res) => {
+      var data = res.data.data
+      that.setData({
+        dealData: data
+      })
+    })
+    ajax({ //轮播图
+      url: 'http://192.168.118.154:9001/api/GetDataHandler.ashx',
+      data: {
+        method: 'Web.GetNewsList',
+        in_type: '0d081bb7-c771-4b8b-8c3d-53f0d9c7d419',
+        pageindex: 1,
+        pagesize: 5
+      }
+    }).then((res) => {
+      var data = res.data.data
+      that.setData({
+        banner: data
+      })
+    })
+    this.fetchBidList()
+  },
+  /**
+   * 生命周期函数--监听页面加载
+   */
+  onLoad: function(options) {
+    this.getIndexData()
+    // this.fetchBidList()
+  },
+
+  /**
+   * 生命周期函数--监听页面初次渲染完成
+   */
+  onReady: function() {
+
+  },
+
+  /**
+   * 生命周期函数--监听页面显示
+   */
+  onShow: function() {
+
+  },
+
+  /**
+   * 生命周期函数--监听页面隐藏
+   */
+  onHide: function() {
+
+  },
+
+  /**
+   * 生命周期函数--监听页面卸载
+   */
+  onUnload: function() {
+
+  },
+
+  /**
+   * 页面相关事件处理函数--监听用户下拉动作
+   */
+  onPullDownRefresh: function() {
+    console.log('Down')
+  },
+
+  /**
+   * 页面上拉触底事件的处理函数
+   */
+  onReachBottom: function() {
+    var bidType = this.data.bidType,
+      kbTotalPage = this.data.kbTotalPage,
+      sbTotalPage = this.data.sbTotalPage,
+      kbPage = this.data.kbPage,
+      sbPage = this.data.sbPage,
+      isLodaing = this.data.isLodaing;
+
+    if (bidType == 'kb' && (kbPage < kbTotalPage) && !isLodaing) {
+      this.data.kbPage = ++kbPage
+      console.log(this.data.kbPage && !isLodaing)
+    } else if (bidType == 'sb' && (sbPage < sbTotalPage)) {
+      this.data.sbPage = ++sbPage
+    } else if (!(kbPage < kbTotalPage) || !(sbPage < sbTotalPage)) {
+      this.setData({
+        listMsg: '已获取全部数据',
+        isLodaing: true
+      })
+      return
+    } else {
+      return
+    }
+
+    this.setData({
+      listMsg: '数据加载中...',
+      isLodaing: true
+    })
+    setTimeout(() => {
+      this.fetchBidList()
+    }, 1500)
+
+  },
+  /**
+   * 用户点击右上角分享
+   */
+  onShareAppMessage: function() {
+
+  }
+})
+// ajax({
+//   url: '',
+//   data: {
+//     method: ''
+//   }
+// }).then((res) => {
+// })

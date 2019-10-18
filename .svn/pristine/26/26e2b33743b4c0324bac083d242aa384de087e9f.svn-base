@@ -1,0 +1,19 @@
+<!--components/common/home-slide/home-slide.wxml-->
+<view class='ad'>
+  <view class="page-section page-section-spacing swiper" style='height:{{H}}'>
+    <swiper indicator-dots="{{indicatorDots}}" autoplay="{{autoplay}}" circular="{{circular}}" vertical="{{vertical}}" interval="{{interval}}" duration="{{duration}}" previous-margin="{{previousMargin}}px" next-margin="{{nextMargin}}px" bindchange='bindchange'
+      bindtransition='bindtransition'>
+      <block wx:for="{{background}}" wx:key="*this">
+        <swiper-item>
+          <view class="swiper-item">
+            <image src='{{item}}'>
+            </image>
+            <view class='homeEnter' bindtap='nextImg' wx:if="{{index==background.length-1}}">
+              <text>立刻体验</text>
+            </view>
+          </view>
+        </swiper-item>
+      </block>
+    </swiper>
+  </view>
+</view>

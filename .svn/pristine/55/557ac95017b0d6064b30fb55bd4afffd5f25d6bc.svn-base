@@ -1,0 +1,349 @@
+var app = getApp(),
+  commonJs = require('../../../utils/common'),
+  ajax = commonJs.ajax, initBase = commonJs.initBase;
+Page({
+  /**
+   * 页面的初始数据
+   */
+  data: {
+    indexMenu: [
+      {
+        IMG: '../../../images/myCollect.png',
+        NAME: '我的关注',
+        id: "guanzhu",
+        url: '../login/login',
+        loginUrl: "../interest/interest",
+        isNew: false,
+        cancelNew:true,
+      },
+      {
+        IMG: '../../../images/join.png',
+        NAME: '我的参与',
+        id: "canyu",
+        loginUrl: "../participate/participate",
+        url: '../login/login',
+        isNew: false,
+        cancelNew: true,
+      },
+      // {
+      //   IMG: '../../../images/info.png',
+      //   NAME: '信息完善',
+      //   loginUrl: "",
+      //   url: '../login/login',
+      //   isNew: false,
+      // },
+      // {
+      //   IMG: '../../../images/account.png',
+      //   NAME: '账号管理',
+      //   loginUrl: "",
+      //   url: '../login/login',
+      //   isNew: false,
+      // },
+  
+      // {
+      //   IMG: '../../../images/help.png',
+      //   NAME: '帮助中心',
+      //   loginUrl: "",
+      //   url: '',
+      //   isNew: false,
+      // },
+      {
+        IMG: '../../../images/advice.png',
+        NAME: '意见反馈',
+        // loginUrl: "../../common/no",
+        loginUrl: "../suggest/suggest",
+        url: '',
+        isNew: false,
+      }
+    ],
+    payMenu: [{
+        IMG: '../../../images/pay.png',
+        loginUrl: "",
+        url: '../login/login',
+        NAME: '账户充值'
+      },
+      {
+        IMG: '../../../images/jifen.png',
+        loginUrl: "",
+        url: '../login/login',
+        NAME: '积分使用'
+      },
+    ],
+    userInfo: {
+      nickName: "游客",
+      avatarUrl: "../../../images/userIcon.png",
+    },
+    isLogin: false, //是否登陆
+    impower: false, //是否微信授权
+    userName: '游客',
+    pageUrl: '/pages/user/index/index',
+    subNum:''
+  },
+  onGotUserInfo: function(e) {
+    //授权允许
+    if (e.detail.errMsg == "getUserInfo:ok") {
+      this.setData({
+        userInfo: e.detail.userInfo,
+        impower: true,
+      })
+      app.userInfo = e.detail.userInfo;
+      app.impower = true;
+    } else { //授权拒绝
+      this.setData({
+        impower: false,
+      })
+      app.userInfo = {};
+      app.impower = false;
+      console.log("拒绝授权")
+    }
+  },
+  //关注是否有更新
+  getNewTotalNum() {
+    let that = this
+    ajax({ 
+      url: '/Search/GetData',
+      data: {
+        method: 'Vip.FOLLOW_GetNewTotalNum'
+      }
+    }).then((res) => {
+      var data = this.data.indexMenu;
+      data.forEach((item)=>{
+        if (item.id=="guanzhu")
+        {
+          item.isNew = res.data.data.data[0].NEWNUM > 0 ? true : false;
+        }
+      })
+      this.setData({ indexMenu: data }) 
+    })
+  },
+  //参与是否有更新
+  getJoinTotalNum() {
+    let that = this
+    ajax({
+      url: '/Search/GetData',
+      data: {
+        method: 'Vip.MyBid_GetNewTotalNum'
+      }
+    }).then((res) => {
+      var data = this.data.indexMenu;
+      data.forEach((item) => {
+        if (item.id == "canyu") {
+          item.isNew = res.data.data.data[0].NEWNUM > 0 ? true : false;
+        }
+      })
+      this.setData({ indexMenu: data }) 
+    })
+  },
+  userBundle() {
+    if (!this.data.isLogin) {
+      wx.navigateTo({
+        url: '../login/login'
+      })
+    }
+  },
+  unbundle() {
+    var that = this,
+      username = this.data.userName;
+    wx.showModal({
+      title: '提示',
+      content: '确定退出此账号？',
+      success(res) {
+        if (res.confirm) {
+          wx.login({ //用户是否注册绑定手机号
+            success(res) {
+              ajax({
+                url: '/Login/LogOut',
+                data: {
+                  code: res.code,
+                  username: username
+                }
+              }).then((res) => {
+                var data = commonJs.getDefalutResponse(res.data)
+                if (data.result) {
+                  // app.token_type = ''
+                  // app.access_token = ''
+                  app.userName = ''
+                  that.setData({
+                    isLogin: false,
+                    userName: '游客'
+                  })
+                  wx.showToast({
+                    title: data.msg,
+                    icon: 'success',
+                    duration: 2000
+                  })
+                } else {
+                  wx.showToast({
+                    title: data.msg,
+                    icon: 'none',
+                    duration: 2000
+                  })
+                }
+              })
+            }
+          })
+        } else if (res.cancel) {
+
+        }
+      }
+    })
+  },
+  /**
+   * 生命周期函数--监听页面加载
+   */
+  onLoad: function(options) {
+    wx.hideTabBar({})
+    wx.setNavigationBarTitle({
+      title: '我的',
+      success: function(res) {
+        // success
+      }
+    })
+    this.showUser();
+    // this.setData({ subNum: wx.getStorageSync('subNum') }) 
+    if (this.data.isLogin)
+    {
+      this.getNewTotalNum();
+      this.getJoinTotalNum();
+    }
+  },
+  loginTab(e) {
+    if (this.data.isLogin) {
+      let loginurl = e.currentTarget.dataset.loginurl
+      let id = e.currentTarget.dataset.id,url="";
+      let cancelNew = e.currentTarget.dataset.cancelnew;
+      
+      if (!cancelNew){
+        wx.navigateTo({
+          url: loginurl
+        })
+        return
+      }
+      switch (id) {
+        case "guanzhu": url = "/Focus/Click"; break;
+        case "canyu": url = "/MyBid/Click"; break;
+      }
+      //点击后调用接口,不再小红点
+      ajax({ 
+        url: url,
+        data: {}
+      }).then((res) => {
+        res = commonJs.getDefalutResponse(res.data);
+        if(res.result)
+        {
+          let data=this.data.indexMenu;
+          data.forEach((item) => {
+            if (item.id == id) {
+              item.isNew =false;
+            }
+          })
+          this.setData({
+            indexMenu: data
+          })
+        }
+        else
+        {
+          wx.showToast({
+            title: url+"出错",
+            icon: 'error',
+            duration: 2000
+          })
+        }
+        wx.navigateTo({
+          url: loginurl
+        })
+      })
+    } else {
+      commonJs.unLoginToast();
+    }
+  },
+  showUser() //显示授权或者登陆等
+  {
+    var userInfo = this.data.userInfo;
+    var impower = this.data.impower;
+    var isLogin = this.data.isLogin;
+    var userName = app.userName || this.data.userName
+
+    //是否授权
+    if (app.impower) {
+      userInfo = app.userInfo;
+    }
+    if (app.userName) {
+      isLogin = true;
+    }
+    this.setData({
+      impower: app.impower,
+      userInfo: userInfo,
+      isLogin: isLogin,
+      userName: userName,
+    })
+  },
+
+  /**
+   * 生命周期函数--监听页面初次渲染完成
+   */
+  onReady: function() {
+
+  },
+
+  /**
+   * 生命周期函数--监听页面显示
+   */
+  onShow: function() {
+    wx.hideTabBar({})
+    ajax({
+      url: '/Search/GetData?method=Vip.PUSH_GetPushCount'
+    }).then((res) => {
+      if (res.data.status == '200') {
+        var num = res.data.data.data[0].NUM
+        if (num) {
+          wx.setStorageSync('subNum', num)
+        }
+      }
+      this.setData({
+        subNum: wx.getStorageSync('subNum')
+      })
+    })
+    if (!app.sessionid) {
+      initBase().then((res) => {
+        this.showUser();
+      })
+    } else {
+      this.showUser();
+    }  
+  },
+
+  /**
+   * 生命周期函数--监听页面隐藏
+   */
+  onHide: function() {
+
+  },
+
+  /**
+   * 生命周期函数--监听页面卸载
+   */
+  onUnload: function() {
+
+  },
+
+  /**
+   * 页面相关事件处理函数--监听用户下拉动作
+   */
+  onPullDownRefresh: function() {
+    console.log('Down')
+  },
+
+  /**
+   * 页面上拉触底事件的处理函数
+   */
+  onReachBottom: function() {
+
+  },
+  /**
+   * 用户点击右上角分享
+   */
+  // onShareAppMessage: function() {
+
+  // }
+})

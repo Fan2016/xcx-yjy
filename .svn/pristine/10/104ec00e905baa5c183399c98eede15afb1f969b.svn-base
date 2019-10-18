@@ -1,0 +1,13 @@
+/* pages/common/no.wxss */
+.no{  
+    display:flex;
+    justify-content: center;
+    align-items: center; 
+    height: 80%;
+}
+.no image{
+  width:250rpx;
+height:250rpx;
+display:block;
+margin-bottom:20rpx;
+}

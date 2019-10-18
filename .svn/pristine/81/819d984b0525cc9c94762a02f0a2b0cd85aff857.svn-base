@@ -1,0 +1,38 @@
+<view class='container'>
+  <view>
+    <view class='date-show'>
+      <picker mode="date" value="{{selectDate}}" start="2016-08-01" bindchange="bindDateChange">
+        <view class='date-show'>
+          <view class='month'>{{month}}月</view>
+          <view class='yy-dd'>
+            <view>{{year}}年</view>
+            {{day}}日</view>
+        </view>
+      </picker>
+      <view class='address'>
+      <regionSelect  bind:regionSelectEvent="regionSelectEvent"></regionSelect>
+      </view>
+    </view>
+  </view>
+  <view class='header'>
+    <view wx:for='{{date}}' class='{{(index == todayIndex) && isTodayWeek ? "weekMark" : ""}}'>{{item}}
+      <view></view>
+    </view>
+  </view>
+  <view class='date-box'>
+    <view wx:for='{{dateArr}}' class='{{isToday == item.isToday ? "nowDay" : ""}}' data-date='{{item.isToday}}' bindtap="{{item.tag?'':'showTodayTender'}}">
+      <view class='date-head' style="border-right: 1px solid #E0E0E0;border-bottom: 1px solid #E0E0E0;">
+        <view  class="{{item.tag?'nextMonth':''}}" >{{item.dateNum}}</view>
+      </view>
+      <view class='tag' wx:if='{{item.count}}'>
+        {{item.count}}
+      </view>
+    </view>
+  </view>
+  <view class='line'></view>
+  <view class='list-head'>——
+    <text>开标项目</text>——</view>
+  <view class='container-body'>
+    <bidList listData="{{bidList}}" messageText="{{listMsg}}" isMessage="{{isMessage}}" isLoad="{{isLoad}}"></bidList>
+  </view>
+</view>

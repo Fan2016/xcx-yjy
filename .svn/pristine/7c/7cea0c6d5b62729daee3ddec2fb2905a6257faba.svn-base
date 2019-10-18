@@ -1,0 +1,225 @@
+var app = getApp(), commonJs = require('../../../utils/common'), ajax = commonJs.ajax;
+Page({
+
+  /**
+   * 页面的初始数据
+   */
+  data: {
+    bidList: [],
+    isSel: false,
+    isMessage: false,
+    isLoad:false,
+    listMsg:'',
+    selParam:{
+      pageindex:1,
+      pagesize:10,
+      NAME:'',
+      TYPE_ALL:'',
+      AREA_CODE:'',
+      OPEN_TIME_START:'',
+      OPEN_TIME_END:'',
+      CONTROL_PRICE_START: '', 
+      CONTROL_PRICE_END:'',
+      in_status:'',
+      PUBLISHED_TIME_START:'',
+      PUBLISHED_TIME_END:'',
+      method:'Web.XCX_GetJiaoYiList'
+    },
+    pageTotal:1,
+    pick:[]
+  },
+  fetchSearch(e) {
+    var val = e.detail.val, selParam=this.data.selParam;
+    selParam.NAME = val
+    this.setData({
+      selParam: selParam
+    })
+    this.fetchData(true)
+  },
+  fetchData(flag = false){
+    var selParam = this.data.selParam, initData = this.data.bidList
+    if(flag){
+      this.setData({
+        listMsg: '数据加载中...',
+        isMessage: true,
+        isLoad:true,
+        ['selParam.pageindex']:1,
+        bidList: []
+      })
+    }
+    ajax({
+      url:'http://192.168.118.154:6006/Search/GetData',
+      data: selParam
+    }).then((res)=>{
+      var total = Math.ceil(res.data.data.total / 10), bidList=[];
+      if(flag){
+        bidList = [...res.data.data.data]
+      }else{
+        bidList = [...initData, ...res.data.data.data]
+      }
+      if (!bidList.length){
+        this.setData({
+          bidList: bidList,
+          listMsg:'暂无数据...',
+          isLoad:false
+        })
+      }else{
+        this.setData({
+          bidList: bidList,
+          pageTotal: total,
+          isMessage: false
+        })
+      }    
+    })
+  },
+  fetchfiltrate(val) {
+    var param = val.detail,
+      handleType = param.type,
+      isSel = param.isSel,
+      selType = param.selType,
+      selVal = param.selVal;
+    if (handleType == 'toggle') {
+      this.setData({
+        isSel: isSel
+      })
+    } else if (handleType == 'search') {
+      let selParam=this.data.selParam,newSelParam={};
+      selParam.pageindex=1
+      switch (selType){
+        case 'area':
+          newSelParam = { AREA_CODE: selVal}
+        break;
+        case 'trade':
+          newSelParam = { TYPE_ALL: selVal }
+        break
+        case 'time':
+          newSelParam = { PUBLISHED_TIME_START: selVal.startDate, PUBLISHED_TIME_END: selVal.endDate}
+          break
+        case 'state':
+          newSelParam = { in_status: selVal }
+          break
+        case 'money':
+          newSelParam = { CONTROL_PRICE_START: selVal.startMoney, CONTROL_PRICE_END: selVal.endMoney }
+          break
+      }
+      this.setData({
+        isSel: isSel,
+        selParam: Object.assign(selParam, newSelParam)
+      })
+     this.fetchData(true)
+    }
+  },
+  reset() {
+    this.setData({
+      selParam: {
+        pageindex: 1,
+        pagesize: 10,
+        NAME: '',
+        BIG_TYPE: '',
+        TYPE: '',
+        AREA_CODE: '',
+        OPEN_TIME_START: '',
+        OPEN_TIME_END: '',
+        CONTROL_PRICE_START: '',
+        CONTROL_PRICE_END: '',
+        in_status: '',
+        PUBLISHED_TIME_START: '',
+        PUBLISHED_TIME_END: ''
+      }
+    })
+  },
+  colse(){
+    this.setData({
+      isSel: false
+    })
+  },
+  /**
+   * 生命周期函数--监听页面加载
+   */
+  onLoad: function(options) {
+    if (options.type){
+      let str ='selParam.TYPE_ALL'
+      this.setData({
+        pick: [{ type: 'trade', val: options.type}],
+        [str]: options.code
+      })
+    }
+    if (options.name) {
+      let str = 'selParam.NAME'
+      this.setData({
+        [str]: options.name
+      })
+    }
+    
+    this.fetchData(true)
+  },
+  /**
+ * 页面上拉触底事件的处理函数
+ */
+  onReachBottom: function () {
+    var page = this.data.selParam.pageindex,pageTotal=this.data.pageTotal,isMessage = this.data.isMessage;
+    if ((page < pageTotal) && !isMessage) {
+      this.data.selParam.pageindex = ++page
+    } else if (!(page < pageTotal) && !isMessage) {
+      this.setData({
+        listMsg: '已获取全部数据',
+        isMessage: true,
+        isLoad:false
+      })
+      return
+    } else {
+      return
+    }
+    this.setData({
+      listMsg: '数据加载中...',
+      isMessage: true,
+      isLoad:true
+    })
+    setTimeout(() => {
+      this.fetchData()
+    }, 1500)
+  },
+  /**
+   * 生命周期函数--监听页面初次渲染完成
+   */
+  onReady: function() {
+
+  },
+
+  /**
+   * 生命周期函数--监听页面显示
+   */
+  onShow: function() {
+
+  },
+
+  /**
+   * 生命周期函数--监听页面隐藏
+   */
+  onHide: function() {
+
+  },
+
+  /**
+   * 生命周期函数--监听页面卸载
+   */
+  onUnload: function() {
+
+  },
+
+  /**
+   * 页面相关事件处理函数--监听用户下拉动作
+   */
+  onPullDownRefresh: function() {
+
+  },
+
+
+
+  /**
+   * 用户点击右上角分享
+   */
+  onShareAppMessage: function() {
+
+  }
+})

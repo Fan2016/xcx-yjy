@@ -1,0 +1,22 @@
+{
+  "pages": [
+    "pages/homePage/index/index",
+    "pages/subscription/index/index",
+    "pages/ebid/projectDetail/projectDetail",
+    "pages/common/no",
+    "pages/user/interest/interest",
+    "pages/user/index/index",
+    "pages/user/login/login",
+    "pages/homePage/calendar/calendar",
+    "pages/homePage/projectSearchList/projectSearchList",
+    "pages/demo/demo",
+    "pages/user/participate/participate",
+    "pages/common/outUrl"
+  ],
+  "window": {
+    "backgroundTextStyle": "light",
+    "navigationBarBackgroundColor": "#42aaec",
+    "navigationBarTitleText": "随行易交易",
+    "navigationBarTextStyle": "#fff"
+  }
+}

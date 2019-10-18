@@ -1,0 +1,272 @@
+var app = getApp(),
+  commonJs = require('../../../utils/common'),
+  ajax = commonJs.ajax,
+  initBase = commonJs.initBase,
+  DateFormat = commonJs.DateFormat
+Page({
+  /**
+   * 页面的初始数据
+   */
+  data: {
+    pageindex: 1,
+    pagesize: 10,
+    pageindexTotal: 3,
+    NAME: "", //搜索
+    isMessage: true, //要不要提示
+    isLoad: false, //加载转圈圈要不要
+    listMsg: '',
+    bidList: [],
+    isLogin: false, //是否登录
+    isConfig: false, //是否打开订阅设置
+    param: {
+      or: "OPEN_TIME",
+      pageindex: 1,
+      pagesize: 10,
+      NAME: '',
+      TYPE_ALL: '',
+      AREA_CODE: '',
+      OPEN_TIME_START: '',
+      OPEN_TIME_END: '',
+      CONTROL_PRICE_START: '',
+      CONTROL_PRICE_END: '',
+      in_status: '',
+      PUBLISHED_TIME_START: '',
+      PUBLISHED_TIME_END: '',
+      method: 'Web.XCX_GetJiaoYiList'
+    }, //订阅设置参数
+  },
+  /**
+   * 生命周期函数--监听页面加载
+   */
+  //订阅设置
+  setConfig() {
+    this.setData({
+      isConfig: true
+    })
+    wx.navigateTo({
+      url: './configPage/configPage'
+    })
+
+  },
+  //获取订阅设置
+  getConfig(val) {
+    var param = val.detail;
+    var selParam = this.data.param; //原本的参数
+    var newParam = {
+      pageindex: 1,
+      TYPE_ALL: '',
+      AREA_CODE: '',
+      CONTROL_PRICE_START: '',
+      CONTROL_PRICE_END: '',
+      OPEN_TIME_START: '',
+      OPEN_TIME_END: '',
+    };
+    var curDate = new Date();
+    if (param.time.value != "") {
+      newParam.OPEN_TIME_START = DateFormat("yyyy-MM-dd");
+      newParam.OPEN_TIME_END = DateFormat("yyyy-MM-dd", new Date(curDate.setDate(curDate.getDate() + Number(param.time.value))));
+    }
+    newParam.TYPE_ALL = param.category.value;
+    newParam.CONTROL_PRICE_START = param.price.value.split(",")[0] || "";
+    newParam.CONTROL_PRICE_END = param.price.value.split(",")[1] || "";
+    newParam.AREA_CODE = param.region.value
+    this.setData({
+      isConfig: false,
+      param: Object.assign(selParam, newParam)
+    })
+    this.getBidList(true);
+  },
+  //搜索框
+  fetchSearch(e) {
+    var val = e.detail.val;
+    this.data.param.NAME = val || ""
+    this.data.param.pageindex = 1
+    if (this.data.isLogin) {
+      this.getBidList(true);
+    }
+  },
+  //获取订阅列表
+  getBidList(flag = false) {
+    if (flag) {
+      this.setData({
+        listMsg: '数据加载中...',
+        isLoad: true,
+        bidList: []
+      })
+    }
+    ajax({
+      url: '/Search/GetData',
+      data: this.data.param,
+    }).then((res) => {
+      var res = commonJs.getDefalutResponse(res.data),
+        isLoad = false,
+        listMsg = "",
+        bidList = [];
+      if (res.result) {
+        var total = Math.ceil(res.data.total / this.data.pagesize);
+        if (flag) {
+          bidList = [...res.data.data];
+        } else {
+          bidList = [...this.data.bidList, ...res.data.data];
+        }
+        if (bidList.length == 0) {
+          listMsg = '暂无订阅数据';
+          isLoad = false; //加载转圈圈要不要
+        } else if (this.data.param.pageindex >= total) {
+          listMsg = '已获取全部数据';
+          isLoad = false; //加载转圈圈要不要
+        } else {
+          isLoad = true; //加载转圈圈要不要
+          listMsg = '数据加载中...';
+        }
+        this.setData({
+          bidList: bidList,
+          listMsg: listMsg,
+          isLoad: isLoad,
+          pageindexTotal: total
+        })
+      }
+    })
+  },
+  onLoad: function(options) {
+    wx.setNavigationBarTitle({
+      title: '订阅',
+      success: function(res) {
+        // success
+      }
+    })
+    // this.getHasLogin();
+
+  },
+  getHasLogin() {
+    var isLogin = false,
+      bidList = [],
+      isLoad = false,
+      listMsg = "";
+    if (app.access_token && app.token_type) {
+      isLogin = true;
+      isLoad = true; //加载转圈圈要不要
+      listMsg = '数据加载中...';
+      bidList = this.data.bidList;
+    } else {
+      isLogin = false;
+      listMsg = '暂无订阅数据';
+      isLoad = false; //加载转圈圈要不要
+      bidList = [];
+    }
+    this.setData({
+      bidList: bidList,
+      listMsg: listMsg,
+      isLoad: isLoad,
+      isLogin: isLogin,
+    })
+  },
+  /**
+   * 生命周期函数--监听页面初次渲染完成
+   */
+  onReady: function() {
+
+  },
+  init() {
+    this.getHasLogin();
+    if (!this.data.isLogin) {
+      wx.showModal({
+        title: '提示',
+        content: '当前还未登录，无订阅数据！是否前往用户登录？',
+        confirmText: "登录",
+        success(res) {
+          if (res.confirm) {
+            wx.navigateTo({
+              url: '../../user/login/login'
+            })
+          } else if (res.cancel) {
+
+          }
+        }
+      })
+    } else {
+      let sspConf = wx.getStorageSync('sspConf')
+      if (!sspConf) { //如果本地没订阅设置的话，请求
+        ajax({
+          url: '/Search/GetData?method=Vip.XCX_GetDinYue'
+        }).then((res) => {
+          var res = commonJs.getDefalutResponse(res.data);
+          if (res.result) {
+            if (res && res.data && res.data.data && res.data.data[0]) {
+              sspConf = JSON.parse(res.data.data[0].CONFIG)
+              wx.setStorageSync('sspConf', sspConf)
+              let par = {
+                detail: sspConf
+              }
+              this.getConfig(par);
+            } else if (res.data && res.data.data.length == 0) //都没设置订阅
+            {
+              this.getBidList(true);
+            }
+          }
+        })
+      } else {
+        let par = {
+          detail: sspConf
+        }
+        this.getConfig(par);
+      }
+    }
+  },
+  /**
+   * 生命周期函数--监听页面显示
+   */
+  onShow: function() {
+    if (!app.sessionid) {
+      initBase().then((res) => {
+        this.init()
+      })
+    } else {
+      this.init()
+    }  
+  },
+
+  /**
+   * 生命周期函数--监听页面隐藏
+   */
+  onHide: function() {
+
+  },
+
+  /**
+   * 生命周期函数--监听页面卸载
+   */
+  onUnload: function() {
+
+  },
+
+  /**
+   * 页面相关事件处理函数--监听用户下拉动作
+   */
+  onPullDownRefresh: function() {
+    console.log('Down')
+  },
+
+  /**
+   * 页面上拉触底事件的处理函数
+   */
+  onReachBottom: function() {
+    var pageindex = this.data.param.pageindex,
+      pageindexTotal = this.data.pageindexTotal;
+
+    if ((pageindex < pageindexTotal)) {
+      this.data.param.pageindex = ++pageindex
+    } else if (pageindex >= pageindexTotal) {
+      return
+    }
+    setTimeout(() => {
+      this.getBidList()
+    }, 1500)
+  },
+  /**
+   * 用户点击右上角分享
+   */
+  onShareAppMessage: function() {
+
+  }
+})

@@ -1,0 +1,14 @@
+<!--components/common/yjy-state/yjy-state.wxml-->
+<view class='line-bar'>
+  <view 
+    class='li {{item.name==state?"cur":""}}' 
+    wx:for='{{stateList}}' 
+    wx:for-item='item'
+    wx:key='{{item.name}}'
+    bindtap='lineChange' 
+    data-val='{{item.val}}' 
+    data-name='{{item.name}}' 
+  >
+  {{item.name}}
+  </view>
+</view>

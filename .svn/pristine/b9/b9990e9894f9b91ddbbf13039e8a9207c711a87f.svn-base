@@ -1,0 +1,41 @@
+{
+  "pages": [
+    "pages/homePage/index/index",
+    "pages/subscription/index/index",
+    "pages/ebid/projectDetail/projectDetail",
+    "pages/demo/demo",
+    "pages/common/no",
+    "pages/user/interest/interest",
+    "pages/user/index/index",
+    "pages/user/login/login",
+    "pages/homePage/calendar/calendar",
+    "pages/homePage/projectSearchList/projectSearchList",
+    "pages/user/participate/participate",
+    "pages/common/outUrl"
+  ],
+  "window": {
+    "backgroundTextStyle": "light",
+    "navigationBarBackgroundColor": "#42aaec",
+    "navigationBarTitleText": "易中标",
+    "navigationBarTextStyle": "white"
+  },
+  "tabBar": {
+      "list": [
+        {
+          "pagePath": "pages/homePage/index/index",
+          "text": "首页",
+          "pageTum": "navigate"
+        },
+        {
+          "pagePath": "pages/subscription/index/index",
+          "text": "订阅",
+          "pageTum": "navigate"
+        },
+        {
+          "pagePath": "pages/user/index/index",
+          "text": "我的",
+          "pageTum": "navigate"
+        }
+      ]
+  }
+}

@@ -1,0 +1,24 @@
+/* pages/subscription/index/index.wxss */
+.container-body{
+  margin-bottom: 100rpx;
+}
+.bid-list {
+  margin-top: 20rpx;
+}
+
+.line {
+  height: 20rpx;
+  background: #f4f4f4;
+  margin: 0 0 20rpx;
+}
+
+.floatTool {
+  position: fixed;
+  bottom:90rpx;
+right:10rpx;
+}
+
+.floatTool image {
+  width: 150rpx;
+  height: 150rpx;
+}

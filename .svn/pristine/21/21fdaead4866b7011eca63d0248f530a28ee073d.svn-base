@@ -1,0 +1,195 @@
+var app = getApp(),commonJs = require('../../../utils/common'),
+  ajax = commonJs.ajax
+Page({
+  /**
+   * 页面的初始数据
+   */
+  data: {
+    pageindex: 1,
+    pagesize: 10,
+    pageindexTotal: 3,
+    NAME:"",//搜索
+    isMessage: true,//要不要提示
+    isLoad: false,//加载转圈圈要不要
+    listMsg: '',
+    bidList: [], 
+    isLogin:false,//是否登录
+  },
+  /**
+   * 生命周期函数--监听页面加载
+   */
+  //搜索框
+  fetchSearch(e) {
+    var val = e.detail.val
+    this.setData({
+      NAME: val
+    })
+    if (this.data.isLogin) {
+      this.getBidList(true);
+    }
+  },
+  //获取订阅列表
+  getBidList(flag=false) {
+    if (flag) {
+      this.setData({
+        listMsg: '数据加载中...',
+        isLoad: true,
+        bidList: []
+      })
+    }
+    ajax({
+      url: '/Search/GetData',
+      data: {
+        or: "OPEN_TIME",
+        NAME: this.data.NAME,
+        method: "Web.XCX_GetJiaoYiList",
+        pageindex: this.data.pageindex,
+        pagesize: this.data.pagesize,
+      }
+    }).then((res) => {
+      var res = commonJs.getDefalutResponse(res.data), isLoad = false, listMsg = "", bidList =[];
+      if (res.result) {
+        var total = Math.ceil(res.data.total / this.data.pagesize);
+        if (flag)
+        {
+           bidList = [...res.data.data];
+        }
+        else
+        {
+           bidList = [...this.data.bidList, ...res.data.data];
+        }
+        if (bidList.length == 0) {
+          listMsg = '暂无订阅数据';
+          isLoad = false;//加载转圈圈要不要
+        }
+        else if (this.data.pageindex >= total) {
+          listMsg = '已获取全部数据';
+          isLoad = false;//加载转圈圈要不要
+        }
+        else {
+          isLoad = true;//加载转圈圈要不要
+          listMsg = '数据加载中...';
+        }
+        this.setData({
+          bidList: bidList,
+          listMsg: listMsg,
+          isLoad: isLoad,
+          pageindexTotal: total
+        })
+      }
+    })
+  },
+  onLoad: function(options) {
+    wx.setNavigationBarTitle({
+      title: '订阅',
+      success: function (res) {
+        // success
+      }
+    })
+    this.getHasLogin();
+    if (this.data.isLogin)
+    {
+      this.getBidList(true);
+    }
+    
+  },
+getHasLogin(){
+  var isLogin = false, bidList = [], isLoad = false, listMsg="";
+  if (app.access_token && app.token_type) {
+    isLogin = true;
+    isLoad = true;//加载转圈圈要不要
+    listMsg = '数据加载中...';
+    bidList = this.data.bidList;
+  }
+  else {
+    isLogin = false; 
+    listMsg = '暂无订阅数据';
+    isLoad = false;//加载转圈圈要不要
+    bidList=[];
+  }
+  this.setData({
+    bidList: bidList,
+    listMsg: listMsg,
+    isLoad: isLoad,
+    isLogin: isLogin,
+  })
+},
+  /**
+   * 生命周期函数--监听页面初次渲染完成
+   */
+  onReady: function() {
+
+  },
+
+  /**
+   * 生命周期函数--监听页面显示
+   */
+  onShow: function() {
+    this.getHasLogin();
+    if (!this.data.isLogin)
+    {
+      wx.showModal({
+        title: '提示',
+        content: '当前还未登录，无订阅数据！是否前往用户登录？',
+        confirmText: "登录",
+        success(res) {
+          if (res.confirm) {
+            wx.navigateTo({
+              url: '../../user/login/login'
+            })
+          } else if (res.cancel) {
+
+          }
+        }
+      })
+    }
+    else
+    {
+      this.getBidList(true);
+    }
+  },
+
+  /**
+   * 生命周期函数--监听页面隐藏
+   */
+  onHide: function() {
+
+  },
+
+  /**
+   * 生命周期函数--监听页面卸载
+   */
+  onUnload: function() {
+
+  },
+
+  /**
+   * 页面相关事件处理函数--监听用户下拉动作
+   */
+  onPullDownRefresh: function() {
+    console.log('Down')
+  },
+
+  /**
+   * 页面上拉触底事件的处理函数
+   */
+  onReachBottom: function () {
+    var pageindex = this.data.pageindex,
+      pageindexTotal = this.data.pageindexTotal;
+
+    if ((pageindex < pageindexTotal)) {
+      this.data.pageindex = ++pageindex
+    } else if (pageindex >= pageindexTotal) {
+      return
+    }
+    setTimeout(() => {
+      this.getBidList()
+    }, 1500)
+  },
+  /**
+   * 用户点击右上角分享
+   */
+  onShareAppMessage: function() {
+
+  }
+})

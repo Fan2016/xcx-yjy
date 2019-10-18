@@ -1,0 +1,82 @@
+.bid-list-box{
+  padding: 20rpx;
+  border-bottom: 1px solid #f4f4f4;
+}
+.bid-tit{
+  display: flex;
+}
+.bid-tit .state{
+  display: inline-block;
+  margin-right:20rpx;
+}
+.bid-tit .state text{
+  text-align: center;
+  display: inline-block;
+  width: 100%;
+}
+.bid-tit .state{width:16px; height:43rpx;background:#fd6767; position:relative;color:#fff;
+font-size: 12px;
+}
+.bid-tit .ico{
+width:16px; height:0px; position:absolute; box-sizing:border-box;bottom:0px; background:#fd6767;
+border-left: 8px solid transparent;
+border-bottom: 5px solid #fff;
+border-right: 8px solid transparent;
+left: 0;
+}
+/* .bid-tit .state:before{content:"";width:16px; height:0px; position:absolute; box-sizing:border-box;bottom:0px; background:#fd6767;
+border-left: 8px solid transparent;
+border-bottom: 5px solid #fff;
+border-right: 8px solid transparent;} */
+.bid-tit .title{
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  flex: 1;
+  line-height: 40rpx;
+  font-size: 26rpx;
+  /* font-weight: bold; */
+}
+.bid-tag{
+  margin: 20rpx 0;
+}
+.bid-tag text{
+  display: inline-block;
+  border: 1px solid #f5793d;
+  padding: 0 20rpx;
+  margin-right: 20rpx;
+  border-radius: 36rpx;
+  color: #f5793d;
+  font-size: 22rpx;
+  background: #fff3ec;
+}
+.bid-info{
+  font-size: 24rpx;
+  color:#959595;
+  display: flex;
+}
+.bid-info view{
+  flex: 1
+}
+.bid-info view.right{
+  flex: auto;
+  width: 180rpx;
+}
+.bid-info image{
+  float: right;
+  width: 35rpx;
+  height: 35rpx;
+}
+.bid-info icon{
+  margin-right: 10rpx
+}
+.message{
+  text-align: center;
+  padding: 20rpx 0;
+  font-size: 30rpx;
+}
+.message image{
+  width: 20rpx;
+  height: 20rpx;
+  margin-right:10rpx;
+}

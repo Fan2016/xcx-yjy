@@ -1,0 +1,25 @@
+<view class='mod'>
+  <view class='bar-mod'>
+    <view class='left-mod'>
+      <view wx:for="{{tradeTop}}" wx:for-item='item' wx:key='{{item.CODE}}' bindtap='barChange' data-level='1' data-trade-item='{{item}}' class='{{item.NAME==tradeTopVal?"cur":""}}'>
+        {{item.NAME}}
+      </view>
+    </view>
+    <view class='right-mod'>
+      <checkbox-group bindchange="tradeChange">
+        <view wx:for="{{tradeSubList}}" wx:for-item='item' wx:key='{{item.CODE}}' data-level='2' data-trade-item='{{item}}' class='tradeSubList'>
+          <text>{{item.NAME}}</text>
+            <checkbox value="{{item.CODE}}" checked="{{selectTradeList[tradeTopVal][tradeSub[tradeTopVal][0].CODE]?'true':selectTradeList[tradeTopVal][item.CODE]}}" />{{selectTradeList.length}}
+        </view>
+      </checkbox-group>
+    </view>
+  </view>
+  <view class='button-mod'>
+    <button type="default" bindtap="reset" size="mini" style="color:#9b9b9b">
+      重置
+    </button>
+    <button bindtap="TradeConfirm" size="mini" style="background-color:#43a8ee;color:#fff">
+      确定
+    </button>
+  </view>
+</view>

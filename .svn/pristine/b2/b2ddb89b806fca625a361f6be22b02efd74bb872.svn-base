@@ -1,0 +1,10 @@
+<!--pages/user/interest/interest.wxml-->
+<view class='container'>
+  <view class='container-body'>
+    <filtrate bind:filtrateEvent="fetchfiltrate" isSel='{{isSel}}' ></filtrate>
+    <view class='bid-list'>
+      <view class='line'></view>
+      <bidList listData="{{bidList}}" messageText="{{listMsg}}" isMessage="{{isMessage}}" isLoad="{{isLoad}}"></bidList>
+    </view>
+  </view>
+</view>

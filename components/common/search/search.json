@@ -1,0 +1,6 @@
+{
+  "component": true,
+  "usingComponents": {
+    "regionSelect": "../region-select/region-select"
+  }
+}

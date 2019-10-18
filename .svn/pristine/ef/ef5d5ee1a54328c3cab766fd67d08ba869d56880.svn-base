@@ -1,0 +1,17 @@
+.address {
+  position: relative;
+  font-size: 22rpx;
+  color: #fff;
+  text-align: right;
+  display: flex;
+  padding-top: 20rpx;
+}
+.picker{
+  color: #fff;
+}
+.picker image {
+  width: 16rpx;
+  height: 10rpx;
+  vertical-align: middle;
+  margin-left: 10rpx;
+}

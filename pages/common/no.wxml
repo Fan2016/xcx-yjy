@@ -1,0 +1,5 @@
+<!--pages/common/no.wxml-->
+<view class='no'><view >
+  <image src='../../images/set-up.png'></image>
+  开发中  敬请期待</view>
+</view>

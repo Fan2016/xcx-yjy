@@ -1,0 +1,6 @@
+<view class='container'>
+  <search bind:searchEvent="fetchSearch"></search>
+     <view class='bid-list'>
+      <bidList listData="{{bidList}}" messageText="{{listMsg}}" isMessage="{{isMessage}}" collect="{{collect}}"></bidList>
+    </view>
+</view>

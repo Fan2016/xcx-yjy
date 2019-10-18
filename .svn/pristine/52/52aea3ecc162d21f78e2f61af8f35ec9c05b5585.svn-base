@@ -1,0 +1,107 @@
+// components/common/yjy-money/yjy-money.js
+let app = getApp()
+let commonJs = require('../../../utils/common')
+Component({
+  /**
+   * 组件的属性列表
+   */
+  properties: {
+    priceObj: {
+      type: Object,
+      value: {
+        name: '',
+        value: ''
+      }
+    },
+  },
+
+  /**
+   * 组件的初始数据
+   */
+  data: {
+    moneyList:[],
+    money: '',
+    customStartMoney: '',
+    customEndMoney: '',
+  },
+  lifetimes: {
+    attached() {
+      let option = app.option
+      this.setData({
+        moneyList: option.money
+      })
+      this.handleData()
+    }
+  },
+  /**
+   * 组件的方法列表
+   */
+  methods: {
+    handleData() {
+      let { moneyList, priceObj } = this.data
+      let money = '', customStartMoney = '', customEndMoney = ''
+      moneyList.forEach((item) => {
+        if (item.name == priceObj.name){
+          money = priceObj.name
+        }
+      })
+      if (!money && priceObj.value){
+        let values = priceObj.value.split(',')
+        customStartMoney = values[0]
+        customEndMoney = values[1]
+      }
+      this.setData({
+        money: money,
+        customStartMoney: customStartMoney,
+        customEndMoney: customEndMoney
+      })
+    },
+    lineChange({target}) {
+      let { mStart, mEnd, name } = target.dataset
+      this.setData({
+        money: name
+      })
+      this.triggerEvent('yjy-money', {
+        name: name,
+        value: `${mStart},${mEnd}`
+      })
+    },
+    bindMoney({ target, detail }) {
+      let { value } = detail
+      let { site } = target.dataset
+      if (site == 0) {
+        this.setData({
+          customStartMoney: value
+        })
+      } else if (site == 1) {
+        this.setData({
+          customEndMoney: value
+        })
+      }
+    },
+    customtBtn({target}){
+      let { customStartMoney, customEndMoney } = this.data
+      let isValid = false, msg = '';
+      if (!customStartMoney || !customEndMoney) {
+        msg = '请填写完整';
+        isValid = true;
+      } else if (customStartMoney > customEndMoney){
+        msg = `${customStartMoney}万大于${customEndMoney}万`;
+        isValid = true;
+      }
+      if (isValid) {
+        wx.showToast({
+          title: msg,
+          image: '/images/warn.png',
+          duration: 1500,
+          mask: true
+        })
+        return
+      }
+      this.triggerEvent('yjy-money', {
+        name: `${customStartMoney}万~${customEndMoney}万`,
+        value: `${customStartMoney * 10000},${customEndMoney * 10000}`
+      })
+    }
+  }
+})

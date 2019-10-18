@@ -1,0 +1,7 @@
+{
+  "enablePullDownRefresh": true,
+  "usingComponents": {
+    "search": "/components/common/search/search",
+    "bidList": "/components/common/bid-list/bid-list"
+  }
+}

@@ -1,0 +1,78 @@
+/* components/common/yjy-trade/yjy-trade.wxss */
+.mod{
+  height: 100%;
+  color: #7b7b7b;
+  font-size: 28rpx;
+  font-weight:bold;
+
+}
+.bar-mod {
+  background-color:#f5f5f5;
+  display: flex;
+  height: 85%;
+}
+.button-mod{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 15%;
+}
+
+.left-mod {
+  width: 300rpx;
+  height: 100%;
+  background: #f5f5f5;
+}
+
+.left-mod, .right-mod {
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+.left-mod view, .right-mod view {
+  display: flex;
+  align-items: center;
+  height: 100rpx;
+  text-align: left;
+  padding-left: 30rpx;
+  position: relative;
+}
+
+.left-mod view.cur {
+  background: #fff;
+}
+
+.left-mod view.cur:before {
+  position: absolute;
+  left: 0;
+  top: 7rpx;
+  content: '';
+  display: inline-block;
+  width: 6rpx;
+  height: 90rpx;
+  background: #1983d1;
+  margin-right: 8rpx;
+}
+
+.right-mod {
+  flex: 1;
+  background: #fff;
+  height: 98%;
+}
+
+.right-mod .cur {
+  color: #1983d1;
+}
+
+.right-mod .tradeSubList {
+  flex-direction: row;
+  justify-content: space-between;
+  border-bottom: 1rpx solid #f1f1f1;
+  margin-left: 20rpx;
+  margin-right: 20rpx;
+}
+
+.checkBox-mod {
+  flex: 1;
+  height: 100%;
+}

@@ -1,0 +1,72 @@
+<!--components/subscription/ssp-conf-detail/ssp-conf-detail.wxml-->
+<view class='ssp-conf-container'>
+  <view class='ssp-conf-detail' wx:if='{{!isSel}}'>
+    <textarea 
+      class='ssp-conf-detail_text' 
+      placeholder='添加订阅关键字（可不填）' 
+      disabled='disabled' 
+      value='{{sspConfView}}'
+    >
+    </textarea>
+    <view class='line'></view>
+    <view 
+      wx:for='{{confTypes}}' 
+      wx:key='{{item.nameCode}}'
+    >
+      <view 
+        class='ssp-conf-detail-select' 
+        bindtap='chooseItem' 
+        data-name-code='{{item.nameCode}}'
+      >
+        <view class='ssp-conf-detail-select-item'>{{item.name}}</view>
+        <view class='ssp-conf-detail-select-item-value'>
+          <!-- <text class='ssp-conf-detail-select-item-value_text'>不限</text> -->
+          <image class='ssp-conf-detail-select-icon' src='../../../images/arrow.png'></image>
+        </view>
+      </view>
+      <view class='line'></view>
+    </view>
+    <button 
+      class='ssp-conf-detail-cofirm' 
+      disabled='{{btnDisabled}}' 
+      loading='{{btnLoading}}' 
+      bindtap='confConfirm'
+    >
+    确 定
+    </button>
+  </view>
+  <view class='ssp-conf-types-container' wx:if='{{isSel}}'>
+    <view class='ssp-conf-types-item' wx:if='{{sspConfTypesView.category}}'>
+      <yjy-trade 
+        class='ssp-conf-types-item-comp'
+        bind:yjy-trade='changeSspConfCategory'
+        categoryObj='{{sspConf.category}}'
+      >
+      </yjy-trade>
+    </view>
+    <view class='ssp-conf-types-item' wx:if='{{sspConfTypesView.region}}'>
+      <yjy-area 
+        class='ssp-conf-types-item-comp'
+        bind:yjy-area='changeSspConfRegion' 
+        regionObj='{{sspConf.region}}'
+      >
+      </yjy-area>
+    </view>
+    <view class='ssp-conf-types-item' wx:if='{{sspConfTypesView.price}}'>
+      <yjy-money 
+        class='ssp-conf-types-item-comp'
+        bind:yjy-money='changeSspConfPrice' 
+        priceObj='{{sspConf.price}}'
+      >
+      </yjy-money>
+    </view>
+    <view class='ssp-conf-types-item' wx:if='{{sspConfTypesView.time}}'>
+      <yjy-time 
+        class='ssp-conf-types-item-comp'
+        bind:yjy-time='changeSspConfTime' 
+        timeObj='{{sspConf.time}}'
+      >
+      </yjy-time>
+    </view>
+  </view>
+</view>

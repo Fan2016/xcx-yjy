@@ -1,0 +1,11 @@
+/* pages/user/interest/interest.wxss */
+
+
+.bid-list {
+  margin-top: 80rpx;
+}
+.line {
+  height: 20rpx;
+  background: #f4f4f4;
+  margin: 0 0 20rpx;
+}

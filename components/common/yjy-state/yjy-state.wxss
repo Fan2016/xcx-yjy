@@ -1,0 +1,20 @@
+/* components/common/yjy-state/yjy-state.wxss */
+
+
+.line-bar {
+  color: #666;
+  font-size: 28rpx;
+}
+
+.line-bar .li {
+  display: flex;
+  align-items: center;
+  height: 100rpx;
+  text-align: left;
+  padding-left: 30rpx;
+  border-bottom: 1rpx solid #e1e1e1;
+}
+
+.line-bar .cur{
+  color:#1983d1;
+}

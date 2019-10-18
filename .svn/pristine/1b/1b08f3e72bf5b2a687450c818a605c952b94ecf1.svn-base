@@ -1,0 +1,96 @@
+App({
+  token_type: '',
+  access_token: '',
+  sessionid: '',
+  userInfo:'',
+  phone:'',
+  impower:false,
+  option: { 
+    area: [],
+    trade: [],
+    time:[],
+    state:[],
+    money:[]
+    },
+  /**
+   * 当小程序初始化完成时，会触发 onLaunch（全局只触发一次）
+   */
+  onLaunch: function() {
+    var that = this;
+    wx.getSetting({//小程序权限获取判断
+      success(res) {
+        var isUserPower=res.authSetting['scope.userInfo']
+        if(isUserPower){
+          wx.getUserInfo({
+            success: function (res) {
+              that.userInfo = res.userInfo;
+              that.impower = isUserPower
+            }
+          })
+        }
+      }
+    })
+    wx.login({//用户是否注册绑定手机号
+      success(res){
+        wx.request({
+          url: 'http://192.168.118.154:6006/Login/IsLogin',
+          data:{code:res.code},
+          success(res) {
+            var data=res.data;
+            if (res.data.status==200){
+              that.token_type = data.data.token_type
+              that.access_token = data.data.access_token
+            }
+          }
+        })
+      }
+    })
+    wx.request({
+      url: 'http://192.168.118.154:6006/App/GetSessionID',
+      success(res) {
+        that.sessionid = res.data.data
+      }
+    })
+    wx.request({
+      url: 'http://192.168.118.154:6006/xcxconfig.json',
+      success(res) {
+        var data= res.data
+        for (let x in data){
+          that.option[x] = data[x]
+        }
+      }
+    })
+    wx.request({
+      url: 'http://192.168.118.154:9001/api/GetDataHandler.ashx?method=Web.XCX_GetArea',
+      success(res) {
+        that.option['area']=res.data.data
+      }
+    })
+    wx.request({
+      url: 'http://192.168.118.154:9001/api/GetDataHandler.ashx?method=Web.XCX_GetType',
+      success(res) {
+        that.option['trade'] = res.data.data
+      }
+    })
+  },
+
+  /**
+   * 当小程序启动，或从后台进入前台显示，会触发 onShow
+   */
+  onShow: function(options) {
+
+  },
+  /**
+   * 当小程序从前台进入后台，会触发 onHide
+   */
+  onHide: function() {
+
+  },
+
+  /**
+   * 当小程序发生脚本错误，或者 api 调用失败时，会触发 onError 并带上错误信息
+   */
+  onError: function(msg) {
+
+  }
+})

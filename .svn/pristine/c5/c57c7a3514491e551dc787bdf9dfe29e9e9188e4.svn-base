@@ -1,0 +1,4 @@
+<!--pages/subscription/index/configPage/configPage.wxml-->
+<view class='container'>
+<sspConfig bind:ssp-conf="getConfig"></sspConfig>
+</view>

@@ -1,0 +1,204 @@
+// pages/login/login.js
+var commonJs = require('../../../utils/common'), ajax = commonJs.ajax, app = getApp(),TIMERID
+Page({
+  /**
+   * 页面的初始数据
+   */
+  data: {
+    noteVal: '',
+    imgUrl: '',
+    imgCode: '',
+    phone: '',
+    noteCode: '',
+    countDown:60,
+    isShade:false
+  },
+  getCode(e) {
+    var type = e.target.dataset.type
+    this.setData({
+      [type]: e.detail.value
+    })
+  },
+  imgsrc() {
+    var num = Math.ceil(Math.random() * 1000)
+    this.setData({
+      imgUrl: 'http://192.168.118.154:6006/Login/GetIMGCode?random=' + num + '&sid=' + app.sessionid,
+    })
+  },
+  pickNote() {
+    var that=this,imgCode = this.data.imgCode, phone = this.data.phone, flag = false, msg;
+    if (!imgCode) {
+      msg = '图形验证码必填'
+      flag = true
+    } else if (!phone) {
+      msg = '手机号必填'
+      flag = true
+    }
+    if (flag) {
+      wx.showToast({
+        title: msg,
+        image: '../../../images/warn.png',
+        duration: 1500,
+        mask: true
+      })
+      return
+    }
+    ajax({
+      url: 'http://192.168.118.154:6006/Login/GetSMSCode',
+      data: {
+        phone: phone,
+        imgcode: imgCode
+      }
+    }).then((res) => { 
+      var msg='',flag=true
+      if (res.data.status=='200'){
+        msg ='短信验证码发送'
+        that.imgsrc()
+        that.setData({
+          isShade: true
+        })
+        TIMERID = setInterval(function () {
+          that.setData({
+            countDown: --that.data.countDown
+          })
+          wx.nextTick(() => {
+            if (that.data.countDown == 0) {
+              clearTimeout(TIMERID)
+              that.setData({
+                countDown: 60,
+                isShade: false
+              })
+            }
+          })
+        }, 1000);
+      }
+      else{
+        flag=false
+        msg=res.data.msg
+      }
+      wx.showToast({
+        title: msg,
+        image: flag?'':'../../../images/warn.png',
+        duration: 1500,
+        mask: true
+      })
+    })
+  },
+  login(){
+    var that = this
+    var noteCode = this.data.noteCode, phone = this.data.phone, flag = false, msg;
+    if (!noteCode) {
+      msg = '短信验证码必填'
+      flag = true
+    } else if (!phone) {
+      msg = '手机号必填'
+      flag = true
+    }
+    if (flag) {
+      wx.showToast({
+        title: msg,
+        image: '../../images/warn.png',
+        duration: 1500,
+        mask: true
+      })
+      return
+    }
+    wx.login({
+      success: function (res) {
+        ajax({
+          url: 'http://192.168.118.154:6006/Login/Login',
+          // url:'http://192.168.118.154:6006/Login/LoginDev?phone=15980102764',
+          data: {
+            code: res.code,
+            sms_check_code: noteCode,
+            username: phone
+          }
+        }).then((res) => {
+          var data= res.data
+          if (data.status==200){
+            app.token_type = data.data.token_type
+            app.access_token = data.data.access_token
+            // wx.setStorageSync('token_type', data.token_type)
+            // wx.setStorageSync('access_token', data.access_token)
+            wx.showToast({
+              title: '登录成功',
+              duration: 1500,
+              mask: true
+            })
+            setTimeout(()=>{
+              wx.switchTab({
+                url: '../../homePage/index/index'
+              })
+            },2500)    
+          }else{
+            wx.showModal({
+              title: '提示',
+              content: data.msg,
+              showCancel:false,
+              success(res) {
+                if (res.confirm) {
+                  that.imgsrc()
+                }
+              }
+            })
+          }
+        })
+      }
+    });
+  },
+  /**
+   * 生命周期函数--监听页面加载
+   */
+  onLoad: function (options) {
+    this.imgsrc()
+  },
+
+  /**
+   * 生命周期函数--监听页面初次渲染完成
+   */
+  onReady: function () {
+
+  },
+
+  /**
+   * 生命周期函数--监听页面显示
+   */
+  onShow: function () {
+
+  },
+
+  /**
+   * 生命周期函数--监听页面隐藏
+   */
+  onHide: function () {
+
+  },
+
+  /**
+   * 生命周期函数--监听页面卸载
+   */
+  onUnload: function () {
+
+  },
+  
+  /**
+   * 页面相关事件处理函数--监听用户下拉动作
+   */
+  onPullDownRefresh: function () {
+
+  },
+
+  /**
+   * 页面上拉触底事件的处理函数
+   */
+  onReachBottom: function () {
+
+  },
+
+  /**
+   * 用户点击右上角分享
+   */
+  // onShareAppMessage: function () {
+
+  // }
+})

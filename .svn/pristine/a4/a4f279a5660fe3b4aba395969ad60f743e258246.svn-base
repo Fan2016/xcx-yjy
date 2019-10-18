@@ -1,0 +1,45 @@
+<!--pages/homePage/index/index.wxml-->
+<view class='container'>
+  <search bind:searchEvent="fetchSearch" bind:areaEvent="fetchArea" isRegion='true'></search>
+  <view class='container-body'>
+    <view class="index-menu">
+      <navigator class="index-menu-item" wx:for="{{indexmenu}}" wx:key="{{item.ORDER_ID}}" url="{{item.url}}?type={{item.NAME}}&code={{item.CODE}}">
+        <image src='{{item.IMG}}'></image>
+        <text>{{item.NAME}}</text>
+      </navigator>
+    </view>
+    <view class='line'></view>
+    <view class='index-deals'>
+      <!-- <view class='deals-tit'>交易汇总</view> -->
+      <block wx:for="{{dealData}}" wx:for-item="item">
+        <view class='item'>
+          <view class='deals-type'>{{item.NAME}}</view>
+          <view class='deals-num'>{{item.VAL}}{{item.UNIT}}</view>
+        </view>
+      </block>
+    </view>
+    <view class='banner'>
+      <swiper indicator-dots="{{indicatorDots}}" autoplay="{{autoplay}}" interval="{{interval}}" duration="{{duration}}" style='height:130rpx;margin:20rpx;' class="swiper-box">
+        <block wx:for-items="{{banner}}">
+          <swiper-item style="border-radius:10rpx">
+            <image src="{{item.IMG_URL}}" class="slide-image" style='height:130rpx' />
+          </swiper-item>
+        </block>
+      </swiper>
+    </view>
+    <view class='line'></view>
+    <view class='tab-toggle'>
+      <view class='item {{bidType=="kb"?"cur":""}}' data-type='kb' bindtap='cutBidType'>今日开标<text class='count'>({{kbTotal}})</text></view>
+      <view class='item {{bidType=="sb"?"cur":""}}' data-type='sb' bindtap='cutBidType'>正在报名<text class='count'>({{sbTotal}})</text></view>
+    </view>
+    <view class='bid-list'>
+      <bidList listData="{{bidList}}" messageText="{{listMsg}}" isMessage="{{isMessage}}" isLoad="{{isLoad}}"></bidList>
+    </view>
+  </view>
+  <view class='floatTool'>
+    <navigator url='../calendar/calendar'>
+      <image src='../../../images/calendar.png'></image>
+    </navigator>
+  </view>
+</view>
+<footerBar pageUrl='{{pageUrl}}' subNum='{{subNum}}'></footerBar>

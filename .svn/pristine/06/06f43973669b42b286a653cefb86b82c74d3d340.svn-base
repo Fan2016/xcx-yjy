@@ -1,0 +1,90 @@
+<!--pages/homePage/index/index.wxml-->
+<view class='shadeBox' wx:if='{{isShade}}'>
+</view>
+<!-- <homeSlide wx:if='{{isAd}}' bind:closeEvent="adClose"></homeSlide> -->
+<view class='ad' wx:if='{{isAd}}'>
+  <!-- <view class='time' bindtap='adClose'></view> -->
+  <view class='ad-tit'>
+    <view class='head'>
+      <image src='../../../images/tz_icon.png'></image>“易中标 — 开标大厅”</view>
+    <view>功能已经上线啦！</view>
+
+  </view>
+  <view class='ad-tag'>
+    <view class='tag'>使用提示 ：</view>
+    <view class='item'>
+      <view class='order'>1</view>
+      <view class='info'>绑定本企业在易交易平台注册的手机号</view>
+    </view>
+    <view class='item'>
+      <view class='order'>2</view>
+      <view class='info'>进入本企业所参与并正在开标中的项目</view>
+    </view>
+    <view class='item'>
+      <view class='order'>3</view>
+      <view class='info'>点击详情页中的
+        <text class='btn2'>开标大厅</text>方可进入</view>
+    </view>
+    <view class='intro'>让您随时随地了解掌握最新的项目进展！</view>
+    <view class='action'>
+      <text bindtap='adClose'>记住了,我去试试</text>
+      <view>
+        <checkbox-group bindchange="checkboxChange">
+       
+            <checkbox  checked="{{remind}}" />{{item.value}}
+
+        </checkbox-group>下次不在提醒</view>
+    </view>
+  </view>
+</view>
+<view class='container'>
+  <search bind:searchEvent="fetchSearch" bind:areaEvent="fetchArea" isRegion='true'></search>
+  <view class='container-body'>
+    <view class="index-menu">
+      <navigator class="index-menu-item" wx:for="{{indexmenu}}" wx:key="{{item.ORDER_ID}}" url="{{item.url}}?type={{item.val}}&code={{item.CODE}}">
+        <image src='{{item.IMG}}'></image>
+        <text>{{item.NAME}}</text>
+      </navigator>
+    </view>
+    <view class='line'></view>
+    <view class='index-deals'>
+      <!-- <view class='deals-tit'>交易汇总</view> -->
+      <block wx:for="{{dealData}}" wx:for-item="item" wx:key="{{index}}">
+        <view class='item'>
+          <view class='deals-type'>{{item.NAME}}</view>
+          <view class='deals-num'>{{item.VAL}}{{item.UNIT}}</view>
+        </view>
+      </block>
+    </view>
+    <view class='banner' style='margin:20rpx;'>
+      <swiper indicator-dots="{{indicatorDots}}" autoplay="{{autoplay}}" interval="{{interval}}" duration="{{duration}}" style='height:130rpx;' class="swiper-box" circular="{{true}}">
+        <block wx:for-items="{{banner}}" wx:key="{{index}}">
+          <swiper-item style="border-radius:10rpx">
+            <image src="{{item.IMG_URL}}" class="slide-image" style='height:130rpx' />
+          </swiper-item>
+        </block>
+      </swiper>
+    </view>
+    <view class='line'></view>
+    <view class='tab-toggle'>
+      <view class='item {{bidType=="kb"?"cur":""}}' data-type='kb' bindtap='cutBidType'>今日开标
+        <text class='count'>({{kbTotal}})</text>
+      </view>
+      <view class='item {{bidType=="sb"?"cur":""}}' data-type='sb' bindtap='cutBidType'>正在报名
+        <text class='count'>({{sbTotal}})</text>
+      </view>
+      <view class='select'>
+        <tradeSelect isAlone='true' bind:tradeSelectEvent="fetchTrade"></tradeSelect>
+      </view>
+    </view>
+    <view class='bid-list'>
+      <bidList listData="{{bidList}}" messageText="{{listMsg}}" isMessage="{{isMessage}}" isLoad="{{isLoad}}" tradeCountList="{{tradeCountList}}" collect="{{collect}}" bind:tradeSearchEvent="tradeSearch"></bidList>
+    </view>
+  </view>
+  <view class='floatTool'>
+    <navigator url='../calendar/calendar'>
+      <image src='../../../images/calendar.png'></image>
+    </navigator>
+  </view>
+</view>
+<footerBar pageUrl='{{pageUrl}}' subNum='{{subNum}}' userName='{{isLogin}}' isMeUpdate='{{isMeUpdate}}'></footerBar>

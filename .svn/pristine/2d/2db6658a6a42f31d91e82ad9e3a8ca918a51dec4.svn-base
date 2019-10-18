@@ -1,0 +1,130 @@
+.date-show {
+  position: relative;
+  justify-content: space-between;
+  font-family: PingFang-SC-Regular;
+  color: #fff;
+  text-align: center;
+  background: #4da1e5;
+  display: flex;
+  padding-top: 20rpx;
+}
+
+.address {
+  position: relative;
+  font-size: 22rpx;
+  color: #fff;
+  text-align: right;
+  display: flex;
+  padding-top: 20rpx;
+}
+.address regionSelect{margin:15rpx 20rpx 0 0;
+font-size:30rpx;
+}
+.month {
+  align-items: center;
+  display: flex;
+  height: auto;
+  padding: 0 30rpx;
+}
+
+.yy-dd {
+  font-size: 22rpx;
+  text-align: left;
+}
+
+.header {
+  font-size: 0;
+  /* padding: 0 24rpx; */
+  background: #4da1e5;
+  /* margin-bottom: 20rpx; */
+}
+
+.header>view {
+  display: inline-block;
+  width: 14.285%;
+  color: #fff;
+  font-size: 26rpx;
+  text-align: center;
+  /* border-bottom: 1px solid #D0D0D0; */
+  padding: 20rpx 0;
+}
+
+.weekMark {
+  position: relative;
+}
+
+/* .weekMark view{
+	position: absolute;
+	bottom: 0;
+	left: 0;
+	width: 100%;
+	border-bottom: 1px solid #22A7F6;
+} */
+
+.date-box {
+  font-size: 0;
+  /* padding: 10rpx 0; */
+}
+
+.date-box>view {
+  position: relative;
+  display: inline-block;
+  width: 14.285%;
+  color: #020202;
+  font-size: 40rpx;
+  text-align: center;
+  vertical-align: middle;
+  /* margin: 15rpx 0; */
+}
+
+.date-head {
+  height: 60rpx;
+  line-height: 70rpx;
+  font-size: 26rpx;
+  position: relative;
+  padding: 10rpx;
+}
+
+.nowDay .date-head {
+  text-align: center;
+  background-color: #22a7f6;
+  margin: 0 auto;
+  color: #fff;
+  font-weight: bold;
+  font-size: 39rpx;
+}
+
+.tag {
+  position: absolute;
+  top: 9rpx;
+  right: 7rpx;
+  width: 30rpx;
+  height: 30rpx;
+  line-height: 30rpx;
+  font-size: 20rpx;
+  border-radius: 50%;
+  text-align: center;
+  color: #fff;
+  background-color: #f48942;
+  margin: 0 auto;
+}
+
+.line {
+  height: 20rpx;
+  background: #f4f4f4;
+  margin: 10rpx 0 0;
+}
+
+.list-head {
+  text-align: center;
+  padding-top: 20rpx;
+}
+
+.list-head text {
+  display: inline-block;
+  padding: 0 20rpx;
+}
+
+.nextMonth {
+  color: #959595;
+}

@@ -1,0 +1,472 @@
+var commonJs = require('../../../utils/common'),
+  initBase = commonJs.initBase,
+  ajax = commonJs.ajax,
+  app = getApp();
+Page({
+  /**
+   * 页面的初始数据
+   */
+  data: {
+    indexmenu: [{
+        "NAME": "工程建设",
+        "val": "工程建设",
+        "CODE": "A",
+        "IMG": "../../../images/gcjs.png",
+        "url": "../projectSearchList/projectSearchList",
+      },
+      {
+        "NAME": "政府采购",
+        "val": "政府采购",
+        "CODE": "D",
+        "IMG": "../../../images/zfcg.png",
+        "url": "../projectSearchList/projectSearchList"
+      },
+      {
+        "NAME": "企业采购",
+        "val": "企业采购",
+        "CODE": "Q",
+        "IMG": "../../../images/qycg.png",
+        "url": "../projectSearchList/projectSearchList"
+      },
+      {
+        "NAME": "土地矿业",
+        "val": "土地矿业",
+        "CODE": "B",
+        "IMG": "../../../images/tdky.png",
+        "url": "../projectSearchList/projectSearchList"
+      },
+      {
+        "NAME": "国有产权",
+        "val": "国有产权",
+        "CODE": "C",
+        "IMG": "../../../images/gycq.png",
+        "url": "../projectSearchList/projectSearchList"
+      },
+      {
+        "NAME": "其他项目",
+        "IMG": "../../../images/qt.png",
+        "val": "其他",
+        "CODE": "Z",
+        "url": "../projectSearchList/projectSearchList"
+      },
+      {
+        "NAME": "金融服务",
+        "val": "金融服务",
+        "IMG": "../../../images/jrfw.png",
+        "url": "../../common/no"
+      },
+      {
+        "NAME": "场地预约",
+        "val": "场地预约",
+        "IMG": "../../../images/cdyy.png",
+        "url": "../../common/no"
+      }
+    ],
+    dealData: [],
+    indicatorDots: true,
+    autoplay: true,
+    interval: 3000,
+    duration: 100,
+    kbList: [],
+    kbPage: 1,
+    kbTotalPage: 0,
+    kbTotal: '',
+    sbList: [],
+    sbPage: 1,
+    sbTotalPage: 0,
+    sbTotal: '',
+    isMessage: true,
+    isLoad: true,
+    listMsg: '数据加载',
+    bidList: [],
+    banner: [],
+    bidType: 'kb',
+    pageUrl: '/pages/homePage/index/index',
+    subNum: '',
+    code: '',
+    TYPE_ALL: '',
+    isLogin: false
+  },
+  fetchArea(e) {
+    var val = e.detail.val,
+      city = val.cityObject;
+    wx.setStorageSync('location', {
+      name: city.NAME == '全部' ? city.parentName : city.NAME,
+      parent: city.parentName,
+      code: val.AREA_CODE,
+      site: val.site
+    })
+    this.setData({
+      code: val.AREA_CODE
+    })
+    this.fetchBidList(true)
+    this.getSumData()
+  },
+  fetchTrade(e) {
+    var val = e.detail,
+      SECOND = val.SECOND;
+    wx.setStorageSync('tradeSelect', {
+      name: SECOND.NAME == '全部' ? SECOND.parentName : SECOND.NAME,
+      parent: SECOND.parentName,
+      code: val.TRADE_CODE,
+      site: val.site
+    })
+    this.setData({
+      TYPE_ALL: val.TRADE_CODE,
+    })
+    this.fetchBidList(true)
+  },
+  fetchSearch(e) {
+    wx.navigateTo({
+      url: '../projectSearchList/projectSearchList?name=' + e.detail.val
+    })
+  },
+  fetchBidList(flag = false) {
+    var that = this,
+      todayTime = commonJs.DateFormat('yyyy-MM-dd'),
+      type = that.data.bidType;
+    if (flag) {
+      this.setData({
+        kbList: [],
+        sbList: [],
+        bidList: [],
+        kbPage: 1,
+        sbPage: 1,
+        isMessage: true,
+        isLoad: true,
+        listMsg: '数据加载',
+      })
+      //今日开标
+      ajax({
+        url: '/Search/GetData/GetDataHandler.ashx',
+        data: {
+          method: 'Web.XCX_GetJiaoYiList',
+          pageindex: 1,
+          pagesize: 10,
+          or: 'OPEN_TIME',
+          OPEN_TIME_START: todayTime,
+          OPEN_TIME_END: todayTime,
+          AREA_CODE: this.data.code,
+          TYPE_ALL: this.data.TYPE_ALL
+        }
+      }).then((res) => {
+        var data = [...res.data.data.data],
+          total = res.data.data.total,
+          totalPage = Math.ceil(total / 10),
+          isMessage = false,
+          listMsg = '';
+        if (data.length) {
+          if (totalPage == 1) {
+            isMessage = true
+            listMsg = '已获取全部数据'
+          }
+          that.setData({
+            kbList: data,
+            kbTotalPage: totalPage,
+            kbTotal: total
+          })
+        } else {
+          listMsg = '暂无数据';
+          isMessage = true;
+          that.setData({
+            kbList: [],
+            kbTotalPage: 1,
+            kbTotal: 0
+          })
+        }
+        if (type == 'kb') {
+          this.setData({
+            bidList: data,
+            listMsg: listMsg,
+            isMessage: isMessage,
+            isLoad: false
+          })
+        }
+      })
+      //正在报名
+      ajax({
+        url: '/Search/GetData/GetDataHandler.ashx',
+        data: {
+          method: 'Web.XCX_GetJiaoYiList_BaoMin',
+          pageindex: 1,
+          pagesize: 10,
+          or: 'PUBLISHED_TIME',
+          // PUBLISHED_TIME_START: todayTime,
+          // PUBLISHED_TIME_END: todayTime,
+          AREA_CODE: this.data.code,
+          TYPE_ALL: this.data.TYPE_ALL
+        }
+      }).then((res) => {
+        var data = [...res.data.data.data],
+          total = res.data.data.total,
+          totalPage = Math.ceil(total / 10),
+          isMessage = false,
+          listMsg = '';
+        if (data.length) {
+          if (totalPage == 1) {
+            isMessage = true
+            listMsg = '已获取全部数据'
+          }
+          that.setData({
+            sbList: data,
+            sbTotalPage: totalPage,
+            sbTotal: total
+          })
+        } else {
+          listMsg = '暂无数据';
+          isMessage = true;
+          that.setData({
+            sbList: [],
+            sbTotalPage: 1,
+            sbTotal: 0
+          })
+        }
+        if (type == 'sb') {
+          this.setData({
+            bidList: data,
+            listMsg: listMsg,
+            isMessage: isMessage,
+            isLoad: false
+          })
+        }
+      })
+    } else {
+      let initData = [],
+        bidType = {
+          kb: 'kbList',
+          kbTotal: 'kbTotalPage',
+          sb: 'sbList',
+          sbTotal: 'sbTotalPage'
+        },
+        param;
+      if (type == 'kb') {
+        param = {
+          method: 'Web.XCX_GetJiaoYiList',
+          pageindex: that.data.kbPage,
+          pagesize: 10,
+          or: 'OPEN_TIME',
+          OPEN_TIME_START: todayTime,
+          OPEN_TIME_END: todayTime
+
+        }
+        initData = [...that.data.kbList];
+      } else {
+        param = {
+          method: 'Web.XCX_GetJiaoYiList_BaoMin',
+          pageindex: that.data.sbPage,
+          pagesize: 10,
+          or: 'PUBLISHED_TIME',
+          // PUBLISHED_TIME_START: todayTime,
+          // PUBLISHED_TIME_END: todayTime
+        }
+        initData = that.data.sbList;
+      }
+      param.AREA_CODE = this.data.code;
+      param.TYPE_ALL = this.data.TYPE_ALL
+      ajax({
+        url: '/Search/GetData/GetDataHandler.ashx',
+        data: param
+      }).then((res) => {
+        var data = [...initData, ...res.data.data.data],
+          total = Math.ceil(res.data.data.total / 10)
+        if (data.length) {
+          let isMessage = false,
+            listMsg = '';
+          if (total == 1) {
+            isMessage = true
+            listMsg = '已获取全部数据'
+          }
+          that.setData({
+            [bidType[type]]: data,
+            bidList: [...data],
+            [bidType[type + 'Total']]: total,
+            isMessage: isMessage,
+            isLoad: false,
+            listMsg: listMsg
+          })
+        } else {
+          this.setData({
+            bidList: [],
+            listMsg: '暂无数据',
+            isMessage: true,
+            isLoad: false
+          })
+        }
+      })
+    }
+
+  },
+  cutBidType(e) {
+    var val = e.currentTarget.dataset.type,
+      bidType = {
+        kb: 'kbList',
+        sb: 'sbList'
+      }
+    if (val == this.data.bidType) {
+      return
+    };
+    this.setData({
+      bidType: val,
+      isLoding: false,
+      isMessage: false
+    })
+    if (!this.data[bidType[val]].length) {
+      this.fetchBidList()
+    } else {
+      this.setData({
+        bidList: [...this.data[bidType[val]]]
+      })
+    };
+  },
+  getSumData() {
+    ajax({ //获取交易汇总
+      url: '/Search/GetData/GetDataHandler.ashx',
+      data: {
+        method: 'Web.XCX_GetCountAmount',
+        AREA_CODE: this.data.code
+      }
+    }).then((res) => {
+      var data = res.data.data.data
+      this.setData({
+        dealData: data
+      })
+    })
+  },
+  getBanner() {
+    ajax({ //轮播图
+      url: '/Search/GetData/GetDataHandler.ashx',
+      data: {
+        method: 'Web.GetNewsList',
+        in_type: '0d081bb7-c771-4b8b-8c3d-53f0d9c7d419',
+        pageindex: 1,
+        pagesize: 5
+      }
+    }).then((res) => {
+      var data = res.data.data.data
+      this.setData({
+        banner: data
+      })
+    })
+  },
+  getIndexData() {
+    // this.getSumData()
+    this.setData({
+      // indexmenu: app.option['groupType'],
+      isLogin: app.userName ? true : false
+    })
+    ajax({
+      url: '/Search/GetData?method=Vip.PUSH_GetPushCount'
+    }).then((res) => {
+      if (res.data.status == '200') {
+        var num = res.data.data.data[0].NUM
+        if (num) {
+          wx.setStorageSync('subNum', num)
+        }
+      }
+      this.setData({
+        subNum: wx.getStorageSync('subNum')
+      })
+    })
+    this.fetchBidList(true)
+  },
+  /**
+   * 生命周期函数--监听页面加载
+   */
+  onLoad: function(options) {
+    console.log('index-onlod')
+    var location = wx.getStorageSync('location'),
+      tradeSelect = wx.getStorageSync('tradeSelect');
+    this.getSumData()
+    this.getBanner()
+    this.setData({
+      code: location.code,
+      TYPE_ALL: tradeSelect.code
+    })
+
+
+  },
+
+  /**
+   * 生命周期函数--监听页面初次渲染完成
+   */
+  onReady: function() {},
+
+  /**
+   * 生命周期函数--监听页面显示
+   */
+  onShow: function() {
+    console.log('onShow----')
+    if (!app.sessionid) {
+      initBase().then((res) => {
+        this.getIndexData()
+      })
+    } else {
+      this.getIndexData()
+    }
+  },
+
+  /**
+   * 生命周期函数--监听页面隐藏
+   */
+  onHide: function() {
+
+  },
+
+  /**
+   * 生命周期函数--监听页面卸载
+   */
+  onUnload: function() {
+
+  },
+
+  /**
+   * 页面相关事件处理函数--监听用户下拉动作
+   */
+  onPullDownRefresh: function() {
+    console.log('Down')
+  },
+
+  /**
+   * 页面上拉触底事件的处理函数
+   */
+  onReachBottom: function() {
+    var bidType = this.data.bidType,
+      kbTotalPage = this.data.kbTotalPage,
+      sbTotalPage = this.data.sbTotalPage,
+      kbPage = this.data.kbPage,
+      sbPage = this.data.sbPage,
+      isMessage = this.data.isMessage;
+
+    if (bidType == 'kb' && (kbPage < kbTotalPage) && !isMessage) {
+      this.data.kbPage = ++kbPage
+      console.log(this.data.kbPage && !isMessage)
+    } else if (bidType == 'sb' && (sbPage < sbTotalPage)) {
+      this.data.sbPage = ++sbPage
+    } else if ((!(kbPage < kbTotalPage) || !(sbPage < sbTotalPage)) && !isMessage) {
+      this.setData({
+        listMsg: '已获取全部数据',
+        isMessage: true,
+        isLoad: false
+      })
+      return
+    } else {
+      return
+    }
+
+    this.setData({
+      listMsg: '数据加载中...',
+      isMessage: true,
+      isLoad: true
+    })
+    setTimeout(() => {
+      this.fetchBidList()
+    }, 1500)
+
+  },
+  /**
+   * 用户点击右上角分享
+   */
+  onShareAppMessage: function() {
+
+  }
+})

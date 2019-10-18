@@ -1,0 +1,6 @@
+{
+  "usingComponents": {
+    "footerBar": "/components/common/footer-bar/footer-bar"
+  },
+  "navigationBarTitleText": "我的"
+}

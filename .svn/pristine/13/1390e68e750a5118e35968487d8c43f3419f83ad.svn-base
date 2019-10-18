@@ -1,0 +1,117 @@
+// components/common/yjy-trade/yjy-trade.js
+let app = getApp()
+let commonJs = require('../../../utils/common')
+
+Component({
+  /**
+   * 组件的属性列表
+   */
+  properties: {
+    categoryObj: {
+      type: Object,
+      value: {
+        name: '',
+        value: ''
+      }
+    },
+  },
+
+  /**
+   * 组件的初始数据
+   */
+  data: {
+    tradeTop: [],
+    tradeSub: {},
+    tradeSubList: [],
+    tradeTopVal: '',
+    tradeSubVal: ''
+  },
+
+  lifetimes: {
+    attached() {
+      let option = app.option,
+        trade = new commonJs.treeUtil([...option.trade], 'ID', 'PID'),
+        tradeTree = trade.toTree()
+      let tradeTop = [{
+          NAME: '全部',
+          CODE: ''
+        }],
+        tradeSub = {
+          '全部': []
+        }
+      tradeTree.forEach(item => {
+        tradeTop.push({
+          NAME: item.NAME,
+          CODE: item.CODE
+        })
+        tradeSub[item.NAME] = [{
+          NAME: '全部',
+          PARENTNAME: item.NAME,
+          CODE: item.CODE.substring(0, 1) //只传前一位
+        }].concat(item.children)
+      });
+      this.setData({
+        tradeTop: tradeTop,
+        tradeSub: tradeSub
+      })
+      this.handleData()
+    }
+  },
+  /**
+   * 组件的方法列表
+   */
+  methods: {
+    handleData(){
+      let { tradeTop, tradeSub, categoryObj} = this.data
+      let tradeTopVal, tradeSubVal = categoryObj.name
+      if (categoryObj.value){
+        tradeTop.forEach((item) => {
+          if(categoryObj.value.indexOf(item.CODE) >= 0){
+            tradeTopVal = item.NAME
+          }
+          if (categoryObj.value.length == 1){
+            tradeSubVal = '全部'
+          }
+        })
+      }else {
+        tradeTopVal = '全部'
+      }
+      this.setData({
+        tradeTopVal: tradeTopVal,
+        tradeSubVal: tradeSubVal,
+        tradeSubList: tradeSub[tradeTopVal]
+      })
+    },
+    barChange({
+      target
+    }) {
+      let {
+        dataset
+      } = target
+      let {
+        level,
+        tradeItem
+      } = dataset
+      if (level == '1') {
+        this.setData({
+          tradeTopVal: tradeItem.NAME,
+          tradeSubList: this.data.tradeSub[tradeItem.NAME]
+        })
+        if (tradeItem.NAME === '全部') {
+          this.triggerEvent('yjy-trade', {
+            name: tradeItem.NAME,
+            value: tradeItem.CODE
+          })
+        }
+      } else if (level == '2') {
+        this.setData({
+          tradeSubVal: tradeItem.NAME
+        })
+        this.triggerEvent('yjy-trade', {
+          name: tradeItem.PARENTNAME || tradeItem.NAME,
+          value: tradeItem.CODE
+        })
+      }
+    }
+  }
+})

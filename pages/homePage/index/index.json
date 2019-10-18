@@ -1,0 +1,10 @@
+{
+  "usingComponents": {
+    "search": "/components/common/search/search",
+    "bidList": "/components/common/bid-list/bid-list",
+    "regionSelect": "/components/common/region-select/region-select",
+    "tradeSelect": "/components/common/trade-select/trade-select",
+    "footerBar": "/components/common/footer-bar/footer-bar",
+    "homeSlide": "/components/common/home-slide/home-slide"
+  }
+}

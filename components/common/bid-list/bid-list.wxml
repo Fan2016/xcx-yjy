@@ -1,0 +1,126 @@
+<view class='bid-list'>
+  <view wx:if='{{type=="default"}}' class='trade-count-list'>
+    <view wx:for="{{tradeCountList}}" wx:for-item="item" class='item {{item.isCur?"cur":""}}' bindtap='tradeClick' wx:key='{{item}}' data-index='{{index}}' data-item='{{item}}'>
+      <text style='color:{{item.isCur?"#fff":item.COLOR}}' >{{item.SHORT_NAME}}</text>({{item.COUNT>99?'99+':item.COUNT}})
+    </view>
+  </view>
+  <block wx:for="{{listData}}" wx:for-item="item" wx:if="{{listData.length!=0}}" wx:if='{{type=="default"}}' wx:key='{{item}}'>
+    <navigator url="../../ebid/projectDetail/projectDetail?id={{item.SOURCE_ID}}&indexIsUpdate={{indexIsUpdate}}&site={{index}}&cancel={{cancel}}" bindtap='click' id='{{item.ID}}' data-index='{{index}}' data-param='{{item}}'>
+      <view class='bid-list-box'>
+        <view class='order'>
+          <text>{{index+1}}</text>
+        </view>
+        <view class='new' wx-if='{{item.isView}}'>
+          <text>new</text>
+        </view>
+        <view class='bid-tit'>
+
+          <view class='state' style='background:{{item.COLOR}}'>
+            {{item.SHORT_NAME}}
+            <!-- <text>{{item.SHORT_NAME}}</text>
+          <text class='ico' style='background:{{item.COLOR}}'></text> -->
+          </view>
+          <view class='title'>
+            <text>{{item.NAME}}</text>
+          </view>
+          <image wx:if='{{collect[item.SOURCE_ID]==0||collect[item.SOURCE_ID]==1}}' src='../../../images/{{(collect[item.SOURCE_ID]=="1")?"collectOk":"collect"}}.png'></image>
+          <image wx:else src='../../../images/{{(item.IS_FOLLOW=="1")?"collectOk":"collect"}}.png' ></image>
+        </view>
+        <view class='bid-tag'>
+          <text class='color-a'>{{item.PLATFORM_CODE_TEXT}}</text>
+          <text class='color-b'>{{item.TYPE_TEXT}}</text>
+          <text class='{{item.STATUS_TXT=="已开标"?"color-e":"color-c"}}'>{{item.STATUS_TXT}}</text>
+        </view>
+        <view class='bid-info'>
+          <view>
+            <text>预算 ：<text class='color-d'>{{item.CONTROL_PRICE_SHOW}} {{item.CONTROL_PRICE_SHOW=='-'?'':'万元'}}</text></text>
+          </view>
+          <view class='right'>
+            <icon type="waiting" size="9" color='#999' />
+            <text>开标 ：{{item.OPEN_TIME_SHOW}}</text>
+          </view>
+        </view>
+      </view>
+    </navigator>
+  </block>
+  <block wx:for="{{listData}}" wx:for-item="item" wx:for-index="site" wx:if="{{listData.length!=0}}" wx:if='{{type=="date"}}' wx:key='{{item}}'>
+    <!-- <view class='timeLine' wx:if="{{item.tm}}">
+      <view class='line'></view>
+      <view class='tm'>[ {{item.tm}} ]</view>
+      <view class='line'></view>
+    </view> -->
+    <view class="arrowView m0_20_20" data-site='{{site}}' bindtap='infoShow'>
+      <view class="arrowView">
+        <view class=" {{site==cur&&curToggle?'orange':'blue'}}"></view>
+        <view class='info'>{{item.date}}</view>
+        <view class='info'>
+          <text>{{item.data.length}}</text>条项目信息</view>
+      </view>
+      <view class="{{site==cur&&curToggle?'arrow_bottom':'arrow_right'}}"></view>
+    </view>
+
+    <view class='trade-count-list' wx:if='{{site==cur&&curToggle}}'>
+      <view wx:for="{{item.traceCount}}" wx:for-item="item" class='item {{item.isCur?"cur":""}}' wx:key='{{item}}' data-param='{{item}}' data-site='{{site}}' data-index='{{index}}' bindtap='subscriptionTradeClick'>
+        <text style='color:{{item.isCur?"#fff":"#000"}}'>{{item.SHORT_NAME}}</text>({{item.COUNT>99?'99+':item.COUNT}})
+      </view>
+    </view>
+
+
+    <block wx:for="{{item.data}}" wx:for-item="item" wx:if="{{item.data.length!=0}}" wx:key='{{item}}' wx:if='{{site==cur&&curToggle}}'>
+      <navigator url="../../ebid/projectDetail/projectDetail?id={{item.SOURCE_ID}}&indexIsUpdate=false" bindtap='click' id='{{item.ID}}' data-index='{{index}}' data-site='{{site}}' data-param='{{item}}'>
+        <view class='bid-list-box'>
+          <view class='order'>
+            <text>{{index+1}}</text>
+          </view>
+          <view class='new' wx-if='{{item.isView}}'>
+            <text>new</text>
+          </view>
+          <view class='bid-tit'>
+
+            <view class='state' style='background:{{item.COLOR}}'>
+              {{item.SHORT_NAME}}
+              <!-- <text>{{item.SHORT_NAME}}</text>
+          <text class='ico' style='background:{{item.COLOR}}'></text> -->
+            </view>
+            <view class='title'>
+              <text>{{item.NAME}}</text>
+            </view>
+            <image src='../../../images/{{collect[item.SOURCE_ID]=="1"?"collectOk":"collect"}}.png' ></image>
+          </view>
+          <view class='bid-tag'>
+            <text class='color-a'>{{item.PLATFORM_CODE_TEXT}}</text>
+            <text class='color-b'>{{item.TYPE_TEXT}}</text>
+            <text class='{{item.STATUS_TXT=="已开标"?"color-e":"color-c"}}'>{{item.STATUS_TXT}}</text>
+          </view>
+          <view class='bid-info'>
+            <view>
+              <text>预算 ：<text class='color-d'>{{item.CONTROL_PRICE_SHOW}} {{item.CONTROL_PRICE_SHOW=='-'?'':'万元'}}</text></text>
+            </view>
+            <view class='right'>
+              <icon type="waiting" size="9" color='#999' />
+              <text>开标 ：{{item.OPEN_TIME_SHOW}}</text>
+            </view>
+          </view>
+        </view>
+      </navigator>
+    </block>
+    <block wx:if="{{item.data.length==0&&(site==cur&&curToggle)}}"><view class='message'>
+    <image src='../../../images/noSearch.png' class='onSubscription'></image>
+    无数据</view></block>
+  </block>
+  <!-- 消息中心列表 -->
+  <block wx:for="{{listData}}" wx:for-item="item" wx:for-index="site" wx:if="{{listData.length!=0}}" wx:if='{{type=="inform"}}' wx:key='{{item}}'>
+   <navigator url="../../ebid/projectDetail/projectDetail?id={{item.SOURCE_ID}}&indexIsUpdate={{indexIsUpdate}}&site={{index}}"  id='{{item.ID}}' data-index='{{index}}' data-param='{{item}}'>
+  <view class='inform-list-box'>
+    <view class="inform-header"><view class="type"><image src='../../../images/icon-inform.png'></image>项目信息</view><view class="time">2019-10-11 21:10</view></view>
+    <view class="inform-tit">{{site+1}}.您投标的【<text>{{item.title}}</text>】有新的变更公告！</view>
+    <view class="inform-details">详情</view>
+    
+  </view>
+   </navigator>
+  </block>
+  <view class='message' wx:if='{{isMessage}}'>
+    <image src='../../../images/noSearch.png' wx:if='{{!listData.length}}' class='onSearch'></image>
+    <image wx:if='{{isLoad}}' src='../../../images/loading.gif' class='load'></image>{{messageText}}
+  </view>
+</view>

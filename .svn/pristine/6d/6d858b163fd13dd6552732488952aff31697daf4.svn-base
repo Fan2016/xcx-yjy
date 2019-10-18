@@ -1,0 +1,7 @@
+{
+  "enablePullDownRefresh": true,
+  "usingComponents": {
+    "bidList": "/components/common/bid-list/bid-list",
+    "filtrate": "/components/common/filtrate/filtrate"
+  }
+}

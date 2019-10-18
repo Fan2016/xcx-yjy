@@ -1,0 +1,5 @@
+{
+  "usingComponents": {
+    "sspConfig": "/components/subscription/ssp-conf/ssp-conf"
+  }
+}

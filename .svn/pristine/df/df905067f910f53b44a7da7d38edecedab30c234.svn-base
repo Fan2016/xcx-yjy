@@ -1,0 +1,14 @@
+.search-shade {
+  background: rgba(0, 0, 0, 0.3);
+  position: fixed;
+  z-index: 11;
+  top: 0;
+  height: 80rpx;
+  width: 100%;
+}
+.line{
+  padding-top:20rpx
+}
+.line view{
+  height:20rpx;width:100%;background:#f4f4f4;position:fixed;top:143rpx;
+}
