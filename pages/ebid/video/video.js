@@ -15,7 +15,7 @@ Page({
    */
   onLoad: function (options) {
 
-    let videoUrl = "https://vm.enjoy5191.com/xcxvideoTest.html?" + encodeURIComponent("id=" + options.id + '&title=' + options.title + '&isDBD=' + options.isDBD + '&videoId=' + options.videoId + '&dbdData=' + options.dbdData + "&uid=" + app.userName + "&isIos=" + options.isIos + "&CREATE_BY=" + options.CREATE_BY) + "&timestamp =" + new Date().getTime() + "#" + app.token_type + ' ' + app.access_token;
+    let videoUrl = "https://vm.enjoy5191.com/xcxvideo.html?" + encodeURIComponent("id=" + options.id + '&title=' + options.title + '&isDBD=' + options.isDBD + '&videoId=' + options.videoId + '&dbdData=' + options.dbdData + "&uid=" + app.userName + "&isIos=" + options.isIos + "&CREATE_BY=" + options.CREATE_BY) + "&timestamp =" + new Date().getTime() + "#" + app.token_type + ' ' + app.access_token;
     this.setData({ videoUrl, options})
   },
   /**

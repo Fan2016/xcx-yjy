@@ -1,6 +1,6 @@
 var app = getApp(),
   commonJs = require('../../../utils/common'),
-  ajax = commonJs.ajax, initBase = commonJs.initBase;
+  ajax = commonJs.ajax, initBase = commonJs.initBase, _showToast = commonJs. showToast;
 Page({
   /**
    * 页面的初始数据
@@ -13,12 +13,14 @@ Page({
     isLogin: false, //是否登陆
     impower: false, //是否微信授权
     userName: '游客',
-    pageUrl: '/pages/user/index/demo',
+    pageUrl: '/pages/user/index/index',
     subNum: '',
     isCareUpdate:0,
     isUpdateTB:0,
-    isUpdateZB:0
-
+    isUpdateZB:0,
+    isUpdateXX:0,
+    banner:'',
+    balance: '-'//随行支付金额
   },
   onGotUserInfo: function (e) {
     //授权允许
@@ -67,6 +69,29 @@ Page({
         else if (item.CY_TYPE == 2){
           this.setData({ isUpdateZB: item.NEWNUM })
         }
+      })
+    })
+  },
+  //消息中心是否更新
+  getInformTotalNum(){
+    ajax({
+      url: '/Search/GetData',
+      data: {
+        method: 'Vip.XCX_GetNewMyMsgCount'
+      }
+    }).then((res) => {
+      let data = res.data.data.data;
+      this.setData({ isUpdateXX: data[0].NUM })
+    })
+  },
+  fatchUserInfo(){
+    ajax({
+      url:'/Member/GetUserInfo'
+    }).then(res=>{
+      let data=res.data.data
+      let balance = app.isUum ? data.Balance:'-';
+      this.setData({
+        balance
       })
     })
   },
@@ -129,11 +154,56 @@ Page({
    */
   onLoad: function (options) {
     wx.hideTabBar({})
-    this.showUser();
-    // this.setData({ subNum: wx.getStorageSync('subNum') }) 
-    if (this.data.isLogin) {
-      this.getNewTotalNum();
-      this.getJoinTotalNum();
+    this.setData({
+      banner: 'https://vm.enjoy5191.com/images/me-banner.png?temp=' + new Date().getTime()
+    })
+  },
+  saoMa(e){//扫码
+    if (this.data.isLogin){
+      wx.scanCode({
+        onlyFromCamera: true,
+        scanType: ['qrCode'],
+        success: (res) => {
+          let result;
+          try{
+            result = JSON.parse(res.result)
+          }
+          catch(e){
+            result = {}
+          }
+          let { mark, url, code, create_time } = result;
+          if (mark =='sx_uum_login'){
+            // ajax({
+            //   url:'/Member/ScanNotify',
+            //   data:{
+            //     url,
+            //     code
+            //   }
+            // }).then(res=>{
+            //   wx.navigateTo({
+            //     url: '../saoma/saoma?code=' + code + '&url=' + url
+            //   })
+            // })
+            wx.navigateTo({
+              url: '../saoma/saoma?code=' + code + '&url=' + url
+            })
+          }else{
+            _showToast({
+              title: '无效二维码',
+              image: '../../../images/warn.png',
+              duration: 2000
+            })
+          }        
+        }, fail(res) {
+          _showToast({
+            title: '无效二维码',//res.errMsg
+            image: '../../../images/warn.png',
+            duration: 2000
+          })
+        }
+      })
+    }else{
+      commonJs.unLoginToast();
     }
   },
   loginTab(e) {
@@ -173,7 +243,7 @@ Page({
         else {
           wx.showToast({
             title: url + "出错",
-            icon: 'error',
+            image: '../../../images/warn.png',
             duration: 2000
           })
         }
@@ -198,6 +268,12 @@ Page({
     }
     if (userName) {
       isLogin = true;
+    }
+    if (isLogin) {
+      this.fatchUserInfo()
+      this.getNewTotalNum();
+      this.getJoinTotalNum();
+      this.getInformTotalNum();
     }
     this.setData({
       impower,

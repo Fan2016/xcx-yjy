@@ -1,5 +1,5 @@
 
-<web-view src='{{videoUrl}}'></web-view>
+<!-- <web-view src='{{videoUrl}}'></web-view> -->
 
 <!-- 
  <video

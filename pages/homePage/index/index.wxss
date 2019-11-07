@@ -152,6 +152,21 @@ top: 11rpx;
   padding: 10rpx 10rpx 0;
   box-sizing: border-box;
   margin-bottom: -1rpx;
+  position: relative;
+}
+.index-menu-item .tag image,.index-menu-item .tag text{
+  position: absolute;
+  top:-4rpx;
+  right: 0;
+  width: 96rpx;
+  height: 36rpx; 
+}
+.index-menu-item .tag text{
+  line-height: 37rpx;
+  text-align: center;
+  color:#fff;
+  font-size: 18rpx;
+  z-index: 1
 }
 
 .index-menu-item image {

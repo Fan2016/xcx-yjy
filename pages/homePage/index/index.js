@@ -51,16 +51,20 @@ Page({
         "url": "../projectSearchList/projectSearchList"
       },
       {
-        "NAME": "金融服务",
-        "val": "金融服务",
+        "NAME": "自助服务",
+        "val": "自助服务",
         "IMG": "../../../images/jrfw.png",
-        "url": "../../common/no"
-      },
+        "url": "",
+        "tag": '敬请期待',
+        'tagImg': '../../../images/icon_tag.png'
+      },  
       {
         "NAME": "场地预约",
         "val": "场地预约",
         "IMG": "../../../images/cdyy.png",
-        "url": "../../common/no"
+        "url": "",
+        "tag": '敬请期待',
+        'tagImg':'../../../images/icon_tag.png'
       }
     ],
     dealData: [],
@@ -494,6 +498,18 @@ Page({
         resolve(state)
       })    
     }))
+    pro.push(new Promise(function (resolve, reject) {
+      ajax({
+        url: '/Search/GetData',
+        data: {
+          method: 'Vip.XCX_GetNewMyMsgCount'
+        }
+      }).then((res) => {
+        let data = res.data.data.data, state = false;
+        state = data[0].NUM>0?true:false;
+        resolve(state)
+      })
+    }))
     Promise.all(pro).then((res) => {
       let isMeUpdate=false
       res.forEach(item=>{
@@ -529,6 +545,21 @@ Page({
     this.fetchBidList({
       flag: true
     })
+  },
+  bannerSkip(e){//轮播图跳转
+    let type = e.currentTarget.dataset.type, sources = e.currentTarget.dataset.sources;
+    switch(true){
+      case (type == 1): //详情页跳转
+        wx.navigateTo({
+          url: sources
+        });
+      break;
+      case (type == 2): //外页跳转
+        wx.navigateTo({
+          url: '../../common/webUrl?url=' + sources
+        });
+      break;
+    }
   },
   /**
    * 生命周期函数--监听页面加载

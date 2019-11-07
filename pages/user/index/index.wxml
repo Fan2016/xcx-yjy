@@ -18,11 +18,12 @@
         <view class="icon" wx:if="{{impower}}">
           <image src='{{userInfo.avatarUrl}}'></image>
         </view>
-        <text class="userName">{{userName}}</text>
+        <navigator class="userName" url='../login/login' wx:if="{{!isLogin}}" >立即登录</navigator>
+        <text wx:else class="userName">{{userName}}</text>
       </view>
       <view class="user-total">
         <view class='item'>
-          <view class='num'>- 元</view>
+          <view class='num'>{{isLogin?balance:'-'}} 元</view>
           <view class='type'>随行支付</view>
         </view>
         <view class='item'>
@@ -31,7 +32,7 @@
         </view>
         <view class='item'>
           <view class='num'>- 张</view>
-          <view class='type'>优惠卷</view>
+          <view class='type'>优惠券</view>
         </view>
       </view>
     </view>
@@ -45,21 +46,21 @@
 
             <view class='item' bindtap='loginTab' data-id='guanzhu' data-url='../interest/interest'>
               <view class='item-box'>
-                <view class='bubble' wx-if="{{isCareUpdate>0}}">{{isCareUpdate}}</view>
+                <view class='bubble' wx-if="{{isCareUpdate>0&&isLogin}}">{{isCareUpdate}}</view>
                 <image src='../../../images/me-about.png'></image>
                 <text>我的关注</text>
               </view>
             </view>
             <view class='item' bindtap='loginTab' data-id='toubiao' data-url='../tenderProject/tenderProject'>
               <view class='item-box'>
-                <view class='bubble' wx-if="{{isUpdateTB>0}}">{{isUpdateTB}}</view>
+                <view class='bubble' wx-if="{{isUpdateTB>0&&isLogin}}">{{isUpdateTB}}</view>
                 <image src='../../../images/me-toubid.png'></image>
                 <text>我的投标</text>
               </view>
             </view>
             <view class='item' bindtap='loginTab' data-id='zhaobiao' data-url='../bidProject/bidProject'>
               <view class='item-box'>
-                <view class='bubble' wx-if="{{isUpdateZB>0}}">{{isUpdateZB}}</view>
+                <view class='bubble' wx-if="{{isUpdateZB>0&&isLogin}}">{{isUpdateZB}}</view>
                 <image src='../../../images/me-zhaobid.png'></image>
                 <text>我的招标</text>
               </view>
@@ -80,13 +81,13 @@
 
             <view class='item' bindtap='loginTab' data-url='../suggest/suggest'>
               <view class='item-box'>
-                <view class='bubble' wx-if="{{isCareUpdate}}"></view>
                 <image src='../../../images/me-opinion.png'></image>
                 <text>意见反馈</text>
               </view>
             </view>
-            <view class='item' bindtap='loginTab' data-url='../../common/no'>
+            <view class='item' bindtap='loginTab' data-url='../message/message'>
               <view class='item-box'>
+               <view class='bubble' wx-if="{{isUpdateXX>0&&isLogin}}">{{isUpdateXX}}</view>
                 <image src='../../../images/me-information.png'></image>
                 <text>消息中心</text>
               </view>
@@ -97,13 +98,16 @@
                 <text>账户设置</text>
               </view>
             </view>
-            <view class='item'>
-           
+            <view class='item' bindtap='saoMa'  data-url='../saoma/saoma'>
+                <view class='item-box'>
+                <image src='../../../images/sys.png'></image>
+                <text>扫一扫</text>
+              </view>
             </view>
           </view>
         </view>
         <view class='menu-module banner'>
-          <image  src='https://vm.enjoy5191.com/images/me-banner.png'></image>
+          <image  src='{{banner}}'></image>
         </view>
       </view>
     </view>

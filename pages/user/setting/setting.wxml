@@ -1,6 +1,6 @@
 <!--pages/user/setting/setting.wxml-->
 <view class="container">
-  <image src="https://vm.enjoy5191.com/images/set-banner.png" class="banner"></image>
+  <image src="{{banner}}" class="banner"></image>
   <view class="action">
     <view class="user-info item">
       <view>已登录账号</view>  <view class='user-name'>{{userName}}</view>

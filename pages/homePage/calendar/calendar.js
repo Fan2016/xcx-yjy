@@ -49,7 +49,7 @@ Page({
     let now = new Date();
     let year = now.getFullYear();
     let month = now.getMonth() + 1;
-    month = "0" + month;
+    month = month < 10 ? "0" + month:month;
     let day = now.getDate() < 10 ? '0' + now.getDate() : now.getDate();
     this.setData({
       year,

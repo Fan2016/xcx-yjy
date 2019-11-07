@@ -5,7 +5,7 @@
     <view data-id="yd" class="{{status=='yd'?'cur':''}}" bindtap="toggle">已读</view>
   </view>
     <view class='container-body'>  
-      <bidList listData="{{bidList}}" type="inform" indexIsUpdate='true'> </bidList>
+      <bidList listData="{{bidList}}" type="inform" indexIsUpdate='true' messageText="{{listMsg}}" isMessage="{{isMessage}}" isLoad="{{isLoad}}"  bind:clickInformClick='informClick'> </bidList>
     </view>
 </view>
 

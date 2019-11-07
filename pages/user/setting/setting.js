@@ -6,7 +6,8 @@ Page({
    * 页面的初始数据
    */
   data: {
-    userName:''
+    userName:'',
+    banner:''
   },
 
   /**
@@ -14,7 +15,8 @@ Page({
    */
   onLoad: function (options) {
     this.setData({
-      userName:app.userName
+      userName:app.userName,
+      banner: 'https://vm.enjoy5191.com/images/set-banner.png?temp='+ new Date().getTime()
     })
   },
   unbundle(e){

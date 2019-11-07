@@ -1,0 +1,16 @@
+<!--pages/user/saoma/saoma.wxml-->
+<image src="../../../images/pc.png" class="pc"></image>
+<view class="msg">易交易电子交易平台登陆确认</view>
+<view wx:if='{{isUum}}'>
+  <button bindtap="pcLogin" wx:if='{{code}}' class="btn">立即登录</button>
+  <button bindtap="saoma" wx:else class="btn">重新扫码</button>
+  <button bindtap='cancel' class="btn cancel"><text decode="{{true}}">取&nbsp;&nbsp;&nbsp;&nbsp;消</text></button>
+</view>
+<view wx:else>
+  <navigator url='../login/login'><button bindtap="toLogin"  class="btn"><text decode="{{true}}">切换用户</text></button></navigator>
+  <button bindtap='cancel'  class="btn cancel"><text decode="{{true}}">取&nbsp;&nbsp;&nbsp;&nbsp;消</text></button>
+</view>
+<!-- <button bindtap="saoma" wx:if='{{!code}}' class="btn"><text decode="{{true}}">{{smText}}</text></button>
+<button bindtap="pcLogin" wx:if='{{code}}' class="btn"><text decode="{{true}}">立即登录</text></button>
+<button bindtap='cancel' wx:if='{{code}}' class="btn cancel"><text decode="{{true}}">取&nbsp;&nbsp;&nbsp;&nbsp;消</text></button> -->
+

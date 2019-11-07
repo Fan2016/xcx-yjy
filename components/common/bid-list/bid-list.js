@@ -154,6 +154,11 @@ Component({
       //   [strData]: filtListData
       // })
       this.triggerEvent('clickTradeClick', { strTraceCount, flag, strData, filtListData})
+    },
+    informClick(e){
+      let param = e.currentTarget.dataset.param;
+        
+      this.triggerEvent('clickInformClick', { param})
     }
   },
 })

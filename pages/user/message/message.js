@@ -1,4 +1,7 @@
 // pages/user/message/message.js
+var app = getApp(),
+  commonJs = require('../../../utils/common'),
+  ajax = commonJs.ajax;
 Page({
 
   /**
@@ -6,23 +9,73 @@ Page({
    */
   data: {
     status:'wd',
-    bidList: [{
-      title: '国网福建南平政和县供电公司生产综合用房项目检公司综房项项目', SOURCE_ID:'5d919590e6727a09c47e8b06'
-    }, { title: '国网福建南平政和县供电公司生产综合用房项目检公司综房项项目国网福建南平政和县供电公司生产综合用房项目检公司综房项项目'}, {}, {}, {}, {}, {}]
+    bidList: [],
+    ydList:[],
+    wdList:[],
+    isMessage:true,
+    listMsg:'数据加载...',
+    isLoad:true
+
   },
   toggle(e){
-    let status = e.currentTarget.dataset.id
+    let status = e.currentTarget.dataset.id, bidList, listMsg;
+    bidList=status == 'wd' ? this.data.wdList : this.data.ydList;
+    listMsg = bidList.length?'':'暂无数据';
     this.setData({
-      status
+      status,
+      bidList,
+      listMsg
     })
   },
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-
+    this.cancelUpdate();
   },
+  fetchList(){
+    ajax({
+      url: '/Search/GetData',
+      data: {
+        method: 'Vip.XCX_MyMsg',
+        IS_READ:''//0||1
+      }
+    }).then((res) => {
+      let data = res.data.data.data, ydList = [], wdList = [], bidList = [], status = this.data.status, listMsg;
+      data.forEach(item=>{
+        if (item.IS_READ){
+          ydList.push(item)
+        }else{
+          wdList.push(item)
+        }
+      })
+      bidList = status == 'wd' ? [...wdList] : [...ydList];
+      listMsg = bidList.length ? '' : '暂无数据';
+      this.setData({
+        bidList,
+        ydList,
+        wdList,
+        listMsg,
+        isLoad:false
+      })
+    })   
+  },
+  informClick(e){//点击取消未读状态
+    let msg_id = e.detail.param.msg_id, IS_READ=e.detail.param.IS_READ;
+    if (IS_READ)return;
+    ajax({
+      url:'/MyMsg/ClickByMsgId',
+      data: {msg_id},
+    }).then(res=>{
 
+    })
+  },
+  cancelUpdate(){//取消红点状态
+    ajax({
+      url:'/MyMsg/Click'
+    }).then(res=>{
+    })
+  },
   /**
    * 生命周期函数--监听页面初次渲染完成
    */
@@ -34,7 +87,7 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
-
+    this.fetchList()
   },
 
   /**

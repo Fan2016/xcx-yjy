@@ -43,14 +43,10 @@
   </view>
 </view> -->
 <view class='ad-image' wx:if='{{isAd}}'>
-      <view class="img">
-      
+      <view class="img">   
         <image src="../../../images/banner.png" class="banner"></image>
         <image src="../../../images/close.png" bindtap='adClose' class="close"></image>
       </view>
-      <!-- <view class="close">
-         
-      </view> -->
       <view class='action'>    
       <view>
         <checkbox-group bindchange="checkboxChange">
@@ -64,14 +60,23 @@
   <search bind:searchEvent="fetchSearch" bind:areaEvent="fetchArea" isRegion='true'></search>
   <view class='container-body'>
     <view class="index-menu">
-      <navigator class="index-menu-item" wx:for="{{indexmenu}}" wx:key="{{item.ORDER_ID}}" url="{{item.url}}?type={{item.val}}&code={{item.CODE}}">
+    <view class="index-menu-item" wx:for="{{indexmenu}}" wx:key="{{item.ORDER_ID}}">
+     <view wx:if='{{item.tag}}' class="tag">
+     <image src="{{item.tagImg}}"></image>
+      <text>{{item.tag}}</text>
+     </view>
+      <navigator url="{{item.url}}?type={{item.val}}&code={{item.CODE}}" wx:if='{{item.url}}'>
         <image src='{{item.IMG}}'></image>
         <text>{{item.NAME}}</text>
       </navigator>
+      <view wx:else>
+        <image src='{{item.IMG}}'></image>
+        <text>{{item.NAME}}</text>
+      </view>
+    </view>    
     </view>
     <view class='line'></view>
     <view class='index-deals'>
-      <!-- <view class='deals-tit'>交易汇总</view> -->
       <block wx:for="{{dealData}}" wx:for-item="item" wx:key="{{index}}">
         <view class='item'>
           <view class='deals-type'>{{item.NAME}}</view>
@@ -82,14 +87,12 @@
     <view class='banner' style='margin:20rpx;'>
       <swiper indicator-dots="{{indicatorDots}}" autoplay="{{autoplay}}" interval="{{interval}}" duration="{{duration}}" style='height:130rpx;' class="swiper-box" circular="{{true}}">
         <block wx:for-items="{{banner}}" wx:key="{{index}}">
-          <swiper-item style="border-radius:10rpx" wx:if='{{item.SOURCES}}'>
-           <navigator url="../../common/webUrl?url={{item.SOURCES}}">
+          <swiper-item style="border-radius:10rpx" wx:if='{{item.SOURCES}}' bindtap='bannerSkip' data-SOURCES='{{item.SOURCES}}' data-type='{{item.TITLE}}'>
               <image src="{{item.IMG_URL}}" class="slide-image" style='height:130rpx' />
-           </navigator>   
           </swiper-item>
           <swiper-item style="border-radius:10rpx" wx:else>
               <image src="{{item.IMG_URL}}" class="slide-image" style='height:130rpx' /> 
-          </swiper-item>
+          </swiper-item> 
         </block>
       </swiper>
     </view>

@@ -1,0 +1,27 @@
+/* pages/user/saoma/saoma.wxss */
+.pc{
+  width: 360rpx;
+height: 360rpx;
+margin: 200rpx auto 0;
+
+}
+.msg{
+  color: #333333;
+  text-align: center;
+  margin: 40rpx 0 200rpx;
+}
+.btn{
+  margin: 20rpx auto;
+  background: #2299DD;
+  color: #fff;
+  border: 1px solid #2299DD;
+  width: 500rpx;
+height: 90rpx;
+line-height: 90rpx;
+
+}
+.btn.cancel{
+  background: #fff;
+  color: #2299DD;
+  border: 1px solid #2299DD;
+}

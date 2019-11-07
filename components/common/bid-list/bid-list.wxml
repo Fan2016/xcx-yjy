@@ -110,10 +110,10 @@
   </block>
   <!-- 消息中心列表 -->
   <block wx:for="{{listData}}" wx:for-item="item" wx:for-index="site" wx:if="{{listData.length!=0}}" wx:if='{{type=="inform"}}' wx:key='{{item}}'>
-   <navigator url="../../ebid/projectDetail/projectDetail?id={{item.SOURCE_ID}}&indexIsUpdate={{indexIsUpdate}}&site={{index}}"  id='{{item.ID}}' data-index='{{index}}' data-param='{{item}}'>
+   <navigator url="../../ebid/projectDetail/projectDetail?id={{item.id}}&indexIsUpdate={{indexIsUpdate}}&site={{index}}" bindtap='informClick' id='{{item.id}}' data-index='{{index}}' data-param='{{item}}'>
   <view class='inform-list-box'>
-    <view class="inform-header"><view class="type"><image src='../../../images/icon-inform.png'></image>项目信息</view><view class="time">2019-10-11 21:10</view></view>
-    <view class="inform-tit">{{site+1}}.您投标的【<text>{{item.title}}</text>】有新的变更公告！</view>
+    <view class="inform-header"><view class="type"><image src='../../../images/icon-inform.png'></image>{{item.type}}</view><view class="time">{{item.time}}</view></view>
+    <view class="inform-tit">{{site+1}}.您{{item.role}}的【<text>{{item.title}}</text>】发布了一条新的【{{item.status}}】！</view>
     <view class="inform-details">详情</view>
     
   </view>
