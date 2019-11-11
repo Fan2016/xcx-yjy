@@ -19,7 +19,7 @@ Page({
   onLoad: function (options) { 
     let msg = '', isUum =app.isUum;
     if (isUum){
-      msg ='易交易电子交易平台登陆确认'
+      msg ='易交易电子交易平台登录确认'
     }else{
       msg ='请绑定在易交易平台注册的手机账号'
     }
