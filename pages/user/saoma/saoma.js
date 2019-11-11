@@ -57,7 +57,7 @@ Page({
                 _that.setData({
                   url,
                   code,
-                  msg:'易交易电子交易平台登陆确认'
+                  msg:'易交易电子交易平台登录确认'
                 })
               } else {
                 wx.showToast({
