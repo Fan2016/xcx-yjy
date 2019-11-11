@@ -53,6 +53,7 @@ Page({
 
   },
   onLoad: function (options) {
+    //add Dev
     // setTimeout(function(){
     //   console.log(this)
     // },1000)
