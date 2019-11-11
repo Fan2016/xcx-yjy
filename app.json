@@ -2,9 +2,6 @@
   "pages": [
     "pages/homePage/index/index",
     "pages/user/saoma/saoma",
-    
-    
-     
     "pages/subscription/index/index",
     "pages/ebid/projectDetail/projectDetail",
     "pages/ebid/video/video",

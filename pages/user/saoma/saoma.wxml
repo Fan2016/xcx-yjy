@@ -1,6 +1,6 @@
 <!--pages/user/saoma/saoma.wxml-->
 <image src="../../../images/pc.png" class="pc"></image>
-<view class="msg">易交易电子交易平台登陆确认</view>
+<view class="msg {{(!isUum||!code)?'red':''}}">{{msg}}</view>
 <view wx:if='{{isUum}}'>
   <button bindtap="pcLogin" wx:if='{{code}}' class="btn">立即登录</button>
   <button bindtap="saoma" wx:else class="btn">重新扫码</button>

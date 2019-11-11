@@ -29,9 +29,9 @@ Page({
       msg,
       isUum
     })
-      // this.saoma()
   },
   saoma() {//扫码
+     let  _that=this;
       wx.scanCode({
         onlyFromCamera: true,
         scanType: ['qrCode'],
@@ -43,8 +43,30 @@ Page({
           catch (e) {
             result = {}
           }
+          let { mark, url, code, create_time } = result;
           if (mark == 'sx_uum_login') {
-            
+            ajax({
+              url: '/Member/ScanNotify',
+              data: {
+                url,
+                code
+              }
+            }).then(res => {
+              let data = res.data.data
+              if (data.result) {
+                _that.setData({
+                  url,
+                  code,
+                  msg:'易交易电子交易平台登陆确认'
+                })
+              } else {
+                wx.showToast({
+                  title: data.msg,
+                  image: '../../../images/warn.png',
+                  duration: 2000
+                })
+              }
+            })
           } else {
             wx.showToast({
               title: '无效二维码',
@@ -58,7 +80,7 @@ Page({
       })
   },
   pcLogin(){
-    let {code,url}=this.data;
+    let {code,url}=this.data,_that=this;
     ajax({
       url:'/Member/LoginNotify',
       data:{
@@ -66,16 +88,24 @@ Page({
         url
       }
     }).then(res=>{
-
+      let data=res.data.data
+      if (data.result){
+         wx.showToast({
+        title: '登录成功',
+        duration: 1500,
+        mask: true
+      })
+      setTimeout(() => {
+        wx.navigateBack()
+      }, 1500)
+      }else{
+        _that.setData({
+          url: '',
+          code: '',
+          msg: data.msg
+        })
+      }  
     })
-    wx.showToast({
-      title: '登录成功',
-      duration: 1500,
-      mask: true
-    })
-    setTimeout(()=>{
-      wx.navigateBack()
-    },1500)
   },
   cancel(){
     wx.switchTab({

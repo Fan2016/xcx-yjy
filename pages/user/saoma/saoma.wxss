@@ -9,6 +9,10 @@ margin: 200rpx auto 0;
   color: #333333;
   text-align: center;
   margin: 40rpx 0 200rpx;
+  font-weight: bold;
+}
+.red{
+  color: red;
 }
 .btn{
   margin: 20rpx auto;

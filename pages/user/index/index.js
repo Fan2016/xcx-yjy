@@ -20,7 +20,7 @@ Page({
     isUpdateZB:0,
     isUpdateXX:0,
     banner:'',
-    balance: '-'//随行支付金额
+    balance: ''//随行支付金额
   },
   onGotUserInfo: function (e) {
     //授权允许
@@ -88,8 +88,8 @@ Page({
     ajax({
       url:'/Member/GetUserInfo'
     }).then(res=>{
-      let data=res.data.data
-      let balance = app.isUum ? data.Balance:'-';
+      let data = res.data.data, Balance = data.Balance||0
+      let balance = app.isUum ? Balance:'-';
       this.setData({
         balance
       })
@@ -173,19 +173,25 @@ Page({
           }
           let { mark, url, code, create_time } = result;
           if (mark =='sx_uum_login'){
-            // ajax({
-            //   url:'/Member/ScanNotify',
-            //   data:{
-            //     url,
-            //     code
-            //   }
-            // }).then(res=>{
-            //   wx.navigateTo({
-            //     url: '../saoma/saoma?code=' + code + '&url=' + url
-            //   })
-            // })
-            wx.navigateTo({
-              url: '../saoma/saoma?code=' + code + '&url=' + url
+            ajax({
+              url:'/Member/ScanNotify',
+              data:{
+                url,
+                code
+              }
+            }).then(res=>{
+              let data = res.data.data
+              if (data.result){
+                wx.navigateTo({
+                  url: '../saoma/saoma?code=' + code + '&url=' + url
+                })
+              }else{
+                _showToast({
+                  title: data.msg,
+                  image: '../../../images/warn.png',
+                  duration: 2000
+                })
+              }        
             })
           }else{
             _showToast({
@@ -194,12 +200,6 @@ Page({
               duration: 2000
             })
           }        
-        }, fail(res) {
-          _showToast({
-            title: '无效二维码',//res.errMsg
-            image: '../../../images/warn.png',
-            duration: 2000
-          })
         }
       })
     }else{

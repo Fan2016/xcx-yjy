@@ -53,26 +53,10 @@ Page({
 
   },
   onLoad: function (options) {
-    
+    // setTimeout(function(){
+    //   console.log(this)
+    // },1000)
     return
-    let videoUrl = "https://vm.enjoy5191.com/xcxvideo.html?url=" + options.url + '&url2='+options.url2;
-    this.setData({videoUrl})
-    console.log(options)
-    // console.log(typeof md5)
-    // console.log(md5(111111))
- 
-    // this.stringToBytes('GcA*23jKJf0df09Osf09123ljlJF0920')
-    // this.encrypt()
-    return
-    console.log(easJs)
-    console.log('demo-onLoad')
-    // this.imgsrc()
-    // var area=app.option.area
-    //简单使用
-    // var tree = new treeUtil(area, 'ID', 'PID');
-    // console.log(tree.toTree());
-    var abc = function () { }, obj = {}, str = 'abc123', num = 999;
-    console.log(typeof num)
   },
   abc(a, b) {
     // app.token_type='change'
