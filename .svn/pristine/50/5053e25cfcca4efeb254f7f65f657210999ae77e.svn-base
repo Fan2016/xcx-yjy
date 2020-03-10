@@ -1,0 +1,7 @@
+.bid-list {
+  margin-top: 66rpx;
+}
+.line {
+  height: 20rpx;
+  background: #f4f4f4;
+}

@@ -1,0 +1,5 @@
+/* pages/user/browsing/browsing.wxss */
+.bid-list {
+  margin-top: -20rpx;
+
+}

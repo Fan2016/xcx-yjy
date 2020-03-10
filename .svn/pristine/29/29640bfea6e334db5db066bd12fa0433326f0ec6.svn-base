@@ -1,0 +1,7 @@
+{
+  "usingComponents": {
+    "bidList": "/components/common/bid-list/bid-list",
+    "filtrate": "/components/common/filtrate/filtrate"
+  },
+  "navigationBarTitleText": "我的投标"
+}

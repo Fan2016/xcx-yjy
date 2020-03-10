@@ -1,0 +1,6 @@
+{
+  "usingComponents": {
+    "bidList": "/components/common/bid-list/bid-list"
+  },
+  "navigationBarTitleText": "消息中心"
+}

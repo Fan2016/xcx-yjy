@@ -1,0 +1,11 @@
+<!--pages/user/bidProject/bidProject.wxml-->
+<view class='shadeBox' wx:if='{{isShade}}'> </view>
+<view class='container'>
+  <view class='container-body'>
+    <filtrate bind:filtrateEvent="fetchfiltrate" isSel='{{isSel}}'></filtrate>
+    <view class='bid-list'>
+      <view class='line'></view>
+      <bidList listData="{{bidList}}" messageText="{{listMsg}}" isMessage="{{isMessage}}" isLoad="{{isLoad}}" bind:ClickBySID='ClickBySID' tradeCountList="{{tradeCountList}}" collect="{{collect}}" bind:tradeSearchEvent="tradeSearch" indexIsUpdate='true'></bidList>
+    </view>
+  </view>
+</view>

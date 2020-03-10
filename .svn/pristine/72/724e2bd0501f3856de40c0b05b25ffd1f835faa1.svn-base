@@ -1,0 +1,21 @@
+<!--pages/user/suggest/suggest.wxml-->
+<view class='container'>
+  <view class='suggest-radio'>
+    <radio-group class="radio-group" bindchange="radioChange">
+      <label class="radio" wx:for="{{items}}" wx:key="*this">
+        <radio value="{{item.value}}" checked="{{item.checked}}" color="#42aaec" /> {{item.name}}
+      </label>
+    </radio-group>
+  </view>
+  <view class='suggest-text'>
+  <form bindsubmit="bindFormSubmit">
+   <textarea placeholder="有什么问题和建议，欢迎反馈给我们，谢谢！"  placeholder-style="color:#ccc;"
+      name="textarea" maxlength='500'/>
+      <!-- <view class='suggest-email'>
+       <view>邮箱</view> <input type='text' placeholder="请输入您的邮箱，以便工作人员进行回复" placeholder-style="color:#ccc;" name='email'></input>
+      </view> -->
+   <button form-type="submit">提交</button>
+   </form>
+  </view>
+</view>
+

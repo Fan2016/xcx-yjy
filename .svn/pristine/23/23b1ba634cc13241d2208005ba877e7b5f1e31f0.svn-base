@@ -1,0 +1,15 @@
+<!--pages/user/setting/setting.wxml-->
+<view class="container">
+  <image src="{{banner}}" class="banner"></image>
+  <view class="action">
+    <view class="user-info item">
+      <view>已登录账号</view>  <view class='user-name'>{{userName}}</view>
+    </view>
+    <view class="user-toggle item" bindtap='unbundle' data-id='userToggle' >
+      切换账户
+    </view>
+    <view class="user-out item" bindtap='unbundle' data-id='userOut'>
+    退出登录
+    </view>
+  </view>
+</view>
