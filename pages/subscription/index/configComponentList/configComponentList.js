@@ -15,7 +15,7 @@ Page({
    */
   onLoad: function(options) {
     let text = "";
-    this.getConfig();
+    // this.getConfig();
     this.setData({
       nameCode: options.nameCode || "",
       sspConf: JSON.parse(options.sspConf),//ssp-conf组件传值也许是没保存也许是保存了

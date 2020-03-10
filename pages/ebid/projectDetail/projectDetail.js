@@ -65,11 +65,6 @@ Page({
     })
   },
   skipVideo(){
-    // let urlVideo = this.data.urlVideo, 
-    // url = urlVideo[0][0].replace(/http/g, "https"), 
-    // url2 = urlVideo[1][0].replace(/http/g, "https"),
-    // name=this.data.bidName;
-    // let id = this.data.id, bidName=this.data.bidName,isDBD=this.data.isDBD,dbdData=this.data.dbdData;
     let { id, bidName, isDBD, dbdData, videoId, isIos, CREATE_BY=''}=this.data;
   
     wx.navigateTo({

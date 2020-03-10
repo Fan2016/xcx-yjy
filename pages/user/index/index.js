@@ -153,6 +153,21 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
+    let _that=this;
+    wx.getUserInfo({
+      success: function (res) {
+        var userInfo = res.userInfo
+        var nickName = userInfo.nickName
+        var avatarUrl = userInfo.avatarUrl
+        var gender = userInfo.gender //性别 0：未知、1：男、2：女
+        var province = userInfo.province
+        var city = userInfo.city
+        var country = userInfo.country
+      },
+      fail(){
+        _that.impower=false;
+      }
+    })
     wx.hideTabBar({})
     this.setData({
       banner: 'https://vm.enjoy5191.com/images/me-banner.png?temp=' + new Date().getTime()

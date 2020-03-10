@@ -1,8 +1,6 @@
 var app = getApp(),
   // host = 'https://xcxapi.enjoy5191.com';//正式
   host ='https://sxxcx.enjoy5191.com:26006'//测试
-  
-
 function DateFormat(format, date) {
   if (!date) {
     date = new Date();

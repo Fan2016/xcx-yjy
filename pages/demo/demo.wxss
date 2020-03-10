@@ -3,6 +3,34 @@ page{
   /* height: 700px; */
   /* background: yellowgreen; */
 }
+.ball {
+  box-shadow:2px 2px 10px #AAA;
+  border-radius: 20px;
+  position: absolute; 
+}
+.fix{
+  position: fixed;
+left: 0;
+right: 0;
+background-color: rgba(0, 0, 0, 0.4);
+	transform: translateY(-500px);
+}
+
+.transition {
+		transition-timing-function: ease;
+		transition-duration: 0.3s;
+		transition-property: transform, opacity;
+	}
+.mL{
+  background: red;
+  transform: translateX(-220px);
+  font-size: 10px 
+}
+.mInit{
+  background: yellow;
+  transform: translateX(0);
+  font-size: 20px 
+}
 .font{
   font-family: '微软雅黑';
   font-weight: bold;

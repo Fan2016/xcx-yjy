@@ -463,7 +463,7 @@ Page({
     }).then((res) => {
       var data = res.data.data.data
       data.forEach(item => {
-        item.IMG_URL = item.IMG_URL + '?timestamp=' + Math.random()
+        item.IMG_URL = item.IMG_URL + '?timestamp=' + new Date().getTime()
       })
       let indicatorDots = data.length>1?true:false;
       this.setData({
@@ -527,6 +527,10 @@ Page({
     })
     if(app.userName){
       this.getMeState()
+    }else{
+      this.setData({
+        isMeUpdate: false
+      })
     }
     ajax({
       url: '/Search/GetData?method=Vip.PUSH_GetPushCount'
@@ -548,6 +552,7 @@ Page({
   },
   bannerSkip(e){//轮播图跳转
     let type = e.currentTarget.dataset.type, sources = e.currentTarget.dataset.sources;
+    if (!sources) return;
     switch(true){
       case (type == 1): //详情页跳转
         wx.navigateTo({
@@ -624,6 +629,7 @@ Page({
    */
   onHide: function() {
     app.indexIsUpdate = true;
+
   },
 
   /**

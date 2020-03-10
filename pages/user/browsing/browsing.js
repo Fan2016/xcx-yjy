@@ -12,6 +12,9 @@ Page({
   },
   fetchSearch(e) {
     let val = e.detail.val, bidList = [], browseRecord = wx.getStorageSync('browseRecord'), listMsg = '', isMessage=false;
+    browseRecord.forEach(item=>{
+      item.isView=false
+    })
     if(val){
       browseRecord.forEach(item=>{
         if (item.NAME.indexOf(val)>-1){
@@ -56,7 +59,10 @@ Page({
     this.setData({
       collect
     })
-    let bidList = wx.getStorageSync('browseRecord'), listMsg, isMessage;
+    let bidList = wx.getStorageSync('browseRecord')||[], listMsg, isMessage;
+     bidList.forEach(item=>{
+      item.isView=false
+    })
     if (bidList.length) {
       listMsg = ''
       isMessage = false

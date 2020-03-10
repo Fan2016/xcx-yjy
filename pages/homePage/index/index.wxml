@@ -87,10 +87,10 @@
     <view class='banner' style='margin:20rpx;'>
       <swiper indicator-dots="{{indicatorDots}}" autoplay="{{autoplay}}" interval="{{interval}}" duration="{{duration}}" style='height:130rpx;' class="swiper-box" circular="{{true}}">
         <block wx:for-items="{{banner}}" wx:key="{{index}}">
-          <swiper-item style="border-radius:10rpx" wx:if='{{item.SOURCES}}' bindtap='bannerSkip' data-SOURCES='{{item.SOURCES}}' data-type='{{item.TITLE}}'>
+          <swiper-item  wx:if='{{item.SOURCES}}' bindtap='bannerSkip' data-SOURCES='{{item.SOURCES}}' data-type='{{item.TITLE}}'>
               <image src="{{item.IMG_URL}}" class="slide-image" style='height:130rpx' />
           </swiper-item>
-          <swiper-item style="border-radius:10rpx" wx:else>
+          <swiper-item  wx:else>
               <image src="{{item.IMG_URL}}" class="slide-image" style='height:130rpx' /> 
           </swiper-item> 
         </block>

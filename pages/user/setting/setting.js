@@ -21,6 +21,10 @@ Page({
   },
   unbundle(e){
     let that = this, type = e.currentTarget.dataset.id;
+    if (!that.data.userName){
+      wx.navigateTo({ url: '../login/login' })
+      return
+    }
     if (type == 'userToggle') {
       that.userExit(type)
     } else if (type == 'userOut'){

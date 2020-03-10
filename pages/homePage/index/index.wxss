@@ -125,8 +125,10 @@ top: 11rpx;
   justify-content: center; /*水平居中*/
 }
 .ad-image  .banner{
-  width: 650rpx;
-  height: 850rpx;
+  width: 700rpx;
+height: 650rpx;
+margin-bottom: 60rpx;
+
 }
 .ad-image .close{
   width: 65rpx;

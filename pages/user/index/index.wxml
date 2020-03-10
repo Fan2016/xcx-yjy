@@ -15,10 +15,12 @@
         <button wx:if="{{!impower}}" class="icon" hover-class="none" open-type="getUserInfo" lang="zh_CN" bindgetuserinfo="onGotUserInfo" plain="true">
           <image src='{{userInfo.avatarUrl}}'></image>
         </button>
-        <view class="icon" wx:if="{{impower}}">
-          <image src='{{userInfo.avatarUrl}}'></image>
+        <view class="icon portrait" wx:if="{{impower}}">
+        <navigator url='{{isLogin?"../setting/setting":"../login/login"}}'>
+          <open-data type="userAvatarUrl"></open-data>
+        </navigator>
         </view>
-        <navigator class="userName" url='../login/login' wx:if="{{!isLogin}}" >立即登录</navigator>
+        <navigator class="userName" url='../login/login' wx:if="{{!isLogin}}" >前往绑定</navigator>
         <text wx:else class="userName">{{userName}}</text>
       </view>
       <view class="user-total">
@@ -98,8 +100,9 @@
                 <text>账户设置</text>
               </view>
             </view>
-            <view class='item' bindtap='saoMa'  data-url='../saoma/saoma'>
+            <view class='item' bindtap='saoMa'  data-url='../saoma/saoma'>          
                 <view class='item-box'>
+                <image src="../../../images/new_icon.png" class="new"></image>
                 <image src='../../../images/sys.png'></image>
                 <text>扫一扫</text>
               </view>

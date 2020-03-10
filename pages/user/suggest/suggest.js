@@ -29,7 +29,7 @@ Page({
     console.log('radio发生change事件，携带value值为：', e.detail.value)
   },
   bindFormSubmit(e) {
-    let suggestVal = e.detail.value.textarea, radioVal = this.data.radioVal;
+    let suggestVal = e.detail.value.textarea, radioVal = this.data.radioVal, emailVal = e.detail.value.email;
     if (!suggestVal.trim() || !radioVal){
       wx.showToast({
         title: '请完整填写!',
@@ -38,7 +38,14 @@ Page({
       })
       return
     }
-
+    // if (!emailVal.trim()) {
+    //   wx.showToast({
+    //     title: '请输入您的邮箱，以便工作人员进行回复',
+    //     icon: 'none',
+    //     duration: 2000
+    //   })
+    //   return
+    // }
     ajax({
       url: '/Feedback/Add',
       data: {

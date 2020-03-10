@@ -109,6 +109,15 @@
 .menu-list .item .item-box{
   position: relative;
 }
+.menu-list .item .new{
+position: absolute;
+width: 66rpx;
+height: 36rpx;
+right: -48rpx;
+top: -10rpx;
+z-index: 1;
+
+}
 .menu-list .item text {
   display: block;
 }
@@ -178,14 +187,16 @@ button[class="icon"] {
   position: relative;
 }
 
-.icon image {
+.icon image,.portrait {
   border-radius: 50%;
   border: 1px solid #eee;
   overflow: hidden;
   width: 100rpx;
   height: 100rpx;
 }
-
+.portrait{
+  margin: 0 auto;
+}
 .redMessage {
   display: flex;
   border-radius: 50%;

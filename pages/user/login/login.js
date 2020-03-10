@@ -27,7 +27,10 @@ Page({
   },
   pickNote() {
     var that = this, phone = this.data.phone, flag = false, msg, code = app.wxCode, tm = new Date().getTime();
-   
+    if (!(/^1[3|4|5|7|8]\d{9}$/.test(phone))) {
+      msg = '手机号码有误'
+      flag = true
+    }
    if (!phone) {
       msg = '手机号必填'
       flag = true
@@ -96,7 +99,68 @@ Page({
       }
     })  
   },
+  loginVip(){//免验证登录
+    var that = this
+    var noteCode = this.data.noteCode, phone = this.data.phone, flag = false, msg;
+     if (!phone) {
+      msg = '手机号必填'
+      flag = true
+    }
+    if (flag) {
+      showToast({
+        title: msg,
+        image: '../../../images/warn.png'
+      })
+      return
+    }
+    wx.login({
+      success: function (res) {
+        ajax({
+          url: '/Login/LoginDev',
+          data: {
+            OPENID: 'o9_lc5deKbHfqGdGkPrVQ9FMJjjU',//17746075603
+            phone: phone
+          }
+        }).then((res) => {
+          var data = res.data
+          if (data.status == 200) {
+            app.token_type = data.data.token_type
+            app.access_token = data.data.access_token
+            app.userName = data.data.username||''
+            app.isUum = data.data.isuum
+            app.log_debug = data.data.log_debug || ''
+            wx.showToast({
+              title: '绑定成功',
+              duration: 1500,
+              mask: true
+            })
+            setTimeout(() => {
+              // wx.navigateBack({
+              //   delta: 1
+              // })
+              wx.switchTab({
+                url: '/pages/user/index/index',
+              })
+            }, 2500)
+          } else {
+            wx.showModal({
+              title: '提示',
+              content: data.msg,
+              showCancel: false,
+              success(res) {
+                if (res.confirm) {
+                  // that.imgsrc()
+                }
+              }
+            })
+          }
+        })
+      }
+    });
+  },
   login(){
+    // this.loginVip()
+    // return
     var that = this
     var noteCode = this.data.noteCode, phone = this.data.phone, flag = false, msg;
     if (!noteCode) {
@@ -136,9 +200,6 @@ Page({
               mask: true
             })
             setTimeout(()=>{
-              // wx.navigateBack({
-              //   delta: 1
-              // })
               wx.switchTab({
                 url: '/pages/user/index/index',
               })
@@ -176,7 +237,6 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
-
   },
 
   /**
@@ -185,21 +245,19 @@ Page({
   onHide: function () {
 
   },
-
   /**
    * 生命周期函数--监听页面卸载
    */
   onUnload: function () {
-
-  },
-  
+    notePass=true
+    clearTimeout(TIMERID)
+  },  
   /**
    * 页面相关事件处理函数--监听用户下拉动作
    */
   onPullDownRefresh: function () {
 
   },
-
   /**
    * 页面上拉触底事件的处理函数
    */

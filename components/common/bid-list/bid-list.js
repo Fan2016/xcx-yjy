@@ -65,7 +65,7 @@ Component({
         wx.setStorageSync('browseRecord', [data])
       }
       else{
-        let isRecordExist=false
+        let isRecordExist=false//是否存在
         browseRecord.forEach(item=>{
           if (item.ID==data.ID){
             isRecordExist=true

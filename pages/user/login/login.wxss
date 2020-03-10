@@ -91,6 +91,7 @@ width:200rpx;
   margin-bottom: 60rpx;
   height:100rpx;
   line-height:100rpx;
+  padding: 0;
 }
 .login-bottom{
   position: fixed;

@@ -312,7 +312,6 @@ Page({
     if (!this.data.isLogin) {
       commonJs.unLoginToast();
     } else {
-      this.getMeState()
       ajax({
         url: '/Search/GetData?method=Vip.XCX_GetDinYue'
       }).then((data) => {
@@ -357,9 +356,29 @@ Page({
     }))
     pro.push(new Promise(function (resolve, reject) {
       ajax({
-        url: '/Search/GetData?method=Vip.MyBid_GetNewTotalNum'
+        url: '/Search/GetData',
+        data: {
+          method: 'Vip.MyBid_GetNewTotalNumTBZB'
+        }
       }).then((res) => {
-        let state = res.data.data.data[0].NEWNUM > 0 ? true : false
+        let data = res.data.data.data, state = false;
+        data.forEach(item => {
+          if (item.NEWNUM > 0) {
+            state = true
+          }
+        })
+        resolve(state)
+      })
+    }))
+    pro.push(new Promise(function (resolve, reject) {
+      ajax({
+        url: '/Search/GetData',
+        data: {
+          method: 'Vip.XCX_GetNewMyMsgCount'
+        }
+      }).then((res) => {
+        let data = res.data.data.data, state = false;
+        state = data[0].NUM > 0 ? true : false;
         resolve(state)
       })
     }))
@@ -396,6 +415,9 @@ Page({
       } else {
         this.init()
       }
+    }
+    if(isLogin){
+      this.getMeState()
     }
     wx.setStorageSync('subNum', '')
   },
