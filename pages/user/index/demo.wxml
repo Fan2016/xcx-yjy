@@ -1,0 +1,85 @@
+<!--pages/user/index/index.wxml-->
+<view class='container'>
+  <view class='container-body'>
+    <view class="index-user">
+      <image src='../../../images/me_top_bg.png' class='meTopBg'></image>
+      <view class='tool'>
+        <navigator url='../../common/no'>
+          <!-- <view class='bubble'>5</view> -->
+          <image src='../../../images/mailbox.png'></image>
+        </navigator>
+        <navigator url='../../common/no'>
+          <image src='../../../images/set.png'></image>
+        </navigator>
+      </view>
+      <view class='user-info'>
+        <button wx:if="{{!impower}}" class="icon" hover-class="none" open-type="getUserInfo" lang="zh_CN" bindgetuserinfo="onGotUserInfo" plain="true">
+          <image src='{{userInfo.avatarUrl}}'></image>
+        </button>
+        <view class="icon" wx:if="{{impower}}">
+          <image src='{{userInfo.avatarUrl}}'></image>
+        </view>
+        <text class="userName">{{userName}}</text>
+      </view>
+      <view class="user-total">
+        <view class='item'>
+          <view class='num'>-</view>
+          <view class='type'>随行支付</view>
+        </view>
+        <view class='item'>
+          <view class='num'>-</view>
+          <view class='type'>会员积分</view>
+        </view>
+        <view class='item'>
+          <view class='num'>3张</view>
+          <view class='type'>优惠卷</view>
+        </view>
+      </view>
+    </view>
+    <view>
+    </view>
+    <view class="index-menu">
+      <view class='index-menu-space'>
+        <view class='menu-module'>
+          <view class='menu-title'>
+            私享中心
+          </view>
+          <view class='menu-list'>
+
+            <view class='item' bindtap='loginTab' data-id='guanzhu' data-url='../interest/interest'>
+              <view class='item-box'>
+                <view class='bubble' wx-if="{{isCareUpdate}}"></view>
+                <image src='../../../images/me-about.png'></image>
+                <text>我的关注</text>
+              </view>
+            </view>
+            <view class='item' bindtap='loginTab' data-id='canyu' data-url='../participate/participate'>
+              <view class='item-box'>
+                <view class='bubble' wx-if="{{isJoinUpdate}}"></view>
+                <image src='../../../images/me-join.png'></image>
+                <text>我的参与</text>
+              </view>
+            </view>
+            <view class='item' data-url='../../common/no' bindtap='loginTab'>
+              <view class='item-box'>
+                <image src='../../../images/me-history.png'></image>
+                <text>浏览记录</text>
+              </view>
+            </view>
+          </view>
+        </view>
+        <view class='menu-module m20_0'>
+          <view class='menu-title'>
+            福利专区
+          </view>
+        </view>
+        <view class='menu-module'>
+          <view class='menu-title'>
+            其他服务
+          </view>
+        </view>
+      </view>
+    </view>
+  </view>
+</view>
+<footerBar pageUrl='{{pageUrl}}' subNum='{{subNum}}' userName='{{isLogin}}'></footerBar>

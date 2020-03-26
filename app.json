@@ -1,5 +1,6 @@
 {
   "pages": [
+
     "pages/homePage/index/index",
     "pages/user/saoma/saoma",
     "pages/subscription/index/index",

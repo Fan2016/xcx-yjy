@@ -62,6 +62,9 @@ Page({
     
 
   },
+  other(){
+    console.log('other')
+  },
   onLoad: function (options) {
     return
     var _this = this;

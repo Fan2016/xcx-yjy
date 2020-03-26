@@ -58,6 +58,9 @@ Component({
    * 组件的方法列表
    */
   methods: {
+    collect(){
+      console.log(666)
+    },
     click(e){
       let data = e.currentTarget.dataset.param;
       let browseRecord=wx.getStorageSync('browseRecord');

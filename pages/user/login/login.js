@@ -27,7 +27,7 @@ Page({
   },
   pickNote() {
     var that = this, phone = this.data.phone, flag = false, msg, code = app.wxCode, tm = new Date().getTime();
-    if (!(/^1[3|4|5|7|8]\d{9}$/.test(phone))) {
+    if (!(/^1[1-9]\d{9}$/.test(phone))) {
       msg = '手机号码有误'
       flag = true
     }

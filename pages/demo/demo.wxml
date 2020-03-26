@@ -1,0 +1,4 @@
+
+  <navigator url="/pages/common/no">
+   点击 <button catchtap="other">oTher</button>
+  </navigator>

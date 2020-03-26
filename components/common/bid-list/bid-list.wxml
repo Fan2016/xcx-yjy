@@ -23,8 +23,10 @@
           <view class='title'>
             <text>{{item.NAME}}</text>
           </view>
+          <view catchtap="collect">
           <image wx:if='{{collect[item.SOURCE_ID]==0||collect[item.SOURCE_ID]==1}}' src='../../../images/{{(collect[item.SOURCE_ID]=="1")?"collectOk":"collect"}}.png'></image>
           <image wx:else src='../../../images/{{(item.IS_FOLLOW=="1")?"collectOk":"collect"}}.png' ></image>
+          </view>
         </view>
         <view class='bid-tag'>
           <text class='color-a'>{{item.PLATFORM_CODE_TEXT}}</text>
